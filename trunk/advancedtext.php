@@ -4,7 +4,7 @@ Plugin Name: Advanced Text Widget
 Plugin URI: 
 Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
 Author: Max Chirkov
-Version: 1.0.1
+Version: 1.0.2
 Author URI: http://www.ibsteam.net
 */
                                                                                                                                                         
@@ -116,7 +116,14 @@ class advanced_text extends WP_Widget {
 					}
 					break;
 				case "post":
-					if (is_single($slug)) {
+					$PiD = explode(",",$slug);
+					$onPage = false;
+					foreach($PiD as $PageID) {
+						if (is_single($PageID)) {
+							$onPage = true;
+						}
+					}
+					if ($onPage) {
 						echo $before_widget;
 						echo "<div class='AdvancedText'>"; 
 						$title ? print($before_title . $title . $after_title) : null;
@@ -152,7 +159,14 @@ class advanced_text extends WP_Widget {
 					}
 					break;
 				case "page":
-					if (is_page($slug)) {
+					$PiD = explode(",",$slug);
+					$onPage = false;
+					foreach($PiD as $PageID) {
+						if (is_page($PageID)) {
+							$onPage = true;
+						}
+					}
+					if ($onPage) {
 						echo $before_widget;
 						echo "<div class='AdvancedText'>"; 
 						$title ? print($before_title . $title . $after_title) : null;
@@ -210,7 +224,14 @@ class advanced_text extends WP_Widget {
 					}
 					break;
 				case "post":
-					if (!is_single($slug)) {
+					$PiD = explode(",",$slug);
+					$onPage = false;
+					foreach($PiD as $PageID) {
+						if (is_single($PageID)) {
+							$onPage = true;
+						}
+					}
+					if (!$onPage) {
 						echo $before_widget;
 						echo "<div class='AdvancedText'>"; 
 						$title ? print($before_title . $title . $after_title) : null;
