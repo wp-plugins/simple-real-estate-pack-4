@@ -4,7 +4,7 @@ Plugin Name: Advanced Text Widget
 Plugin URI: 
 Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
 Author: Max Chirkov
-Version: 1.0.2
+Version: 1.0.3
 Author URI: http://www.ibsteam.net
 */
                                                                                                                                                         
@@ -84,10 +84,10 @@ class advanced_text extends WP_Widget {
 	function widget($args, $instance) {
 		extract($args);
 		$title 	 = $instance['title'];
-		$text 	 = $instance['text'];		
+		$text 	 = $text = apply_filters( 'widget_advanced_text', $instance['text'] );
 		$action  = $instance['action'];
 		$show 	 = $instance['show'];
-		$slug 	 = $instance['slug'];
+		$slug 	 = $instance['slug'];				
 		?>
 		<?php 
  /* Do the conditional tag checks. */
@@ -318,11 +318,17 @@ class advanced_text extends WP_Widget {
 		?>
 	<?php
 	}
-	
-	
+		
 }
 
+function advanced_text_do_shortcode(){
+	if (!is_admin()){
+		add_filter('widget_text', 'do_shortcode', SHORTCODE_PRIORITY);
+		add_filter('widget_advanced_text', 'do_shortcode', SHORTCODE_PRIORITY);
+	}
+}
 	
 // Tell Dynamic Sidebar about our new widget and its control
 add_action('widgets_init', create_function('', 'return register_widget("advanced_text");'));
+add_action('widgets_init', 'advanced_text_do_shortcode');
 ?>

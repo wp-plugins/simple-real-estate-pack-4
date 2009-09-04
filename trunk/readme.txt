@@ -4,12 +4,12 @@ Donate link: http://www.ibsteam.net/donate
 Tags: text, php, plugin, widget, sidebar
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as raw PHP code.
 
 == Description ==
-Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
+Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code and shortcodes. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
 
 * Author: Max Chirkov
 * Author URI: [http://www.ibsteam.net](http://www.ibsteam.net "Real Estate Directory")
