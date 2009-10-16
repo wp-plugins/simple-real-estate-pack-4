@@ -35,6 +35,7 @@
 								if($name == 'schoolsearch') { $title = 'Schools'; }
 								elseif($name == 'yelp') { $title = 'Yelp'; }
 								elseif($name == 'srpmap') { $title = 'Google Map'; $closingtag = ' Location description. [/'.$name.']';}
+								elseif($name == 'walkscore') { $title = 'Walkscore'; }
 								else{ $title = $optional['title']; }
 								echo '<h4>' . $title . ':</h4>';
 								echo '<u>Usage</u>: ['.$name.' <em>{attributes}</em>]'. $closingtag .'<br/><br/>';
