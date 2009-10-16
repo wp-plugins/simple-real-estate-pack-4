@@ -101,6 +101,18 @@ Attribute <em>term</em> can have the following values: ' . implode(', ', array_k
 			"height"				=> NULL,
 		),
 	),
+	
+	'walkscore'		=> array(
+		'required'	=> array(
+			"ws_wsid"					=> get_option('srp_walkscore_api_key'),
+			"ws_address"				=> NULL,
+		),
+		'optional'	=> array(
+			"ws_width"				=> 500,
+			"ws_height"				=> 286,
+			"ws_layout"				=> 'horizontal',
+		),
+	),
 );
 
 function srp_merge_atts($shortcode_name){
@@ -192,6 +204,11 @@ function srp_map_shortcode($atts=array(), $content = NULL){
 	return srp_map($args['lat'], $args['lng'], $content, $args['width'], $args['height']);
 }
 
+function srp_walkscore_shortcode($atts=array()){
+	$args = shortcode_atts(srp_merge_atts('walkscore'), $atts);
+	return srp_walkscore($args['ws_wsid'], $args['ws_address'], $args['ws_width'], $args['ws_height'], $args['ws_layout']);
+}
+
 add_shortcode('mortgage', 'srp_MortgageCalc_shortcode');
 add_shortcode('affordability', 'srp_AffordabilityCalc_shortcode');
 add_shortcode('closingcosts', 'srp_ClosingCosts_shortcode');
@@ -199,4 +216,5 @@ add_shortcode('rentmeter', 'srp_RentMeter_shortcode');
 add_shortcode('schoolsearch', 'srp_schoolSearch_shortcode');
 add_shortcode('yelp', 'srp_Yelp_shortcode');
 add_shortcode('srpmap', 'srp_map_shortcode');
+add_shortcode('walkscore', 'srp_walkscore_shortcode');
 ?>

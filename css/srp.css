@@ -1,4 +1,6 @@
 /* CSS Document */
+.clearfix:after, .container:after {content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;}
+.clearfix, .container {display:block;}
 #srp_map_canvas h2, #gre_map_canvas h2,
 #srp_map_canvas h3, #gre_map_canvas h3,
 #srp_map_canvas h4, #gre_map_canvas h4 {
@@ -9,6 +11,12 @@
 
 #srp_map_canvas img, #gre_map_canvas img{
 	max-width: none;
+}
+
+#srp_map_canvas input, #srp_map_canvas textarea, #srp_map_canvas select,
+#gre_map_canvas input, #gre_map_canvas textarea, #gre_map_canvas select,
+#srp_walkscore input, #srp_walkscore textarea, #srp_walkscore select {
+	width: auto;
 }
 
 .srp_table {

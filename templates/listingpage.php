@@ -71,10 +71,7 @@ Template Name: Listing Page
 	<?php the_listing_panorama_tab(); ?>
 	<?php the_listing_downloads_tab(); ?>
 	<?php the_listing_community_tab(); ?>
-	<?php srp_gre_the_mortgage_tab();?>
-	<?php srp_gre_the_trulia_stats_tab(); ?>
-	<?php srp_gre_the_listing_schools_tab(); ?>	
-	<?php srp_gre_the_yelp_tab(); ?>
+	<?php srp_gre_extention_tabs(); ?>
 	</ul>
 	<?php //the_listing_map_content(); // recommend this be first 
 		srp_gre_the_listing_map_content();
@@ -85,10 +82,7 @@ Template Name: Listing Page
 	<?php the_listing_panorama_content(); ?>
 	<?php the_listing_downloads_content(); ?>
 	<?php the_listing_community_content(); ?>
-	<?php srp_gre_the_mortgage_content();?>
-	<?php srp_gre_the_trulia_stats_content();?>	
-	<?php srp_gre_the_listing_schools_content(); ?>
-	<?php srp_gre_the_yelp_content(); ?>
+	<?php srp_gre_extention_content(); ?>
 </div>
 <?php } ?>
 

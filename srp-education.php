@@ -271,8 +271,12 @@ function srp_getSchools_ajax(){
 		die($result);
 	}
 }
-
 add_action('wp_ajax_srp_getSchools_ajax', 'srp_getSchools_ajax');
 add_action('wp_ajax_nopriv_srp_getSchools_ajax', 'srp_getSchools_ajax');
+
+function _schools_checkbox(){
+	return '<input id="schools_select" type="checkbox"><label for="schools_select">Schools</label><br />' . "\n";
+}
+add_filter('_add_to_yelpselect', '_schools_checkbox');
 
 ?>

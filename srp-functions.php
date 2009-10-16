@@ -90,12 +90,13 @@ function srp_map($lat, $lng, $html, $width = NULL, $height = NULL) {
 
 	   if($width){ $width = "width:{$width}px;"; }
 	   if($height){ $height = "height:{$height}px;"; }
+	   if (get_option('srp_gmap_schools')) $classes[] = 'show_schools';
 	   ?>
 	<div id="map">
 	  <div id="map_area" style="<?php echo $width . $height; ?>">
-   		<div id="gre_map_canvas" style="<?php echo $width . $height; ?>"></div>
+   		<div id="gre_map_canvas" class="<?php echo implode(" ", $classes);?>" style="<?php echo $width . $height; ?>"></div>
 		<?php 
-		if (get_option('srp_yelp_api_key')){
+		if (get_option('srp_yelp_api_key') && get_option('srp_gmap_yelp')){
 			echo srp_yelp_select(); 
 		}
 		?>
@@ -105,12 +106,13 @@ function srp_map($lat, $lng, $html, $width = NULL, $height = NULL) {
 	</div>
 <script type="text/javascript">
 /* <![CDATA[ */
-
 	function srp_setupmap() {
-		var point = new google.maps.LatLng(<?php echo $lat; ?>,<?php echo $lng; ?>);	
-		srp_map.setCenter(point, 13);	
+		var point = new google.maps.LatLng(<?php echo $lat; ?>,<?php echo $lng; ?>);
+		srp_map.setCenter(point, 13);
 		var marker = srp_default_createMarker(point, '<?php echo $html; ?>');
 		srp_map.addOverlay(marker);
+		srp_map.setUIToDefault();
+		<?php if (get_option('srp_gmap_search')) echo 'srp_map.enableGoogleBar();';?>
 		
 	}
 	google.setOnLoadCallback(srp_initialize);
@@ -192,4 +194,16 @@ function srp_function_exists(){
 
 add_action('wp_ajax_srp_function_exists', 'srp_function_exists');
 add_action('wp_ajax_nopriv_srp_function_exists', 'srp_function_exists');
+
+function srp_walkscore($ws_wsid, $ws_address, $ws_width=500, $ws_height=286, $ws_layout = 'horizontal') {
+	$output .= "
+	<script type='text/javascript'>
+	var ws_wsid = '{$ws_wsid}';
+	var ws_address = '{$ws_address}';var ws_width = '{$ws_width}';var ws_height = '{$ws_height}';var ws_layout = '{$ws_layout}';</script><style type='text/css'>#ws-walkscore-tile{position:relative;text-align:left}#ws-walkscore-tile *{float:none;}#ws-footer a,#ws-footer a:link{font:11px Verdana,Arial,Helvetica,sans-serif;margin-right:6px;white-space:nowrap;padding:0;color:#000;font-weight:bold;text-decoration:none}#ws-footer a:hover{color:#777;text-decoration:none}#ws-footer a:active{color:#b14900}</style><div id='ws-walkscore-tile'><div id='ws-footer' style='position:absolute;top:268px;left:8px;width:488px'><form id='ws-form'><a id='ws-a' href='http://www.walkscore.com/' target='_blank'>Find out your home's Walk Score:</a><input type='text' id='ws-street' style='position:absolute;top:0px;left:225px;width:231px' /><input type='image' id='ws-go' src='http://www2.walkscore.com/images/tile/go-button.gif' height='15' width='22' border='0' alt='get my Walk Score' style='position:absolute;top:0px;right:0px' /></form></div></div><script type='text/javascript' src='http://www.walkscore.com/tile/show-walkscore-tile.php'></script>";
+	return $output;
+}
+
+function _add_to_yelpselect() {
+    do_action('_add_to_yelpselect');
+}
 ?>

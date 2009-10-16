@@ -124,10 +124,11 @@ markerArray = new Array();
 
 jQuery(document).ready( function() {
 function srp_addOverlay(marker){
-	if(typeof gre_map == "undefined" && typeof srp_map !== "undefined"){
-		srp_map.addOverlay(marker);
-	}else{
-		gre_map.addOverlay(marker);
+	if(typeof gre_map !== "undefined"){
+				gre_map.addOverlay(marker);
+	}else
+	if(typeof srp_map !== "undefined"){
+				srp_map.addOverlay(marker);
 	}
 }
 
@@ -157,6 +158,11 @@ function srp_function_exists(name, type, callbackfunc, arg){
 			this.blur();
 			this.focus();
 		  });
+		  
+		  jQuery('input#schools_select').click(function() {
+			this.blur();
+			this.focus();
+		  });
 		}
 
 	jQuery('input[id^="yelp_cat_"]').change( function() {						
@@ -164,6 +170,12 @@ function srp_function_exists(name, type, callbackfunc, arg){
 		//srp_function_exists('srp_yelp_api_key', 'option', srp_requestYelp, this);
 		srp_requestYelp(this);
 	});
+	
+	jQuery('input#schools_select').change( function() {						
+		//no need to check for yelp api key on every click
+		//srp_function_exists('srp_yelp_api_key', 'option', srp_requestYelp, this);
+		srp_schools_preload();
+	})
 	  
 	function srp_requestYelp(arg){				
 		
@@ -234,7 +246,8 @@ function srp_function_exists(name, type, callbackfunc, arg){
 	//END Yelp AJAX
 	
 	//BEGIN Schools Preload with 1.5 second timeout to let map_gre to load.
-	if(typeof jQuery('#srp_gre_prop_coord').val() !== 'undefined'){
+	/*
+	if(typeof jQuery('#srp_gre_prop_coord').val() !== 'undefined' && jQuery('#gre_map_canvas').is('.show_schools')){
 	jQuery(document).ready
 	(	 	
 	        function()
@@ -243,27 +256,56 @@ function srp_function_exists(name, type, callbackfunc, arg){
 	                (
 	                        function()
 	                        {
-	                                srp_schools_preload();
+	                                //srp_schools_preload();
 	                        },
-	                        2000
+	                        5000
 	                );
 	        }
 	); 
-	}
+	}*/
 	
 	function srp_schools_preload(){
 		var prop_coord = jQuery('#srp_gre_prop_coord').val();
 		var coord = prop_coord.split(',');
 		var address = null;
-		
-		jQuery.post(loc, {
-					action: 'srp_getSchools_ajax',
-					address:		address,
-					lat:		coord[0],
-					lng:		coord[1]
-				  }, function(data){srp_mapSchools(data)},"json"
-				);			
-				return false;
+		var cat = 'schools';
+		if(jQuery('input#schools_select').attr('checked')){
+			if(markerArray.length > 0){
+				var found = false;
+				for(var i=0; i<markerArray.length; i++){
+					if(markerArray[i].cat == cat){
+						found = true;
+						srp_addOverlay(markerArray[i]);
+						jQuery('.srp_gre_legend span.' + cat).remove();
+					}
+				}
+				if(found == true){	
+					var ledgend = '<span class="' + cat + '"><img src="' + custom_icons[cat].image + '" /> - ' + custom_icons[cat].title + '</span>';
+					jQuery('#map div.srp_gre_legend').append(ledgend);				
+					return false;
+				}
+			}
+			
+			srp_ajax_loaderStart(null, 'gre_map_canvas');
+			jQuery.post(loc, {
+						action: 'srp_getSchools_ajax',
+						address:		address,
+						lat:		coord[0],
+						lng:		coord[1]
+					  }, function(data){
+						  	srp_mapSchools(data);
+							srp_ajax_loaderStop();
+						},"json"
+					);			
+					return false;
+		}else{
+			for(var i=0; i<markerArray.length; i++){
+				if(markerArray[i].cat == cat){					
+						gre_map.removeOverlay(markerArray[i]);
+						jQuery('.srp_gre_legend span.' + cat).remove();
+				}
+			}
+		}
 	}		
 	
 	function srp_mapSchools(data){			
@@ -278,6 +320,8 @@ function srp_function_exists(name, type, callbackfunc, arg){
 					var html = category[i].html;
 					var point = new google.maps.LatLng(lat,lng);
 					var marker = srp_createMarker(point,html,'schools');
+					marker.cat = 'schools';
+					markerArray.push(marker);
 					srp_addOverlay(marker);
 			}
 				

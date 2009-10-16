@@ -3,7 +3,7 @@ Contributors: Max Chirkov
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 0.9.2
+Stable tag: 0.9.3
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
@@ -29,7 +29,9 @@ Simple Real Estate Pack is a package of real estate tools and widgets designed s
 
 7. Publish Yelp listings (shortcode) within 3 mile radius from a specified point into you content. Grouped with tabs by business type (i.e. grocery stores, restaurants etc.).
 
-8. Extension of GRE plugin (optional) - mapping local grocery stores, restaurants, gas stations, banks, golf courses and hospitals within 3 mile radius of the property. Includes property location, contact information, ratings via Yelp API., as well as financial tools and statistical charts. 
+8. Walkscore via Walkscore.com
+
+9. Extension of GRE plugin (optional) - mapping local grocery stores, restaurants, gas stations, banks, golf courses and hospitals within 3 mile radius of the property. Includes property location, contact information, ratings via Yelp API., as well as financial tools and statistical charts. 
 
 
 For detailed usage instructions visit the [official site](http://www.phoenixhomes.com/tech/simple-real-estate-pack "Simple Real Estate Pack by PhoenixHomes.com").

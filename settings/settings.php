@@ -11,8 +11,10 @@ function simpleRealEstatePack_menu(){
 	add_submenu_page(__FILE__, 'Rental Rates Meter API Key Setup', 'Rental Rates Meter', 8, 'srp_rentmeter', 'srp_show_menu');
 	//add_submenu_page(__FILE__, 'Education API Key Setup', 'Education', 8, 'srp_education', 'srp_show_menu');
 	add_submenu_page(__FILE__, 'Yelp API Settings', 'Yelp API Settings', 8, 'srp_yelp', 'srp_show_menu');
-	if(!function_exists('greatrealestate_init')){
-		add_submenu_page(__FILE__, 'Google Maps API', 'Google Maps API Settings', 8, 'srp_gmap', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Walkscore API Settings', 'Walkscore API Settings', 8, 'srp_walkscore', 'srp_show_menu');	
+	add_submenu_page(__FILE__, 'Google Maps API', 'Google Maps', 8, 'srp_gmap', 'srp_show_menu');
+	if(function_exists('greatrealestate_init')){
+		add_submenu_page(__FILE__, 'Extension to GRE', 'Extension to GRE', 8, 'srp_ext_gre', 'srp_show_menu');
 	}
 }
 
@@ -69,9 +71,19 @@ function srp_show_menu() {
 		srp_Yelp_options();
 		break;
 	
+	case "srp_walkscore" :
+		include_once (dirname (__FILE__) . '/walkscore.php');		
+		srp_Walkscore_options();
+		break;
+	
 	case "srp_gmap" :
 		include_once (dirname (__FILE__) . '/srp_gmap.php');		
 		srp_gmap_options();
+		break;
+		
+	case "srp_ext_gre" :
+		include_once (dirname (__FILE__) . '/srp_ext_gre.php');		
+		srp_ext_gre_options();
 		break;
 		
 	default :
@@ -264,20 +276,20 @@ function srp_like_plugin(){
 	<p>Help us spread the word :)</p>
 	<ul>
 		<li>Link to it or blog about the plugin, so other users can find out about it.</li>
-		<li>Give it a good rating on <a href="http://wordpress.org/extend/plugins/simple-real-estate-pack/">WordPress.org</a></li>
+		<li>Give it a good rating on <a href="http://wordpress.org/extend/plugins/simple-real-estate-pack-4/">WordPress.org</a></li>
 	</ul>';	
 	
 	return $content;
 }
 
 function srp_plugin_support(){
-	$content = '<p>If you have any problems with this plugin or good ideas for improvements or new features, please talk about them in the <a href="http://wordpress.org/tags/simple-real-estate-pack">Support forums</a>.</p>';	
+	$content = '<p>If you have any problems with this plugin or good ideas for improvements or new features, please talk about them in the <a href="http://wordpress.org/tags/simple-real-estate-pack-4">Support forums</a>.</p>';	
 	$content = '
 	<p>Help us make it better:</p>
 	<ul>
-		<li><a href="http://wordpress.org/tags/simple-real-estate-pack">Ask for help</a></li>
-		<li><a href="http://wordpress.org/tags/simple-real-estate-pack">Report a bug</a></li>
-		<li><a href="http://wordpress.org/tags/simple-real-estate-pack">Suggest improvements or new features</a></li>
+		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4">Ask for help</a></li>
+		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4">Report a bug</a></li>
+		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4">Suggest improvements or new features</a></li>
 	</ul>';
 	return $content;
 }

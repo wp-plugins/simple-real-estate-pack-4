@@ -59,6 +59,23 @@ $rollingaverage = array(
 	'c'	=> '90-Day',
 );
 
+function srp_get_altos_stats($atts=array()){
+	global $metrics;
+	$args = shortcode_atts(array(
+		"width"		=> null,
+		"type"		=> 'median',
+		"city"		=> get_listing_city(),
+		"state"		=> get_listing_state(),
+		"zipcode"	=> get_listing_postcode(),
+	), $atts);
+	$args = array_filter($args);
+	$url = 'http://charts.altosresearch.com/altos/app?s='.$args['type'].':l,&ra=c&st='.$args['state'].'&c='.$args['city'].'&z='.$args['zipcode'].'&sz=l&service=chart';
+	
+	$img = '<img src="'.$url . $query.'" alt="'.$graph_types[$args['type']].'" alt="'.$metrics[$args['type']].' in '.$args['city'].', '. $args['state'] . ' ' . $args['zipcode'].'" width="'.$args['width'].'"/>';		
+	
+	return $img;
+}
+
 /*
 * GMap
 */
