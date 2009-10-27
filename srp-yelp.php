@@ -153,8 +153,10 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 	}
 	if($ajax_output){
 		return $ajax_output;
-	}else{
+	}elseif($content_output){
 		return '<div class="srp-tabs"><ul>' . $tabs . '</ul><div style="clear:both;"></div>' . $content_output . '</div>';
+	}else{
+		return;
 	}
 }
 

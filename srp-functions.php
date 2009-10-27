@@ -90,11 +90,10 @@ function srp_map($lat, $lng, $html, $width = NULL, $height = NULL) {
 
 	   if($width){ $width = "width:{$width}px;"; }
 	   if($height){ $height = "height:{$height}px;"; }
-	   if (get_option('srp_gmap_schools')) $classes[] = 'show_schools';
 	   ?>
 	<div id="map">
 	  <div id="map_area" style="<?php echo $width . $height; ?>">
-   		<div id="gre_map_canvas" class="<?php echo implode(" ", $classes);?>" style="<?php echo $width . $height; ?>"></div>
+   		<div id="gre_map_canvas" style="<?php echo $width . $height; ?>"></div>
 		<?php 
 		if (get_option('srp_yelp_api_key') && get_option('srp_gmap_yelp')){
 			echo srp_yelp_select(); 
@@ -111,7 +110,6 @@ function srp_map($lat, $lng, $html, $width = NULL, $height = NULL) {
 		srp_map.setCenter(point, 13);
 		var marker = srp_default_createMarker(point, '<?php echo $html; ?>');
 		srp_map.addOverlay(marker);
-		srp_map.setUIToDefault();
 		<?php if (get_option('srp_gmap_search')) echo 'srp_map.enableGoogleBar();';?>
 		
 	}

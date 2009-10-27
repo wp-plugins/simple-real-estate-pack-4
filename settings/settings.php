@@ -230,7 +230,7 @@ function srp_get_option($option, $instance = null){
 	}else{		
 		/*--BEGIN return zillow rate--*/
 		if($option == 'srp_annual_interest_rate'){
-			if(get_option('srp_use_rates_in_calcs')){
+			if(get_option('srp_use_rates_in_calcs') && get_option('srp_getratesummary_api_key')){
 				$rate = srp_get_zillow_mortgage_rates($return_rate = true);
 				if($rate){
 					return $rate;
@@ -253,7 +253,7 @@ function srp_get_option($option, $instance = null){
 
 function srp_updated_message($updated = false){
 	if($_GET['updated'] == true || $updated == true){
-  		echo '<div class="updated"><p>You settings have been saved.</p></div>';
+  		echo '<div class="updated"><p>Your settings have been saved.</p></div>';
   	}
 }
 

@@ -132,6 +132,15 @@ function srp_addOverlay(marker){
 	}
 }
 
+function srp_removeOverlay(marker){
+	if(typeof gre_map !== "undefined"){
+				gre_map.removeOverlay(marker);
+	}else
+	if(typeof srp_map !== "undefined"){
+				srp_map.removeOverlay(marker);
+	}
+}
+
 function srp_function_exists(name, type, callbackfunc, arg){
 	jQuery.post(loc, {
 				action: 'srp_function_exists',
@@ -215,7 +224,7 @@ function srp_function_exists(name, type, callbackfunc, arg){
 		}else{
 			for(var i=0; i<markerArray.length; i++){
 				if(markerArray[i].cat == cat){					
-						gre_map.removeOverlay(markerArray[i]);
+						srp_removeOverlay(markerArray[i]);
 						jQuery('.srp_gre_legend span.' + cat).remove();
 				}
 			}
@@ -301,7 +310,7 @@ function srp_function_exists(name, type, callbackfunc, arg){
 		}else{
 			for(var i=0; i<markerArray.length; i++){
 				if(markerArray[i].cat == cat){					
-						gre_map.removeOverlay(markerArray[i]);
+						srp_removeOverlay(markerArray[i]);
 						jQuery('.srp_gre_legend span.' + cat).remove();
 				}
 			}

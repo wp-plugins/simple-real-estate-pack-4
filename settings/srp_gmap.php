@@ -30,12 +30,6 @@ function srp_gmap_options(){
 							</td>
 						</tr>
 						<tr valign="bottom">
-						  <th scope="row"><div align="right">Show Local Schools: </div></th>
-						  <td><input type="checkbox" name="srp_gmap_schools" <?php if(get_option('srp_gmap_schools')){ echo 'checked'; }?> />
-							<br />
-							</td>
-						</tr>
-						<tr valign="bottom">
 						  <th scope="row"><div align="right">Mapping options from Yelp: </div></th>
 						  <td><input type="checkbox" name="srp_gmap_yelp" <?php if(get_option('srp_gmap_yelp')){ echo 'checked'; }?>/>
 							 <a href="<?php echo ADMIN_URL;?>/admin.php?page=srp_yelp">Yelp API key</a> is required.
@@ -48,7 +42,7 @@ function srp_gmap_options(){
 							</td>
 					  </table>
 						<input type="hidden" name="action" value="update" />
-						<input type="hidden" name="page_options" value="srp_gmap_api_key,srp_gmap_schools,srp_gmap_yelp,srp_gmap_search" />
+						<input type="hidden" name="page_options" value="srp_gmap_api_key,srp_gmap_yelp,srp_gmap_search" />
 						<p class="submit">
 						<input name="srp_gmap_submit" type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 						</p>

@@ -15,7 +15,7 @@ function srp_gre_admin_scripts(){
 	if($g_api = get_option('greatrealestate_googleAPIkey')){		
 		echo "\n" . '<script type="text/javascript">
 		var srp_geo = "'. $g_api . '/";</script>'. "\n";
-		echo '<script type="text/javascript" src="'.get_bloginfo('wpurl').'/wp-content/plugins/simple-real-estate-pack/js/srp-gre-admin.js"></script>';
+		echo '<script type="text/javascript" src="'.SRP_URL.'/js/srp-gre-admin.js"></script>';
 	}
 }
 add_action('admin_head', 'srp_gre_admin_scripts');
@@ -26,6 +26,7 @@ add_action('admin_head', 'srp_gre_admin_scripts');
 ** listingpage.php
 **---------------------------------------------*/
 function srp_gre_extention_tabs() {
+	if(!get_option('srp_ext_gre_options')) return;
 	srp_gre_the_mortgage_tab();	
 	srp_gre_the_trulia_stats_tab();	
 	srp_gre_the_altos_stats_tab();
@@ -35,12 +36,16 @@ function srp_gre_extention_tabs() {
 }
 
 function srp_gre_extention_content() {
-	srp_gre_the_mortgage_content();	
-	srp_gre_the_trulia_stats_content();
-	srp_gre_the_altos_stats_content();
-	srp_gre_the_listing_schools_content();
-	srp_gre_the_yelp_content();
-	srp_gre_the_walkscore_content();
+	if(!get_option('srp_ext_gre_options')){
+		echo '<div style="background:red; color: white; font-weight: bold; padding: 10px;">Please visit the <a href="'.ADMIN_URL.'/admin.php?page=srp_ext_gre">Extension to GRE settings</a> page to complete the installation.</div>';
+	}else{
+		srp_gre_the_mortgage_content();	
+		srp_gre_the_trulia_stats_content();
+		srp_gre_the_altos_stats_content();
+		srp_gre_the_listing_schools_content();
+		srp_gre_the_yelp_content();
+		srp_gre_the_walkscore_content();
+	}
 }
 
 /*---------------------------------------------*
@@ -52,12 +57,11 @@ function srp_gre_the_listing_map_content() {
 	if (!get_option('greatrealestate_googleAPIkey')) return;
 	if (!get_listing_longitude()) return;
 	if (!get_listing_latitude()) return;
-	if (get_option('srp_gmap_schools')) $classes[] = 'show_schools';
 ?>
 <div id="map">
    <h2>Location Map</h2>
    <div id="map_area">
-   		<div id="gre_map_canvas" class="<?php echo implode(" ", $classes);?>"></div>
+   		<div id="gre_map_canvas"></div>
 		<?php
 		if (get_option('srp_yelp_api_key') && get_option('srp_gmap_yelp')){
 			echo srp_yelp_select();
@@ -71,9 +75,8 @@ function srp_gre_the_listing_map_content() {
 	function gre_setupmap() {
 		var prop_point = new google.maps.LatLng(<?php echo get_listing_latitude(); ?>,<?php echo get_listing_longitude(); ?>);
 		gre_map.setCenter(prop_point, 13);
-		var prop_marker = gre_createMarker(prop_point, '<?php the_listing_js_mapinfo(); ?>');
+		var prop_marker = gre_createMarker(prop_point, '<?php the_listing_js_mapinfo(); ?>');		
 		gre_map.addOverlay(prop_marker);
-		gre_map.setUIToDefault();
 		<?php if (get_option('srp_gmap_search')) echo 'gre_map.enableGoogleBar();';?>
 	}
 	google.load("maps", "2");

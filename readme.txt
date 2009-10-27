@@ -3,7 +3,7 @@ Contributors: Max Chirkov
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 0.9.3
+Stable tag: 0.9.4
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 

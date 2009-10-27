@@ -99,7 +99,6 @@ function srp_ext_gre_options(){
 	  update_option('srp_ext_gre_options', $options);	  
   }
   $options = get_option('srp_ext_gre_options');
-
   echo '<div class="wrap srp">';
   echo '<h2>Extended GRE Options</h2>';
   srp_updated_message();

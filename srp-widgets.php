@@ -492,7 +492,7 @@ class srp_RentMeter extends WP_Widget {
 			  </tr>
 			</table>'
 			 . '<div id="' . $this->get_field_id('result') . '" class="srp_additional-info" style="display: none"></div>'
-			 . '<div align="center"><a href="http://www.rentometer.com"><img src="' . WP_PLUGIN_URL . '/simple-real-estate-pack/branding/rentometer_logo_api-med.gif" width="145" height="50" /></a></div>'
+			 . '<div align="center"><a href="http://www.rentometer.com"><img src="' . SRP_URL . '/branding/rentometer_logo_api-med.gif" width="145" height="50" /></a></div>'
 			 . $after_widget;
 			 //add disclaimer to the footer
 			 add_filter('wp_footer', 'srp_rentometer_disclaimer');			 			 

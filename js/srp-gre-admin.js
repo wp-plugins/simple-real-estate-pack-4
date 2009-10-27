@@ -15,6 +15,7 @@ jQuery(document).ready( function() {
 
 //this has to be done correctly via AJAX hooks
 	function srp_geocode(){
+		
 		if(typeof(srp_geo) !== 'undefined' && jQuery.trim(jQuery('#listings_address').val()) != '' && jQuery.trim(jQuery('#listings_city').val()) != '' && jQuery.trim(jQuery('#listings_state').val()) != '' && jQuery.trim(jQuery('#listings_postcode').val()) != ''){			
 			var geo_button = '<p><input id="srp_get_coord" type="button" name="get_coord" value="Get Lat/Long" /><span id="test_geo_link"></span></p>';
 			var geo_url = 'http://maps.google.com/maps/geo?q=';
