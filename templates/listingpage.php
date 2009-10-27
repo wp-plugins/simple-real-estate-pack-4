@@ -71,10 +71,10 @@ Template Name: Listing Page
 	<?php the_listing_panorama_tab(); ?>
 	<?php the_listing_downloads_tab(); ?>
 	<?php the_listing_community_tab(); ?>
-	<?php srp_gre_extention_tabs(); ?>
+	<?php if (function_exists('srp_gre_extention_tabs')) srp_gre_extention_tabs(); ?>
 	</ul>
 	<?php //the_listing_map_content(); // recommend this be first 
-		srp_gre_the_listing_map_content();
+		if (function_exists('srp_gre_the_listing_map_content')) srp_gre_the_listing_map_content();
 	?>	
 	<?php the_listing_description_content(); ?>
 	<?php the_listing_gallery_content(); ?>
@@ -82,7 +82,7 @@ Template Name: Listing Page
 	<?php the_listing_panorama_content(); ?>
 	<?php the_listing_downloads_content(); ?>
 	<?php the_listing_community_content(); ?>
-	<?php srp_gre_extention_content(); ?>
+	<?php if (function_exists('srp_gre_extention_content')) srp_gre_extention_content(); ?>
 </div>
 <?php } ?>
 
