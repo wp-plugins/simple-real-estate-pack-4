@@ -15,7 +15,6 @@
 		 */
 		init : function(ed, url) {
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mcesrp_AltosStats');
-			
 			ed.addCommand('mcesrp_AltosStats', function() {
 				ed.windowManager.open({
 					file : url + '/altos_window.php',
@@ -23,23 +22,20 @@
 					height : 300 + ed.getLang('srp_AltosStats.delta_height', 0),
 					inline : 1
 				}, {
-					plugin_url : url, // Plugin absolute URL
+					plugin_url : url // Plugin absolute URL
 				});
 			});
-
 			// Register srp_AltosStats button
 			ed.addButton('srp_AltosStats', {
 				title : 'Insert Altos Graphs',
 				cmd : 'mcesrp_AltosStats',
 				image : url + '/altos.png'
 			});
-
 			// Add a node change handler, selects the button in the UI when a image is selected
 			ed.onNodeChange.add(function(ed, cm, n) {
 				cm.setActive('srp_AltosStats', n.nodeName == 'IMG');
 			});
 		},
-
 		/**
 		 * Creates control instances based in the incomming name. This method is normally not
 		 * needed since the addButton method of the tinymce.Editor class is a more easy way of adding buttons
@@ -53,7 +49,6 @@
 		createControl : function(n, cm) {
 			return null;
 		},
-
 		/**
 		 * Returns information about the plugin as a name/value array.
 		 * The current keys are longname, author, authorurl, infourl and version.
