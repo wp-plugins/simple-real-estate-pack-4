@@ -4,7 +4,7 @@ Plugin Name: Advanced Text Widget
 Plugin URI: 
 Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
 Author: Max Chirkov
-Version: 1.0.3
+Version: 1.0.4
 Author URI: http://www.ibsteam.net
 */
                                                                                                                                                         
@@ -111,9 +111,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 							";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "post":
 					$PiD = explode(",",$slug);
@@ -131,9 +128,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "post_in_category":
 					$PiC = explode(",",$slug);
@@ -154,19 +148,18 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "page":
 					$PiD = explode(",",$slug);
-					$onPage = false;
-					foreach($PiD as $PageID) {
+					$onPage = false;			
+					foreach($PiD as $PageID) {						
 						if (is_page($PageID)) {
 							$onPage = true;
+						}else{
+							$onPage = false;
 						}
 					}
-					if ($onPage) {
+					if (is_page($PiD)) {
 						echo $before_widget;
 						echo "<div class='AdvancedText'>"; 
 						$title ? print($before_title . $title . $after_title) : null;
@@ -174,9 +167,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "category":
 					if (is_category($slug)) {
@@ -187,9 +177,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				//Max' Custom Addition
 				case "blog":
@@ -201,9 +188,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				
-					}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
 					}
 			}
 		}else{
@@ -219,9 +203,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 							";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "post":
 					$PiD = explode(",",$slug);
@@ -239,9 +220,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "post_in_category":
 					$PiC = explode(",",$slug);
@@ -262,9 +240,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "page":
 					$PiD = explode(",",$slug);
@@ -282,9 +257,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				case "category":
 					if (!is_category($slug)) {
@@ -295,9 +267,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
-					}
 					break;
 				//Max' Custom Addition
 				case "blog":
@@ -309,9 +278,6 @@ class advanced_text extends WP_Widget {
 						echo "</div>"; 
 						echo $after_widget."
 						";				
-					}
-					else {
-						echo "<!-- Advanced Text Widget ".$number." is disabled for this page/post! -->";
 					}
 			}
 		}
