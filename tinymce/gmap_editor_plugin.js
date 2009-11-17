@@ -27,7 +27,7 @@
 			});
 			// Register srp_GMap button
 			ed.addButton('srp_GMap', {
-				title : 'Insert Google Map',
+				title : 'Google Map',
 				cmd : 'mcesrp_GMap',
 				image : url + '/gmap.png'
 			});

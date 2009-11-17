@@ -2,9 +2,9 @@
 
 (function() {
 	// Load plugin specific language pack
-	tinymce.PluginManager.requireLangPack('srp_TruliaStats');
+	tinymce.PluginManager.requireLangPack('srp_Calcs');
 
-	tinymce.create('tinymce.plugins.srp_TruliaStats', {
+	tinymce.create('tinymce.plugins.srp_Calcs', {
 		/**
 		 * Initializes the plugin, this will be executed after the plugin has been created.
 		 * This call is done before the editor instance has finished it's initialization so use the onInit event
@@ -14,31 +14,28 @@
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
-			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mcesrp_TruliaStats');
-			ed.addCommand('mcesrp_TruliaStats', function() {
+			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mcesrp_Calcs');
+			ed.addCommand('mcesrp_Calcs', function() {
 				ed.windowManager.open({
-					file : url + '/window.php',
-					width : 360 + ed.getLang('srp_TruliaStats.delta_width', 0),
-					height : 300 + ed.getLang('srp_TruliaStats.delta_height', 0),
+					file : url + '/calcs_window.php',
+					width : 360 + ed.getLang('srp_Calcs.delta_width', 0),
+					height : 355 + ed.getLang('srp_Calcs.delta_height', 0),
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL
 				});
 			});
-
-			// Register srp_TruliaStats button
-			ed.addButton('srp_TruliaStats', {
-				title : 'Trulia Market Stats',
-				cmd : 'mcesrp_TruliaStats',
-				image : url + '/trulia.png'
+			// Register srp_Calcs button
+			ed.addButton('srp_Calcs', {
+				title : 'Mortgage/Financial Tools',
+				cmd : 'mcesrp_Calcs',
+				image : url + '/calcs.png'
 			});
-
 			// Add a node change handler, selects the button in the UI when a image is selected
 			ed.onNodeChange.add(function(ed, cm, n) {
-				cm.setActive('srp_TruliaStats', n.nodeName == 'IMG');
+				cm.setActive('srp_Calcs', n.nodeName == 'IMG');
 			});
 		},
-
 		/**
 		 * Creates control instances based in the incomming name. This method is normally not
 		 * needed since the addButton method of the tinymce.Editor class is a more easy way of adding buttons
@@ -52,7 +49,6 @@
 		createControl : function(n, cm) {
 			return null;
 		},
-
 		/**
 		 * Returns information about the plugin as a name/value array.
 		 * The current keys are longname, author, authorurl, infourl and version.
@@ -61,7 +57,7 @@
 		 */
 		getInfo : function() {
 			return {
-				longname : 'srp_TruliaStats Plugin',
+				longname : 'srp_Calcs Plugin',
 				author : 'Max Chirkov',
 				authorurl : 'http://www.PhoenixHomes.com',
 				infourl : 'http://www.PhoenixHomes.com',
@@ -71,5 +67,5 @@
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('srp_TruliaStats', tinymce.plugins.srp_TruliaStats);
+	tinymce.PluginManager.add('srp_Calcs', tinymce.plugins.srp_Calcs);
 })();

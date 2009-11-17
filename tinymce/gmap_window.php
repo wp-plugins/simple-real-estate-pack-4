@@ -28,13 +28,19 @@ $states .= "</select>\n";
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Insert GMap Statistical Chart</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<script type="text/javascript">var srp_geo = '<?php echo GMAP_API ?>';</script>
-	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/jquery/jquery.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+	<script type="text/javascript">	
+	//<![CDATA[
+	var srp_geo = '<?php echo GMAP_API ?>';
+	var srp_url = "<?php echo SRP_URL?>";
+	var srp_wp_admin = "<?php echo ADMIN_URL?>";
+	//]]>
+	</script>	
+	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/jquery/jquery.js"></script>	
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo SRP_URL ?>/js/srp-gre-admin.js"></script>
+	
 	<script language="javascript" type="text/javascript">
 	function init() {
 		tinyMCEPopup.resizeToInnerSize();
@@ -159,7 +165,5 @@ $states .= "</select>\n";
 	</div>
 </form>
 </body>
+<script language="javascript" type="text/javascript" src="<?php echo SRP_URL ?>/js/srp-gre-admin.js"></script>
 </html>
-<?php
-
-?>

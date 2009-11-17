@@ -14,11 +14,14 @@ $srp_ext_gre_tabs = $srp_ext_gre_options['tabs'];
 function srp_gre_admin_scripts(){
 	if($g_api = get_option('greatrealestate_googleAPIkey')){		
 		echo "\n" . '<script type="text/javascript">
-		var srp_geo = "'. $g_api . '/";</script>'. "\n";
+//<![CDATA[
+		var srp_geo = "'. $g_api . '/";
+//]]>
+		</script>'. "\n";
 		echo '<script type="text/javascript" src="'.SRP_URL.'/js/srp-gre-admin.js"></script>';
 	}
 }
-add_action('admin_head', 'srp_gre_admin_scripts');
+add_action('admin_footer', 'srp_gre_admin_scripts');
 
 /*---------------------------------------------*
 ** Include srp_gre_extention_tabs()

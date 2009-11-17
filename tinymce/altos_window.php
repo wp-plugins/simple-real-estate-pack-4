@@ -47,10 +47,27 @@ foreach($rollingaverage as $k => $v){
 <head>
 	<title>Insert Altos Statistical Chart</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/jquery/jquery.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
 	<script language="javascript" type="text/javascript">
+	function hide_steps(){
+		jQuery('.steps').hide();
+	}
+
+	function go_step(step){
+		hide_steps();
+		jQuery('.' + step).show();
+		var num = step.replace('step', '');
+		mcTabs.displayTab('simpleAltos_tab'+num,'simpleAltos_panel'+num);
+	}
+
+	jQuery(document).ready( function() {
+		hide_steps();
+		jQuery('.step1').show();
+	});
+	
 	function init() {
 		tinyMCEPopup.resizeToInnerSize();
 	}
@@ -148,16 +165,16 @@ foreach($rollingaverage as $k => $v){
 	<form name="simpleAltosForm" action="#">
 	<div class="tabs">
 		<ul>
-			<li id="simpleAltos_tab1" class="current"><span><a href="javascript:mcTabs.displayTab('simpleAltos_tab1','simpleAltos_panel');" onmousedown="return false;"><?php _e("Altos Chart", 'simpleAltos'); ?></a></span></li>
-			<li id="simpleAltos_tab2"><span><a href="javascript:mcTabs.displayTab('simpleAltos_tab2','simpleAltos_panel2');" onmousedown="return false;"><?php _e("Choose Statistics", 'simpleAltos'); ?></a></span></li>
-			<li id="simpleAltos_tab3"><span><a href="javascript:mcTabs.displayTab('simpleAltos_tab3','simpleAltos_panel3');" onmousedown="return false;"><?php _e("More Options", 'simpleAltos'); ?></a></span></li>
+			<li id="simpleAltos_tab1" class="current"><span><a href="javascript:mcTabs.displayTab('simpleAltos_tab1','simpleAltos_panel1');go_step('step1');" onmousedown="return false;"><?php _e("Altos Chart", 'simpleAltos'); ?></a></span></li>
+			<li id="simpleAltos_tab2"><span><a href="javascript:mcTabs.displayTab('simpleAltos_tab2','simpleAltos_panel2');go_step('step2');" onmousedown="return false;"><?php _e("Choose Statistics", 'simpleAltos'); ?></a></span></li>
+			<li id="simpleAltos_tab3"><span><a href="javascript:mcTabs.displayTab('simpleAltos_tab3','simpleAltos_panel3');go_step('step3');" onmousedown="return false;"><?php _e("More Options", 'simpleAltos'); ?></a></span></li>
 		</ul>
 	</div>
 	
 	<div id="simpleAltos_options" class="panel_wrapper" style="height:215px">
 		<!-- simpleAltos panel -->
-		<div id="simpleAltos_panel" class="panel current">
-		<br />
+		<div id="simpleAltos_panel1" class="panel current">
+		<br />		
 			<table border="0" cellpadding="4" cellspacing="0" style="width:100%;">
 			<tr>
 			  <td><label for="simpleAltos_city"><?php _e("City:", 'simpleAltos_city'); ?></label></td>
@@ -249,8 +266,13 @@ foreach($rollingaverage as $k => $v){
 		<!-- end simpleAltos panel -->
 		
 	</div>
-
-	<div class="mceActionPanel">
+	<div class="mceActionPanel steps step1" style="text-align:center">
+			<input type="button" id="step2" name="step2" class="updateButton" value="<?php _e("Step 2", 'simpleAltos'); ?>" onclick="go_step('step2');"/>
+	</div>
+	<div class="mceActionPanel steps step2" style="text-align:center">
+			<input type="button" id="step3" name="step3" class="updateButton" value="<?php _e("Step 3", 'simpleAltos'); ?>" onclick="go_step('step3');"/>
+	</div>
+	<div class="mceActionPanel steps step3">
 		<div style="float: left">
 			<input type="button" id="cancel" name="cancel" value="<?php _e("Cancel", 'simpleAltos'); ?>" onclick="tinyMCEPopup.close();" />
 		</div>

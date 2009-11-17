@@ -233,6 +233,7 @@ function srp_get_option($option, $instance = null){
 			if(get_option('srp_use_rates_in_calcs') && get_option('srp_getratesummary_api_key')){
 				$rate = srp_get_zillow_mortgage_rates($return_rate = true);
 				if($rate){
+					add_filter('widget', 'srp_mortgage_rates_branding',9);
 					return $rate;
 				}
 			}
@@ -283,13 +284,13 @@ function srp_like_plugin(){
 }
 
 function srp_plugin_support(){
-	$content = '<p>If you have any problems with this plugin or good ideas for improvements or new features, please talk about them in the <a href="http://wordpress.org/tags/simple-real-estate-pack-4">Support forums</a>.</p>';	
+	$content = '<p>If you have any problems with this plugin or good ideas for improvements or new features, please talk about them in the <a href="http://wordpress.org/tags/simple-real-estate-pack-4?forum_id=10">Support forums</a>.</p>';	
 	$content = '
 	<p>Help us make it better:</p>
 	<ul>
-		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4">Ask for help</a></li>
-		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4">Report a bug</a></li>
-		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4">Suggest improvements or new features</a></li>
+		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4?forum_id=10">Ask for help</a></li>
+		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4?forum_id=10">Report a bug</a></li>
+		<li><a href="http://wordpress.org/tags/simple-real-estate-pack-4?forum_id=10">Suggest improvements or new features</a></li>
 	</ul>';
 	return $content;
 }
@@ -304,6 +305,16 @@ function srp_plugin_credits(){
 	return $content;
 }
 
+function srp_plugin_donate(){
+	$content = '
+	<p>
+		If you would like to make a financial contribution, as a jester of of your appreciation for this free plugin, please consider a donation to the <a href="https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx" title="Donate to American Cancer Society">American Cancer Society</a>		
+	</p>
+	<div style="text-align:center"><a href="https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx" title="Donate to American Cancer Society"><img src="'.SRP_URL.'/images/ACS-logo.jpg" alt="American Cancer Society Logo" title="Donate to American Cancer Society" /></a></div>
+	';
+	return $content;
+}
+
 function srp_settings_right_column(){
 	$content = '<div class="postbox-container" style="width:20%;">
 		<div class="metabox-holder">	
@@ -311,6 +322,7 @@ function srp_settings_right_column(){
 				. postbox('srp_like_plugin', 'Like this plugin?', srp_like_plugin())
 				. postbox('srp_plugin_support', 'Plugin Support', srp_plugin_support())
 				. postbox('srp_plugin_credits', 'Credits', srp_plugin_credits())
+				. postbox('srp_plugin_donate', 'Donate', srp_plugin_donate())
 			. '</div>
 			<br/><br/><br/>
 		</div>

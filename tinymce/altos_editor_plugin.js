@@ -27,7 +27,7 @@
 			});
 			// Register srp_AltosStats button
 			ed.addButton('srp_AltosStats', {
-				title : 'Insert Altos Graphs',
+				title : 'Altos Market Stats',
 				cmd : 'mcesrp_AltosStats',
 				image : url + '/altos.png'
 			});

@@ -53,8 +53,10 @@ $output = $title . '
 						</div>
 					</td>
 				  </tr>
-				  </table>
-			</div>';
+				  <tr><td colspan="3">
+				  ';
+			$output = apply_filters('widget', $output);
+			$output .='</td></tr></table></div>';
 
 						$property_tax_rate = get_option('srp_property_tax_rate');
 						$home_insurance_rate = get_option('srp_home_insurance_rate');
@@ -162,9 +164,10 @@ class srp_AffordabilityCalc extends WP_Widget {
 					<td colspan="3">
 						<div id="' . $this->get_field_id('result') . '" class="srp_additional-info" style="display: none"></div></td>
 				  </tr>
-				</table>
-
-			</div>
+				<tr><td colspan="3">
+				  ';
+			$output = apply_filters('widget', $output);
+			$output .='</td></tr></table></div>
 		' . $after_widget;
 		if($instance['return'] == true){
 			return $output;
@@ -191,7 +194,6 @@ class srp_AffordabilityCalc extends WP_Widget {
 <?php
 	}
 }
-
 
 /*---------------------------------------------*
 ** Closing Cost Estimator Widget
@@ -431,10 +433,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 		  $output .='
 		  <tr>
 			<td colspan="3">
-				<div align="center"><a href="http://www.zillow.com/Mortgage_Rates/">
-					<small><a href="http://www.zillow.com/Mortgage_Rates/">See more mortgage rates at Zillow.com</a></small><br />
-					<img src="http://www.zillow.com/static/logos/zmm_logo_small.gif" width="145" height="15" alt="Zillow Mortgages" /></a>				
-				</div>
+				' . srp_mortgage_rates_branding() . '
 			</td>
 		  </tr>
 		</table>
@@ -455,7 +454,18 @@ function srp_zillow_disclaimer(){
 	echo $content;
 }
 
+function srp_mortgage_rates_branding($output = false){
+	$output .= '<div align="center"><a href="http://www.zillow.com/Mortgage_Rates/">
+					<small><a href="http://www.zillow.com/Mortgage_Rates/">See more mortgage rates at Zillow.com</a></small><br />
+					<img src="http://www.zillow.com/static/logos/zmm_logo_small.gif" width="145" height="15" alt="Zillow Mortgages" /></a>				
+				</div>';
+	return $output;
+}
 
+function mortgage_branding($content){
+	$content = apply_filters('mortgage_branding', $content);
+	return $content;
+}
 
 /*---------------------------------------------*
 ** Rental Rates Meter (RentoMeter API)

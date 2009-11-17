@@ -7,9 +7,10 @@
 
 class add_SRP_button {
 	
-	//var $pluginname = "srp_TruliaStats";
 	var $pluginname;
 	var $editor_js;
+	var $space_before;
+	var $space_after;
 	
 	function add_SRP_button()  {
 		// Modify the version when tinyMCE plugins are changed.
@@ -36,7 +37,8 @@ class add_SRP_button {
 	// used to insert button in wordpress 2.5x editor
 	function register_button($buttons) {
 	
-		array_push($buttons, "separator", $this->pluginname );
+		//array_push($buttons, "", $this->pluginname );
+		array_unshift($buttons, $this->space_before, $this->pluginname, $this->space_after);
 	
 		return $buttons;
 	}
@@ -56,7 +58,9 @@ class add_SRP_button {
 }
 
 // Call it now 'srp_TruliaStats', 'editor_plugin.js'
+/**/
 $trulia_tinymce_button = new add_SRP_button();
+$trulia_tinymce_button->space_after = "|";
 $trulia_tinymce_button->pluginname = 'srp_TruliaStats';
 $trulia_tinymce_button->editor_js = 'editor_plugin.js';
 
@@ -67,4 +71,13 @@ $altos_tinymce_button->editor_js = 'altos_editor_plugin.js';
 $gmap_tinymce_button = new add_SRP_button();
 $gmap_tinymce_button->pluginname = 'srp_GMap';
 $gmap_tinymce_button->editor_js = 'gmap_editor_plugin.js';
+
+$calcs_tinymce_button = new add_SRP_button();
+$calcs_tinymce_button->pluginname = 'srp_Calcs';
+$calcs_tinymce_button->editor_js = 'calcs_editor_plugin.js';
+
+$apis_tinymce_button = new add_SRP_button();
+$apis_tinymce_button->pluginname = 'srp_APIs';
+$apis_tinymce_button->editor_js = 'apis_editor_plugin.js';
+
 ?>

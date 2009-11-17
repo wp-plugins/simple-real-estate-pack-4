@@ -1,9 +1,11 @@
 ==== Simple Real Estate Pack ====
 Contributors: Max Chirkov
+Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 0.9.4.1
+Stable tag: 0.9.5
+
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 

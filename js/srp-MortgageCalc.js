@@ -40,7 +40,10 @@ jQuery(document).ready(function(){
 	jQuery('input[id^="widget-srp_mortgagecalc-"]').keyup(function(){
 		var id = jQuery(this).attr("id");
 		var num = id.replace(/\D/g,"");		
-		srp_MortgageCalc_calculate(num);
+		var price_of_home	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").asNumber();
+		if(price_of_home > 0){
+			srp_MortgageCalc_calculate(num);
+		}
 	});
 
 	jQuery('input[id^="widget-srp_affordabilitycalc-"]').keyup(function(e){
@@ -135,7 +138,7 @@ function srp_MortgageCalc_calculate(num){
 
 	
 	jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").removeClass("highlight");
-	if(!price_of_home || price_of_home == 0){ jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").addClass("highlight"); var error = true; }
+	if(!price_of_home){ jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").addClass("highlight"); var error = true; }
 	if(!mortgage_term || mortgage_term == 0){ jQuery("input#widget-srp_mortgagecalc-" + num + "-mortgage_term").addClass("highlight"); var error = true; }
 	if(!interest_rate || interest_rate == 0){ jQuery("input#widget-srp_mortgagecalc-" + num + "-interest_rate").addClass("highlight"); var error = true; }		
 	

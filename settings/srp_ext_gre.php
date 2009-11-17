@@ -83,6 +83,11 @@ function srp_ext_gre_options(){
 				'notes'	=> null,
 				'value'	=> 1,
 			),
+			'srp_gre_css'=> array(
+				'name'	=> 'SRP CSS for Tabs',
+				'notes'	=> 'Included styles for the SRP plugin. Leave it off if you\'re using GRE tabs or custom ones.',
+				'value'	=> 0,
+			),
 		),
 	  );
 
@@ -137,8 +142,8 @@ function srp_ext_gre_options(){
 						<tr valign="bottom">
 						  <th scope="row"><div align="right"><?php echo $default_options['tabs'][$k]['name'];?>: </div></th>
 						  	<td>
-								<input type="text" name="srp_ext_gre_options[tabs][<?php echo $k;?>][tabname]" value="<?php echo $options['tabs'][$k]['tabname'];?>" size="50"/><br />
-						  		<input type="text" name="srp_ext_gre_options[tabs][<?php echo $k;?>][heading]" value="<?php echo $options['tabs'][$k]['heading'];?>" size="50"/>
+								<input type="text" name="srp_ext_gre_options[tabs][<?php echo $k;?>][tabname]" value="<?php echo $options['tabs'][$k]['tabname'];?>" size="50"/>(tab name)<br />
+						  		<input type="text" name="srp_ext_gre_options[tabs][<?php echo $k;?>][heading]" value="<?php echo $options['tabs'][$k]['heading'];?>" size="50"/>(sub-title)
 							</td>
 						</tr>
 					<?php

@@ -90,44 +90,53 @@ function srp_map($lat, $lng, $html, $width = NULL, $height = NULL) {
 
 	   if($width){ $width = "width:{$width}px;"; }
 	   if($height){ $height = "height:{$height}px;"; }
-	   ?>
-	<div id="map">
-	  <div id="map_area" style="<?php echo $width . $height; ?>">
-   		<div id="gre_map_canvas" style="<?php echo $width . $height; ?>"></div>
-		<?php 
+	   
+	$output .= '<div id="map">
+	  <div id="map_area" style="' . $width . $height . '">
+   		<div id="gre_map_canvas" style="' . $width . $height . '"></div>';
+		
 		if (get_option('srp_yelp_api_key') && get_option('srp_gmap_yelp')){
-			echo srp_yelp_select(); 
+			$output .= srp_yelp_select(); 
 		}
-		?>
-		<input id="srp_gre_prop_coord" type="hidden" value="<?php echo $lat; ?>,<?php echo $lng; ?>" />		
+		
+	$output .= '<input id="srp_gre_prop_coord" type="hidden" value="' . $lat .',' . $lng . '" />		
 	   </div>
 	   <div class="srp_gre_legend"><span><img src="http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - Main Marker</span></div>
 	</div>
 <script type="text/javascript">
 /* <![CDATA[ */
 	function srp_setupmap() {
-		var point = new google.maps.LatLng(<?php echo $lat; ?>,<?php echo $lng; ?>);
+		var point = new google.maps.LatLng(' . $lat . ',' . $lng . ');
 		srp_map.setCenter(point, 13);
-		var marker = srp_default_createMarker(point, '<?php echo $html; ?>');
-		srp_map.addOverlay(marker);
-		<?php if (get_option('srp_gmap_search')) echo 'srp_map.enableGoogleBar();';?>
-		
+		var marker = srp_default_createMarker(point, \'' . $html . '\');
+		srp_map.addOverlay(marker);';
+		if (get_option('srp_gmap_search')) $output .= 'srp_map.enableGoogleBar();';
+		$output .= '
 	}
 	google.setOnLoadCallback(srp_initialize);
 /* ]]> */
-</script>
-<?php
+</script>';
+	return $output;
 }
 
 /*
 ** CSS and JS initialization
 */
+function srp_admin_scripts(){
+	echo "\n" . '<script type="text/javascript">
+//<![CDATA[
+	var srp_url = "'. SRP_URL .'"; 
+	var srp_wp_admin = "' . ADMIN_URL . '";
+//]]>
+' . "\n" . '</script>' . "\n";
+}
+
 function srp_default_headScripts(){
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('jquery-ui-tabs');
 	wp_enqueue_script('thickbox');
 	wp_enqueue_style('thickbox');
-	if(is_admin()){
+	if (isset($_GET['page']) && strstr($_GET['page'], 'simple-real-estate-pack') || strstr($_GET['page'], 'srp_')){		
 		wp_enqueue_script('postbox');
 		wp_enqueue_script('dashboard');
 		wp_enqueue_style('dashboard');
@@ -135,37 +144,43 @@ function srp_default_headScripts(){
 		wp_enqueue_style('wp-admin');
 		wp_enqueue_style('blogicons-admin-css', SRP_URL . '/settings/settings.css');
 	}
+
 }
 
 function srp_head_scripts(){	
 	$myStyleUrl		= SRP_URL . '/css/srp.css';
-    $myStyleFile	= SRP_DIR . '/css/srp.css';
-	$uitabsStyle	= SRP_URL . '/css/ui.tabs.css';
+    $myStyleFile	= SRP_DIR . '/css/srp.css';	
     if ( file_exists($myStyleFile) ) {
         wp_register_style('srp_MortgageCalc', $myStyleUrl);
-        wp_print_styles( 'srp_MortgageCalc');
+        wp_print_styles( 'srp_MortgageCalc');		
+    }
+	$uitabsStyle	= SRP_URL . '/css/ui.tabs.css';
+	$uitabsFile		= SRP_DIR . '/css/ui.tabs.css';
+	$srp_ext_gre_options = get_option('srp_ext_gre_options');
+	if($srp_ext_gre_options['content']['srp_gre_css'] && file_exists($uitabsFile)){
 		wp_register_style('srp_uitabs', $uitabsStyle);
-        wp_print_styles( 'srp_uitabs');		
-    }		
-	if(!is_admin()){		
+        wp_print_styles( 'srp_uitabs');
+	}
 		echo "\n" . '<script type="text/javascript">
+//<![CDATA[
 			tb_pathToImage = "' . get_option('siteurl') . '/wp-includes/js/thickbox/loadingAnimation.gif";tb_closeImage = "' . get_option('siteurl') . '/wp-includes/js/thickbox/tb-close.png";</script>'. "\n";		
 		echo "\n" . '<script type="text/javascript">
-			var srp_url = "'. SRP_URL .'"; 
-			var srp_wp_admin = "' . ADMIN_URL . '";' . "\n" . '</script>' . "\n";
-	}
+	var srp_url = "'. SRP_URL .'"; 
+	var srp_wp_admin = "' . ADMIN_URL . '";
+//]]>
+' . "\n" . '</script>' . "\n";
 	if(!function_exists('greatrealestate_init') || !get_option('greatrealestate_googleAPIkey')){
 		if($srp_gmap_key = get_option('srp_gmap_api_key'))
 		echo '<script type="text/javascript" src="http://www.google.com/jsapi?key=' . $srp_gmap_key . '"></script>';
 	}
-	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp-gmap.js"></script>';/**/
+	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp-gmap.js"></script>'."\n";/**/
 }
 function srp_footer_scripts(){
-	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp-MortgageCalc.js"></script>';	
-	echo '<script type="text/javascript" src="' . SRP_URL . '/lib/jquery.formatCurrency-1.0.0.js"></script>';
+	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp-MortgageCalc.js"></script>'."\n";	
+	echo '<script type="text/javascript" src="' . SRP_URL . '/lib/jquery.formatCurrency-1.0.0.js"></script>'."\n";
 }
-
-add_action('plugins_loaded', 'srp_default_headScripts');
+add_action('admin_print_scripts', 'srp_admin_scripts');
+add_action('init', 'srp_default_headScripts');
 add_action('wp_head', 'srp_head_scripts');
 add_action('wp_footer', 'srp_footer_scripts');
 
@@ -204,4 +219,30 @@ function srp_walkscore($ws_wsid, $ws_address, $ws_width=500, $ws_height=286, $ws
 function _add_to_yelpselect() {
     do_action('_add_to_yelpselect');
 }
+
+//Geocoding
+function srp_geocode_request($address){
+	if($srp_gmap_key = get_option('srp_gmap_api_key')){
+		$gapi = $srp_gmap_key;
+	}elseif($srp_gmap_key = get_option('greatrealestate_googleAPIkey')){
+		$gapi = $srp_gmap_key;
+	}
+		$request = 'http://maps.google.com/maps/geo?output=xml&oe=utf8&sensor=false&key=' .$gapi. '&q=' . $address;
+		$xml = simplexml_load_file($request, 'SimpleXMLElement');
+		$data = $xml->Response->Placemark->Point->coordinates;
+		$coord = explode(',', $data);
+		unset($coord[2]);
+		return $coord;
+}
+
+function srp_geocode_ajax(){
+	$address = $_POST['address'];
+	if($result = srp_geocode_request($address)){
+		$result = json_encode($result);
+		die($result);
+	}
+}
+add_action('wp_ajax_srp_geocode_ajax', 'srp_geocode_ajax');
+add_action('wp_ajax_nopriv_srp_geocode_ajax', 'srp_geocode_ajax');
+
 ?>

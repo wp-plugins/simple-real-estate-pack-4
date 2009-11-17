@@ -21,7 +21,7 @@
 					</div>
 				</div>
 				
-				<div class="postbox">
+				<div class="postbox closed">
 					<div class="handlediv" title="Click to toggle"><br /></div>
 					<h3 class="hndle"><span>Available ShortCodes</span></h3>
 					<div class="inside">											
