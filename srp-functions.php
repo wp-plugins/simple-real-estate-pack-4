@@ -86,7 +86,7 @@ function format_phone($phone){
 * 
 */
 function srp_map($lat, $lng, $html, $width = NULL, $height = NULL) {
-	if (!get_option('greatrealestate_googleAPIkey')) return;
+	if (!get_option('greatrealestate_googleAPIkey') && !get_option('srp_gmap_api_key')) return;
 
 	   if($width){ $width = "width:{$width}px;"; }
 	   if($height){ $height = "height:{$height}px;"; }

@@ -193,7 +193,7 @@ function srp_Yelp_shortcode($atts=array()){
 	return srp_getYelp($args['lat'], $args['lng'], $args['radius'], $args['output'], $args['sortby'], $args['term'], $args['num_biz_requested'], $args['ajax']);
 }
 
-function srp_map_shortcode($atts=array(), $content = NULL){
+function srp_map_shortcode($atts=array(), $content = NULL){	
 	$args = shortcode_atts(srp_merge_atts('srpmap'), $atts);	
 	//removing <br /> at the beginning of the code which is automatically inserted by WP tinymce
 	$br = substr($content, 0, 6);
