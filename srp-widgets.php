@@ -130,7 +130,7 @@ class srp_AffordabilityCalc extends WP_Widget {
 					<td><input id="' . $this->get_field_id('mo_gross_income') . '" name="' . $this->get_field_name('mo_gross_income') . '" type="text" size="8"></td>
 				  </tr>
 				  <tr>
-					<td>Monthly Debt Expences <sup><a href="#TB_inline?height=200&width=300&inlineId=' . $this->get_field_id('sac_help') . '" class="thickbox" title="What are Monthly Debt and Obligations?">[?]</a></sup>
+					<td>Monthly Debt Expenses <sup><a href="#TB_inline?height=200&width=300&inlineId=' . $this->get_field_id('sac_help') . '" class="thickbox" title="What are Monthly Debt and Obligations?">[?]</a></sup>
 						<div id="' . $this->get_field_id('sac_help') . '" style="display: none">
 							<h3>Monthly Debt and Obligations Should Include:</h3>
 							<ol>
@@ -234,7 +234,7 @@ class srp_ClosingCosts extends WP_Widget {
 				</table>				
 				<table class="srp_table" id="' . $this->get_field_id('closing_details') . '" style="display:none">
 					  <tr>
-						<td colspan="3"><strong>Traditional Closing Expences</strong> </td>
+						<td colspan="3"><strong>Traditional Closing Expenses</strong> </td>
 					  </tr>
 					  <tr>
 						<td>Discount Points</td>
