@@ -59,14 +59,20 @@ $states .= "</select>\n";
 			var lat				= document.getElementById('listings_latitude').value;
 			var lng				= document.getElementById('listings_longitude').value;
 			var title			= document.getElementById('simpleGMap_title').value;
-			var description		= document.getElementById('simpleGMap_description').value;
-													
-				tagtext = '[srpmap lat="' + lat + '" lng="' + lng + '"]';
-				tagtext += '<h3>' + title + '</h3>';
-				tagtext += '<p>' + address + '<br />' + city + ', ' + state + ' ' + zip + '</p>';
-				tagtext += '<p>' + description + '</p>';
-				tagtext += '[/srpmap]';
-	
+			var description                 = document.getElementById('simpleGMap_description').value;
+
+                                if(document.getElementById('profile').checked){
+                                    tagtext = '[srp_profile lat="' + lat + '" lng="' + lng + '" address="' + address + '" city="' + city + '" state="' + state + '" zip_code="' + zip + '"]';
+                                    tagtext += '<h3 style="font-size: 100%; line-height: normal;">' + title + '</h3>';
+                                    tagtext += '<p>' + description + '</p>';
+                                    tagtext += '[/srp_profile]';
+                                }else{
+                                    tagtext = '[srpmap lat="' + lat + '" lng="' + lng + '"]';
+                                    tagtext += '<h3 style="font-size: 100%; line-height: normal;">' + title + '</h3>';
+                                    tagtext += '<p>' + address + '<br />' + city + ', ' + state + ' ' + zip + '</p>';
+                                    tagtext += '<p>' + description + '</p>';
+                                    tagtext += '[/srpmap]';
+                                }
 		
 		if(window.tinyMCE) {
 			window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false,  tagtext);
@@ -92,7 +98,7 @@ $states .= "</select>\n";
 		</ul>
 	</div>
 	
-	<div id="simpleGMap_options" class="panel_wrapper" style="height:215px">
+	<div id="simpleGMap_options" class="panel_wrapper" style="height:255px">
 		<!-- simpleGMap panel -->
 		<div id="simpleGMap_panel" class="panel current">
 		<p style="text-align: center; color: red;">All fields are required.</p>
@@ -113,6 +119,11 @@ $states .= "</select>\n";
 			  <td><label for="simpleGMap_zipcode"><?php _e("Zipcode:", 'simpleGMap_zip'); ?></label></td>
 			  <td><input type="text" name="simpleGMap_zipcode" id="listings_postcode" size="30" /></td>
 			</tr>
+                        <tr>
+			  <td><label for="simpleGMap_propetytype"><?php _e("Include Neighborhood Profile:", 'simpleGMap_lng'); ?></label></td>
+			  <td>
+			  	<input type="checkbox" name="simpleGMap_profile" id="profile" /></td>
+ 			</tr>
 			<tr>
 			  <td><label for="simpleGMap_timespan"><?php _e("Latitude:", 'simpleGMap_lat'); ?></label></td>
 			  <td>
@@ -126,8 +137,8 @@ $states .= "</select>\n";
 			<tr>
 			  <td>&nbsp;</td>
 				<td><input id="srp_get_coord" type="button" name="get_coord" value="Get Lat/Long" /><p><span id="test_geo_link"></span></p></td>
-  </tr>
-			</table>
+                        </tr>                        
+		</table>
 
 		</div>
 		<!-- end simpleGMap panel -->

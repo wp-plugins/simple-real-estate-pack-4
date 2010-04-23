@@ -69,28 +69,6 @@ function srp_gre_admin_scripts(){
 }
 add_action('admin_footer', 'srp_gre_admin_scripts');
 
-function srp_extension_prepare_content() {
-    global $srp_ext_gre_content;
-
-    if(in_array('mortgage_calc', $srp_ext_gre_content))
-        srp_gre_the_mortgage_content();
-
-    if(in_array('trulia_stats', $srp_ext_gre_content))
-        srp_gre_the_trulia_stats_content();
-
-    if(in_array('altos_stats', $srp_ext_gre_content))
-        srp_gre_the_altos_stats_content();
-
-    if(in_array('schools', $srp_ext_gre_content))
-        srp_gre_the_listing_schools_content();
-
-    if(in_array('yelp', $srp_ext_gre_content))
-        srp_gre_the_yelp_content();
-
-    if(in_array('walkscore', $srp_ext_gre_content))
-        srp_gre_the_walkscore_content();        
-}
-
 function srp_gre_content_init($init){
     global $srp_widgets;
 
@@ -190,10 +168,6 @@ function srp_profile($args = array()){
 ** to be placed in listingpage.php template
 ** for Great Real Estate Plugin
 **---------------------------------------------*/
-/*
- * ToDo Max: Tabs & content - output check against SRP settins.
- * 
- */
 
 function srp_gre_the_listing_map_content() {
     global $srp_widgets, $srp_ext_gre_content, $srp_ext_gre_tabs, $srp_property_values;

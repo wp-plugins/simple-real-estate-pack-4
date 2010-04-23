@@ -6,7 +6,6 @@ Requires at least: 2.8
 Tested up to: 2.9.2
 Stable tag: 0.9.8
 
-
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
 == Description ==
@@ -33,8 +32,9 @@ Simple Real Estate Pack is a package of real estate tools and widgets designed s
 
 8. Walkscore via Walkscore.com
 
-9. Extension of GRE plugin (optional) - mapping local grocery stores, restaurants, gas stations, banks, golf courses and hospitals within 3 mile radius of the property. Includes property location, contact information, ratings via Yelp API., as well as financial tools and statistical charts. 
+9. Extension of GRE plugin (optional) via Neighborhood Profile options - mapping local grocery stores, restaurants, gas stations, banks, golf courses and hospitals within 3 mile radius of the property. Includes property location, contact information, ratings via Yelp API., as well as financial tools and statistical charts.
 
+10. Easy to use API for third party widget integration into the Neighborhood Profiles.
 
 For detailed usage instructions visit the [official site](http://www.phoenixhomes.com/tech/simple-real-estate-pack "Simple Real Estate Pack by PhoenixHomes.com").
 

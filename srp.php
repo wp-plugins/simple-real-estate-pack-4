@@ -24,6 +24,11 @@ Author URI: http://www.PhoenixHomes.com
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+/*
+ * ToDo Max: Instructions on API, and how to include GRE template, finish GRE template + CSS for it, videos on implementation of all of the above.
+ */
+
 define("PLUGIN_BASENAME", plugin_basename(dirname(__FILE__)));
 define("SRP_DIR", WP_PLUGIN_DIR . '/' . PLUGIN_BASENAME);
 define("SRP_URL", WP_PLUGIN_URL . '/' . PLUGIN_BASENAME);

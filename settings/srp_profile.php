@@ -27,8 +27,6 @@ function srp_profile_options_page(){
     
     $default_options = $_default_options;
 
-    /* ToDo Max: Predefine tabs for the GRE options as well.
-     */
 	$preset_options = array(            
 		'tabs'		=> array(			
 		),             
@@ -190,11 +188,7 @@ function srp_profile_options_page(){
 					<div class="handlediv" title="Click to toggle"><br /></div>
 					<h3 class="hndle"><span>Neighborhood Profile Options</span></h3>
 					<div class="inside">
-					<h4>Neighborhood Profile Widgets</h4>
-                                        <?php
-                                        //ToDo Max: update the line below to reflect current functinality of the plugin.
-                                        ?>
-					<p>The selected tools and widgets/content will appear on the listing details pages created by the Great Real Estate plugin.</p>	
+					<h4>Neighborhood Profile Widgets</h4>                                        	
 					  <table class="form-table">
 					<?php 
 					foreach($default_options['content'] as $k => $option){

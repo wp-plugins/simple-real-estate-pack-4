@@ -242,12 +242,14 @@ function srp_map_shortcode($atts=array(), $content = NULL){
 	if(strstr($br, "<br />")){
 		$content = substr($content, 6);
 	}
-	$content = ereg_replace("\n", " ", '<div class="infoWindow" style="max-width:300px;">' . $content .'</div>');
+	$content = ereg_replace("\n", " ", '<div class="infoWindow" style="max-width:300px; line-height: normal;">' . $content .'</div>');
+        
         if($args['extended']){
             $srp_property_values = $args;
             return srp_profile();
         }
 	//return srp_map($args['lat'], $args['lng'], $args['address'], $args['city'], $args['state'], $args['zip_code'], $args['html'] = $content, $args['width'], $args['height'], $args['extended']);
+        return srp_map($args['lat'], $args['lng'], $args['html'] = $content, $args['width'], $args['height']);
 }
 
 function srp_walkscore_shortcode($atts=array()){
@@ -255,8 +257,16 @@ function srp_walkscore_shortcode($atts=array()){
 	return srp_walkscore($args['ws_wsid'], $args['ws_address'], $args['ws_width'], $args['ws_height'], $args['ws_layout']);
 }
 
-function srp_profile_shortcode($atts=array()){
+function srp_profile_shortcode($atts=array(), $content = NULL){
 	$args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);
+        $br = substr($content, 0, 6);
+	if(strstr($br, "<br />")){
+		$content = substr($content, 6);
+	}
+	$content = ereg_replace("\n", "", '<div class="infoWindow" style="max-width:300px; line-height: normal; font-size: 100%;">' . $content .'</div>');
+        if($content)
+            $args['html'] = $content;
+        
         global $srp_property_values;
         $srp_property_values = $args;
 	return srp_profile();
