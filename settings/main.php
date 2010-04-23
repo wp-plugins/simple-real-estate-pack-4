@@ -108,10 +108,16 @@ function srp_general_options_page(){
 								$optional = $options['optional'];
 								$description = $options['description'];
 								unset($optional['return']);
+                                                                unset($closingtag);
+                                                                /*
+                                                                 * ToDo Max: Avoid conditional titles - incorporate them into the array of parameters for each shrotcode.
+                                                                 * See file srp-shortcodes.php
+                                                                 */
 								if($name == 'schoolsearch') { $title = 'Schools'; }
 								elseif($name == 'yelp') { $title = 'Yelp'; }
 								elseif($name == 'srpmap') { $title = 'Google Map'; $closingtag = ' Location description. [/'.$name.']';}
 								elseif($name == 'walkscore') { $title = 'Walkscore'; }
+                                                                elseif($name == 'srp_profile') {$title = 'Neighborhood Profile';}
 								else{ $title = $optional['title']; }
 								echo '<h4>' . $title . ':</h4>';
 								echo '<u>Usage</u>: ['.$name.' <em>{attributes}</em>]'. $closingtag .'<br/><br/>';
