@@ -6,20 +6,6 @@
 ** WebSite: www.PhoenixHomes.com
 **---------------------------------------------*/
 
-/*
- * ToDo Max: Organize the bootstrap.
- * There should be a naming convention where object can automatically call .._content() and .._tab() functions depending on the situation.
- * For example: $callback = 'mortgage' therefore we can call mortgage_content() and mortgage_tab().
- * By knowing the callback functions, we can call them via AJAX.
- *
- * Listing Extension should work as a geo/place profile - doesn't matter if it's a GRE or something else or by itself.
- * So, any SRP extensions/widgets or any third party extensions to SRP should be added via the Class.
- * Required options should appear in the Extensions Settings page:
- *  - Extension activation
- *  - Extension Tab Name and Sub-title
- *  - Extension callback function name
- * the class will generate the rest of the tabs etc from the settings above.
- */
 $srp_widgets = new srpWidgets();
 
 function srp_prepare_widgets_object(){
@@ -27,11 +13,7 @@ function srp_prepare_widgets_object(){
 
     $init = array();
     $init = apply_filters('srp_prepare_widgets_object', $init);
-    /*print '<pre>';
-    print_r($init);
-    print '</pre>';
-     /**
-     */
+
     if(!is_array($init))
         return;
     foreach($init as $array){
@@ -243,10 +225,9 @@ function srp_gre_the_listing_schools_content(){
 	global $srp_widgets, $srp_ext_gre_content, $srp_ext_gre_tabs, $srp_property_values;
 
 	if(!in_array('schools', $srp_ext_gre_content)) return;
-	
-	if (!EDU_API_KEY) return;
-	if (!$srp_property_values['lat']) return;
-	if (!$srp_property_values['lng']) return;
+	if(!EDU_API_KEY) return;
+	if(!isset($srp_property_values['lat']) || !isset($srp_property_values['lng'])){ return; }
+
 	$address = $srp_property_values['address'] . ' ' . $srp_property_values['city'] . ', ' . $srp_property_values['state'] . ' ' . $srp_property_values['zip_code'];
 	if (!($content = srp_schoolSearch_shortcode(array("lat"=>$srp_property_values['lat'],  "lng"=>$srp_property_values['lng'], "distance"=>3, "groupby"=>"gradelevel", "output"=>"table", "location_title"=>$address)))) return;
 

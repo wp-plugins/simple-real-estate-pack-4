@@ -32,8 +32,8 @@ define("ADMIN_URL", get_bloginfo('url') . '/wp-admin');
 register_activation_hook(__FILE__, 'srp_activation');
 
 require_once 'Class_srpWidgets.php';
-include 'srp-functions.php';
 include_once ("tinymce/tinymce.php");
+include 'srp-functions.php';
 include 'srp-widgets.php';
 include 'srp-education.php';
 include 'srp-yelp.php';

@@ -264,8 +264,15 @@ add_action('wp_ajax_nopriv_srp_extend_gre_ajax', 'srp_extend_gre_ajax');
 function srp_ajax_call(){
     global $srp_property_values, $srp_widgets;
 
-    $srp_property_values = json_decode(stripslashes($_POST['srp_listing_values']), true);
-	$init = call_user_func($_POST['callback'], array());
+    $srp_property_values =  json_decode(stripslashes($_REQUEST['srp_listing_values']), true);
+    if(is_object($srp_property_values)){ //For PHP below 5.2
+        foreach($srp_property_values as $k=>$v){
+            $tmp[$k] = $v;
+        }
+        $srp_property_values = $tmp;
+    }
+
+    $init = call_user_func($_REQUEST['callback'], array());
 
         if(!is_array($init))
             return;

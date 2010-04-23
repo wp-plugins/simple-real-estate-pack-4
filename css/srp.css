@@ -19,8 +19,9 @@
 	padding: 0;
 }
 
-#srp_map_canvas img, #gre_map_canvas img{
+#srp_map_canvas img, #gre_map_canvas img, #srp_map_tab{
 	max-width: none;
+        background: transparent!important;
 }
 
 #srp_map_canvas input, #srp_map_canvas textarea, #srp_map_canvas select,
@@ -239,9 +240,10 @@ span.srp_amnt {
 }
 
 .srp_gre_legend img {
-	border: none;
-	margin: 0;
-	padding: 0;
+	border: none!important;
+	margin: 0!important;
+	padding: 0!important;
+        background: transparent!important;
 }
 
 .srp_gre_legend span {
