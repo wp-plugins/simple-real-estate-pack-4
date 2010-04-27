@@ -160,9 +160,9 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 1. Mapping - outputs schools, grocery stores, restaurants, banks, gas stations, golf courses and hospitals in the neighborhood of property listings (Can also work as extension to [Great Real Estate plugin](http://wordpress.org/extend/plugins/great-real-estate/)).
 2. Financial Tools.
 3. Trulia Market Trends.
-6. Altos Market Charts.
 4. Local Schools.
 5. Settings page for Mortgage Calculator and Closing Costs Estimator.
+6. Altos Market Charts.
 7. Local businesses via Yelp.
 8. Walk Score.
 9. Tabbed presentation of data.
