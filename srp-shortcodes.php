@@ -269,7 +269,8 @@ function srp_profile_shortcode($atts=array(), $content = NULL){
         
         global $srp_property_values;
         $srp_property_values = $args;
-	return srp_profile();
+	$output = srp_buffer('srp_profile');
+        return $output;
 }
 
 add_shortcode('mortgage', 'srp_MortgageCalc_shortcode');

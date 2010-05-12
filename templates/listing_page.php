@@ -75,6 +75,7 @@
 
         <?php
             /* Begin SRP Template Code */
+            global $srp_property_values;
             $srp_property_values = array(
                 'lat' => get_listing_latitude(),
                 'lng' => get_listing_longitude(),
