@@ -174,9 +174,9 @@ function srp_head_scripts(){
 . "\t" . 'var srp_wp_admin = "' . ADMIN_URL . '";
 /* ]]> */
 ' . "\n" . '</script>' . "\n";
-        echo '<!--[if lt IE 8]>';
+        //echo '<!--[if lt IE 8]>';
         echo '<script type="text/javascript" src="' . SRP_URL . '/js/jsmin.js"></script>'."\n";
-        echo '<![endif]-->';
+        //echo '<![endif]-->';
 	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp.js"></script>'."\n";
 }
 
