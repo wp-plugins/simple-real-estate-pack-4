@@ -367,8 +367,9 @@ class srp_MortgageRates extends WP_Widget {
 }
 
 function srp_get_zillow_mortgage_rates($return_rate = false){
-	$ZWSID = get_option('srp_getratesummary_api_key');
-	$state = get_option('srp_getratesummary_state');
+        $opt = get_option('srp_mortgage_rates');
+	$ZWSID = $opt['getratesummary_api_key'];
+	$state = $opt['getratesummary_state'];
 	
 	$url = "http://www.zillow.com/webservice/GetRateSummary.htm?zws-id=";
 	

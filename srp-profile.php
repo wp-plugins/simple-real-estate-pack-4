@@ -211,8 +211,9 @@ function srp_gre_the_listing_schools_content(){
 	global $srp_widgets, $srp_ext_gre_content, $srp_ext_gre_tabs, $srp_property_values;
 
 	if(!in_array('schools', $srp_ext_gre_content)) return;
-	if(!EDU_API_KEY) return;
-	if(!isset($srp_property_values['lat']) || !isset($srp_property_values['lng'])){ return; }
+	if(!EDU_API_KEY) return;        
+
+        if(!isset($srp_property_values['lat']) || !isset($srp_property_values['lng'])){ return; }
 
 	$address = $srp_property_values['address'] . ' ' . $srp_property_values['city'] . ', ' . $srp_property_values['state'] . ' ' . $srp_property_values['zip_code'];
 	if (!($content = srp_schoolSearch_shortcode(array("lat"=>$srp_property_values['lat'],  "lng"=>$srp_property_values['lng'], "distance"=>3, "groupby"=>"gradelevel", "output"=>"table", "location_title"=>$address)))) return;

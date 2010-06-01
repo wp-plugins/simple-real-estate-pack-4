@@ -7,7 +7,7 @@ function pa($x){
 }
 
 function srp_get_states($key = NULL){
-	$states = array (		
+	$states = array (
 		'AL' => 'Alabama',
 		'AK' => 'Alaska',
 		'AZ' => 'Arizona',
@@ -83,36 +83,36 @@ function format_phone($phone){
 
 /**
 * @param
-* 
+*
 */
-function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {    
+function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 	   if($width){ $width = "width:{$width}px;"; }
 	   if($height){ $height = "height:{$height}px;"; }
-	   
+
 	$output .= '<div id="map">
 	  <div id="map_area" style="' . $width . $height . '">
    		<div id="gre_map_canvas" style="' . $width . $height . '"></div>';
-		
+
 		if (get_option('srp_yelp_api_key') && get_option('srp_gmap_yelp')){
-			$output .= srp_yelp_select(); 
+			$output .= srp_yelp_select();
 		}
-		
-	$output .= '<input id="srp_gre_prop_coord" type="hidden" value="' . $lat .',' . $lng . '" />		
+
+	$output .= '<input id="srp_gre_prop_coord" type="hidden" value="' . $lat .',' . $lng . '" />
 	   </div>
 	   <div class="srp_gre_legend"><span><img src="http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - Main Marker</span></div>
 	</div>
 <script type="text/javascript">
-/* <![CDATA[ */		
+/* <![CDATA[ */
 	function srp_setupmap() {
 		var point = new google.maps.LatLng(' . $lat . ',' . $lng . ');
 		srp_map.setCenter(point, 13);
 		srp_setDefaultMarker(point, \'' . $html . '\');
-		';		
+		';
 		//GoogleBar is not working with GMaps API3 - might be ported later
 		//if (get_option('srp_gmap_search')) $output .= 'srp_map.enableGoogleBar();';
 		$output .= '
 	}
-	addLoadEvent(srp_initialize);	
+	addLoadEvent(srp_initialize);
 /* ]]> */
 </script>';
 	return $output;
@@ -124,7 +124,7 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 function srp_admin_scripts(){
 	echo "\n" . '<script type="text/javascript">
 //<![CDATA[
-	var srp_url = "'. SRP_URL .'"; 
+	var srp_url = "'. SRP_URL .'";
 	var srp_wp_admin = "' . ADMIN_URL . '";
 //]]>
 ' . "\n" . '</script>' . "\n";
@@ -135,7 +135,7 @@ function srp_default_headScripts(){
 	wp_enqueue_script('jquery-ui-tabs');
 	wp_enqueue_script('thickbox');
 	wp_enqueue_style('thickbox');
-	if (isset($_GET['page']) && strstr($_GET['page'], 'simple-real-estate-pack') || strstr($_GET['page'], 'srp_')){		
+	if (isset($_GET['page']) && strstr($_GET['page'], 'simple-real-estate-pack') || strstr($_GET['page'], 'srp_')){
 		wp_enqueue_script('postbox');
 		wp_enqueue_script('dashboard');
 		wp_enqueue_style('dashboard');
@@ -145,18 +145,18 @@ function srp_default_headScripts(){
 	}
         $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
 	wp_enqueue_script( 'google', $googlepath, FALSE, false, false );
-        if(function_exists('greatrealestate_init')){            
+        if(function_exists('greatrealestate_init')){
             remove_action( 'wp_enqueue_scripts', 'greatrealestate_add_javascript' );
         }
-        
+
 }
 
-function srp_head_scripts(){	
+function srp_head_scripts(){
     $myStyleUrl		= SRP_URL . '/css/srp.css';
-    $myStyleFile	= SRP_DIR . '/css/srp.css';	
+    $myStyleFile	= SRP_DIR . '/css/srp.css';
     if ( file_exists($myStyleFile) ) {
         wp_register_style('srp', $myStyleUrl);
-        wp_print_styles( 'srp');		
+        wp_print_styles( 'srp');
     }
 	$uitabsStyle	= SRP_URL . '/css/ui.tabs.css';
 	$uitabsFile		= SRP_DIR . '/css/ui.tabs.css';
@@ -181,7 +181,7 @@ function srp_head_scripts(){
 }
 
 function srp_footer_scripts(){
-	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp-MortgageCalc.js"></script>'."\n";	
+	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp-MortgageCalc.js"></script>'."\n";
 	echo '<script type="text/javascript" src="' . SRP_URL . '/lib/jquery.formatCurrency-1.0.0.js"></script>'."\n";
 }
 
@@ -204,7 +204,7 @@ function srp_function_exists(){
 		case 'function':
 			if(function_exists($name)){ die(true); }
 			die('0');
-			
+
 		case 'option':
 			if($option = get_option($name)){ die(true); }
 			die('0');
@@ -254,8 +254,8 @@ add_action('wp_ajax_nopriv_srp_geocode_ajax', 'srp_geocode_ajax');
 function srp_extend_gre_ajax(){
     global $srp_property_values, $srp_widgets;
 
-    $srp_property_values = json_decode(stripslashes($_POST['srp_listing_values']), true);    
-	_gre_extension_content();        
+    $srp_property_values = json_decode(stripslashes($_POST['srp_listing_values']), true);
+	_gre_extension_content();
 	die($srp_widgets->print_all());
 }
 add_action('wp_ajax_srp_extend_gre_ajax', 'srp_extend_gre_ajax');
@@ -264,7 +264,9 @@ add_action('wp_ajax_nopriv_srp_extend_gre_ajax', 'srp_extend_gre_ajax');
 function srp_ajax_call(){
     global $srp_property_values, $srp_widgets;
 
-    $srp_property_values =  json_decode(stripslashes($_REQUEST['srp_listing_values']), true);
+    $_tmp = smartstripslashes($_REQUEST['srp_listing_values']);
+    $srp_property_values = json_decode($_tmp, true);
+
     if(is_object($srp_property_values)){ //For PHP below 5.2
         foreach($srp_property_values as $k=>$v){
             $tmp[$k] = $v;
@@ -276,13 +278,14 @@ function srp_ajax_call(){
 
         if(!is_array($init))
             return;
+
         foreach($init as $array){
             foreach($array as $k => $v){
                 $$k = $v;
             }
             $srp_widgets->add($name, $title, $tab_name, $content, $callback_function, $init_function, $ajax, $save_to_buffer);
             break;
-        }        
+        }
 	die($srp_widgets->print_widget($name));
 }
 add_action('wp_ajax_srp_ajax_call', 'srp_ajax_call');
@@ -297,4 +300,19 @@ function srp_buffer($callback_function){
     ob_end_clean();
     return $result;
 }
+
+function smartstripslashes($str) {
+  $cd1 = substr_count($str, "\"");
+  $cd2 = substr_count($str, "\\\"");
+  $cs1 = substr_count($str, "'");
+  $cs2 = substr_count($str, "\\'");
+  $tmp = strtr($str, array("\\\"" => "", "\\'" => ""));
+  $cb1 = substr_count($tmp, "\\");
+  $cb2 = substr_count($tmp, "\\\\");
+  if ($cd1 == $cd2 && $cs1 == $cs2 && $cb1 == 2 * $cb2) {
+    return strtr($str, array("\\\"" => "\"", "\\'" => "'", "\\\\" => "\\"));
+  }
+  return $str;
+}
+
 ?>

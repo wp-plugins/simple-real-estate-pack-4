@@ -129,6 +129,7 @@ Class srpWidgets{
 
         if(!$this->widgets[$name])
                 return;
+        
         $widget = $this->widgets[$name];
             $content .= '<div id="srp_'.$widget->name.'_tab" class="clearfix">';
 
