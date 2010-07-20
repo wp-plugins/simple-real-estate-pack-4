@@ -113,11 +113,10 @@ function srp_run_apiFunction($function_name, $arguments=array()){
 		}
 		
 		if(!empty($required) && !empty($optional)){
-			$request = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);
-			$xml = simplexml_load_file($request, 'SimpleXMLElement');
-			return $xml;
-		}
-	
+                    $request = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);                    
+                    $xml = simplexml_load_file($request, 'SimpleXMLElement');
+                    return $xml;
+               }
 }
 
 function srp_groupSchoolsBy($args){
@@ -169,10 +168,10 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 		}elseif($args['location']['location_title']){
 			$location = $args['location']['location_title'];
 			$in = ' near ';
-			$td_distance_header = '<th scope="col" class=\"school_field_center\">Distance (mi)</th>';
+			$td_distance_header = '<th scope="col" class="school_field_center">Distance (mi)</th>';
 		}elseif(!$args['location']['latitude'] && !$args['location']['longitude']){
 			$in = ' near ';
-			$td_distance_header = '<th scope="col" class=\"school_field_center\">Distance (mi)</th>';
+			$td_distance_header = '<th scope="col" class="school_field_center">Distance (mi)</th>';
 		}		
 		$$args['output'] .= "<h3>$name Schools $in $location</h3>";
 		if($distance = $args['location']['distance']){			
@@ -184,10 +183,10 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 		$table .= '<table class="srp_table tableStyle SchoolsByType">
 					  <tr>
 						<th scope="col" style="width: 40%">School</th>
-						<th scope="col" class=\"school_field_center\" style="width: 20%">Type</th>
-						<th scope="col" class=\"school_field_center\" style="width: 20%">Grade Level</th>
-						<th scope="col" class=\"school_field_center\" style="width: 20%">Enrollment</th>
-						<th scope="col" class=\"school_field_center\" style="width: 20%">Students per Teacher</th>'
+						<th scope="col" class="school_field_center" style="width: 20%">Type</th>
+						<th scope="col" class="school_field_center" style="width: 20%">Grade Level</th>
+						<th scope="col" class="school_field_center" style="width: 20%">Enrollment</th>
+						<th scope="col" class="school_field_center" style="width: 20%">Students per Teacher</th>'
 						.$td_distance_header.
 					'</tr>'."\n";
 		$x = 0;
@@ -197,11 +196,15 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 			$list .= "\t\t<li>" . $school->schoolname . ' <br /> Phone: ' . $school->phonenumber . '<br />' . $school->address . ', ' . $school->city . ', ' . $school->state . $school->zip . "</li>\n";
 			
 			if($td_distance_header){
-				$td_distance = '<td class=\"school_field_center\">'.round((float)$school->distance, 2).'</td>';
+				$td_distance = '<td class="school_field_center">'.round((float)$school->distance, 2).'</td>';
 			}
 			
+                        $website = null;
+                        if($school->website != ""){
+                            $website = ' <a href="http://' . $school->website . '" target="_blank">' . $school->website . '</a>';
+                        }
 			$table .= "<tr class=\"$even_odd\">
-						<td class=\"school_address\"><span class=\"school_name\">$school->schoolname</span><br />Phone: $school->phonenumber<br />$school->address, $school->city, $school->state $school->zip</td>
+						<td class=\"school_address\"><a href=\"$school->url\" rel=\"nofollow\" target=\"_blank\"><span class=\"school_name\">$school->schoolname</span></a><br />Phone: $school->phonenumber<br />$school->address, $school->city, $school->state $school->zip". $website ."</td>
 						<td class=\"school_field_center\">$school->schooltype</td>
 						<td class=\"school_field_center\">$school->gradesserved</td>
 						<td class=\"school_field_center\">$school->enrollment</td>

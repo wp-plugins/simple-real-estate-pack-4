@@ -110,18 +110,11 @@ function srp_general_options_page(){
 								$description = $options['description'];
 								unset($optional['return']);
                                                                 unset($closingtag);
-                                                                /*
-                                                                 * ToDo Max: Avoid conditional titles - incorporate them into the array of parameters for each shrotcode.
-                                                                 * See file srp-shortcodes.php
-                                                                 */
-								if($name == 'schoolsearch') { $title = 'Schools'; }
-								elseif($name == 'yelp') { $title = 'Yelp'; }
-								elseif($name == 'srpmap') { $title = 'Google Map'; $closingtag = ' Location description. [/'.$name.']';}
-								elseif($name == 'walkscore') { $title = 'Walkscore'; }
-                                                                elseif($name == 'srp_profile') {$title = 'Neighborhood Profile';}
-								else{ $title = $optional['title']; }
+                                                                $title = $optional['title'];
+                                                                if($name == 'srpmap') { $closingtag = ' Location description. [/'.$name.']';}
+                                                                
 								echo '<h4>' . $title . ':</h4>';
-								echo '<u>Usage</u>: ['.$name.' <em>{attributes}</em>]'. $closingtag .'<br/><br/>';
+								echo '<u>Usage</u>: ['.$name.' <em>attributes</em>]'. $closingtag .'<br/><br/>';
 								echo '<u>Attributes</u>:';
 								if(!empty($required))
 									echo '<p>&nbsp;&nbsp;&nbsp;&nbsp;<em>required</em>: <code>' . implode('=" " ', array_keys($required)) . '=" " </code></p>';

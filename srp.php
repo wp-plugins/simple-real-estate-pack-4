@@ -3,7 +3,7 @@
 Plugin Name: Simple Real Estate Pack
 Plugin URI: http://www.phoenixhomes.com/tech/simple-real-estate-pack
 Description: Package of real estate tools and widgets designed specifically for real estate industry blogs and sites. Includes mortgage and home affordability calculators, closing cost estimator, lilve mortgage rates, Trulia statistical graphs, local schools and other features.
-Version: 1.0.3
+Version: 1.1.0
 Author: Max Chirkov
 Author URI: http://www.PhoenixHomes.com
 */
@@ -29,9 +29,9 @@ Author URI: http://www.PhoenixHomes.com
  * ToDo Max: Instructions on API, and how to include GRE template, finish GRE template + CSS for it, videos on implementation of all of the above.
  */
 
-define("PLUGIN_BASENAME", plugin_basename(dirname(__FILE__)));
-define("SRP_DIR", WP_PLUGIN_DIR . '/' . PLUGIN_BASENAME);
-define("SRP_URL", WP_PLUGIN_URL . '/' . PLUGIN_BASENAME);
+define("SRP_BASENAME", plugin_basename(dirname(__FILE__)));
+define("SRP_DIR", WP_PLUGIN_DIR . '/' . SRP_BASENAME);
+define("SRP_URL", WP_PLUGIN_URL . '/' . SRP_BASENAME);
 define("ADMIN_URL", get_bloginfo('url') . '/wp-admin');
 
 register_activation_hook(__FILE__, 'srp_activation');

@@ -40,7 +40,8 @@ $states .= "</select>\n";
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
-	
+	<script language="javascript" type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <script language="javascript" type="text/javascript" src="<?php echo SRP_URL ?>/js/srp-gre-admin.js"></script>
 	<script language="javascript" type="text/javascript">
 	function init() {
 		tinyMCEPopup.resizeToInnerSize();
@@ -176,5 +177,4 @@ $states .= "</select>\n";
 	</div>
 </form>
 </body>
-<script language="javascript" type="text/javascript" src="<?php echo SRP_URL ?>/js/srp-gre-admin.js"></script>
 </html>

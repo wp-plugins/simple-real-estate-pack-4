@@ -71,7 +71,8 @@ $shortcode_atts = array(
 	'schoolsearch'		=> array(
 		'required'	=> array(),
 		'optional'	=> array(
-			"location_title"		=> false,
+			"title"                                 => "Schools",
+                        "location_title"		=> false,
 			"city"					=> false,
 			"state"					=> false,
 			"zip"					=> false,
@@ -91,7 +92,8 @@ Attribute <em>output</em> can have the following values: table(default), list.</
 			"lng"		 			=> false,			
 		),
 		'optional'	=> array(		
-			"radius"				=> 3,
+			"title"                                 => "Yelp/Nearby Businesses",
+                        "radius"				=> 3,
 			"output"				=> "table",
 			"sortby"				=> 'distance',
 			"term"					=> NULL,
@@ -108,7 +110,8 @@ Attribute <em>term</em> can have the following values: ' . implode(', ', array_k
 			"lng"					=> NULL,
 		),
 		'optional'	=> array(
-			"width"					=> NULL,
+			"title"                                 => "Google Map",
+                        "width"					=> NULL,
 			"height"				=> NULL,
                         "address"                               => NULL,
                         "city"                                  => NULL,
@@ -124,6 +127,7 @@ Attribute <em>term</em> can have the following values: ' . implode(', ', array_k
 			"ws_address"				=> NULL,
 		),
 		'optional'	=> array(
+                        "title"                                 => "Walkscore",
 			"ws_width"				=> 500,
 			"ws_height"				=> 286,
 			"ws_layout"				=> 'horizontal',
@@ -132,18 +136,19 @@ Attribute <em>term</em> can have the following values: ' . implode(', ', array_k
 
         'srp_profile'		=> array(
 		'required'	=> array(
-			'lat' => null,
-                        'lng' => null,
-                        'address' => null,
-                        'city' => null,
-                        'state' => null,
-                        'zip_code' => null,
+			'lat'       => null,
+                        'lng'       => null,
+                        'address'   => null,
+                        'city'      => null,
+                        'state'     => null,
+                        'zip_code'  => null,
 		),
 		'optional'	=> array(
+                        'title'         => 'Neighborhood Profile',
                         'listing_price' => null,
-                        'bedrooms'  => null,
-                        'bathrooms' => null,
-                        'html' => null,
+                        'bedrooms'      => null,
+                        'bathrooms'     => null,
+                        'html'          => null,
                 ),
 	),
 );
@@ -202,9 +207,10 @@ function srp_RentMeter_shortcode($atts=array()){
 /*
 ** @groupby = zip, gradelevel, schooltype, schooldistrictname
 */
-function srp_schoolSearch_shortcode($atts=array(), $ajax = false){	
-	$args = shortcode_atts(srp_merge_atts('schoolsearch'), $atts);
-	
+function srp_schoolSearch_shortcode($atts=array(), $ajax = false){
+    unset($atts['title']);
+        $args = shortcode_atts(srp_merge_atts('schoolsearch'), $atts);
+
 	$location = array('city', 'state', 'zip', 'distance', 'lat' => 'latitude', 'lng' => 'longitude', 'location_title');
 
 	if($args){
@@ -230,11 +236,13 @@ function srp_schoolSearch_shortcode($atts=array(), $ajax = false){
 }
 
 function srp_Yelp_shortcode($atts=array()){
+    unset($atts['title']);
 	$args = shortcode_atts(srp_merge_atts('yelp'), $atts);
 	return srp_getYelp($args['lat'], $args['lng'], $args['radius'], $args['output'], $args['sortby'], $args['term'], $args['num_biz_requested'], $args['ajax']);
 }
 
 function srp_map_shortcode($atts=array(), $content = NULL){
+    unset($atts['title']);
         global $srp_property_values;
 	$args = shortcode_atts(srp_merge_atts('srpmap'), $atts);	
 	//removing <br /> at the beginning of the code which is automatically inserted by WP tinymce
@@ -253,17 +261,19 @@ function srp_map_shortcode($atts=array(), $content = NULL){
 }
 
 function srp_walkscore_shortcode($atts=array()){
+    unset($atts['title']);
 	$args = shortcode_atts(srp_merge_atts('walkscore'), $atts);
 	return srp_walkscore($args['ws_wsid'], $args['ws_address'], $args['ws_width'], $args['ws_height'], $args['ws_layout']);
 }
 
 function srp_profile_shortcode($atts=array(), $content = NULL){
+    unset($atts['title']);  
 	$args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);
         $br = substr($content, 0, 6);
 	if(strstr($br, "<br />")){
 		$content = substr($content, 6);
 	}
-	$content = ereg_replace("\n", "", '<div class="infoWindow" style="max-width:300px; line-height: normal; font-size: 100%;">' . $content .'</div>');
+	$content = ereg_replace("\n", "", '<div class="infoWindow" style="max-width:300px; line-height: normal;">' . $content .'</div>');
         if($content)
             $args['html'] = $content;
         

@@ -155,7 +155,7 @@ function srp_MortgageCalc_calculate(num){
 		//alert("Monthly Payments: " + monthly_payments);
 		var query = "?form_complete=1&sale_price="+ price_of_home + "&down_percent=" + down_payment + "&year_term=" + mortgage_term + "&annual_interest_percent=" + interest_rate + "&show_progress=1";
 		var thickbox = "&height=500&width=650";
-		var ammortization = "<a href=\"" + srp_url + "/srp-AmmortResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Mortgage Amortization Schedule\">Ammortization Schedule</a>";
+		var ammortization = "<a href=\"" + srp_url + "/srp-AmmortResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Mortgage Amortization Schedule\">Amortization Schedule</a>";
 
 		
 		var additional_info	=	additional_charges_text +

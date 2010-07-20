@@ -201,7 +201,7 @@ class srp_ClosingCosts extends WP_Widget {
 		extract($args);
 		$title = apply_filters('srp_ClosingCosts', empty($instance['title']) ? '' : $instance['title']);
 		$text = apply_filters( 'srp_ClosingCosts', $instance['text'] );
-		echo $before_widget;
+		
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
 		if($instance['width']){ $width = 'style="width:'.$instance['width'].'px"'; }
 

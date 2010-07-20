@@ -88,18 +88,22 @@ function format_phone($phone){
 function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 	   if($width){ $width = "width:{$width}px;"; }
 	   if($height){ $height = "height:{$height}px;"; }
-
+        $srp_gmap_options = get_option('srp_gmap');
 	$output .= '<div id="map">
 	  <div id="map_area" style="' . $width . $height . '">
    		<div id="gre_map_canvas" style="' . $width . $height . '"></div>';
 
-		if (get_option('srp_yelp_api_key') && get_option('srp_gmap_yelp')){
+		if (get_option('srp_yelp_api_key') && $srp_gmap_options['yelp']){
 			$output .= srp_yelp_select();
 		}
 
 	$output .= '<input id="srp_gre_prop_coord" type="hidden" value="' . $lat .',' . $lng . '" />
 	   </div>
-	   <div class="srp_gre_legend"><span><img src="http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - Main Marker</span></div>
+	   <div class="srp_gre_legend">';
+        if($srp_gmap_options['mainmarker']){
+            $output .= '<span><img src="http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - ' . $srp_gmap_options['mainmarker_label'] . '</span>';
+        }
+        $output .= '</div>
 	</div>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -226,6 +230,9 @@ function _add_to_yelpselect() {
     do_action('_add_to_yelpselect');
 }
 
+/*
+ * ToDo Max: Cleanup. Geocode AJAX functions are no longer necessary if using GMaps API v3
+ */
 //Geocoding
 function srp_geocode_request($address){
 	if($srp_gmap_key = get_option('srp_gmap_api_key')){
@@ -240,7 +247,6 @@ function srp_geocode_request($address){
 		unset($coord[2]);
 		return $coord;
 }
-
 function srp_geocode_ajax(){
 	$address = $_POST['address'];
 	if($result = srp_geocode_request($address)){

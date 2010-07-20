@@ -3,8 +3,8 @@ Contributors: Max Chirkov
 Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes, neighborhood, schools, yelp, zillow, map, trulia, altos, charts, statistics, real estate market
 Requires at least: 2.8
-Tested up to: 2.9.2
-Stable tag: 1.0.3
+Tested up to: 3.0
+Stable tag: 1.1.0
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 

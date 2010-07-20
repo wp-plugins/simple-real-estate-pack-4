@@ -43,11 +43,12 @@ function states_select($name, $id_=null, $class_=null){
 	var srp_wp_admin = "<?php echo ADMIN_URL?>";
 	//]]>
 	</script>
-	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/jquery/jquery.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo SRP_URL ?>/js/srp-gre-admin.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/jquery/jquery.js"></script>        
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
+        <script language="javascript" type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo SRP_URL ?>/js/srp-gre-admin.js"></script>
 	<script language="javascript" type="text/javascript">
 	function init() {
 		tinyMCEPopup.resizeToInnerSize();
@@ -181,7 +182,7 @@ jQuery(document).ready( function() {
 		if(jQuery('select#location_type').val() == 'bycity' && jQuery('#bycity input.city').val().length > 0 && jQuery('#bycity select.state').val().length > 0 ){			
 			var result = '';
 			for(var i in param){				
-				var value = jQuery('#simpleAPIs_panel .'+param[i]).val();
+				var value = jQuery('#simpleAPIs_panel .bycity .'+param[i]).val();
 				if(typeof(value) !== 'undefined' && value.length > 0){
 					result += ' ' + param[i] + '="' + value + '"';
 				}
@@ -193,7 +194,7 @@ jQuery(document).ready( function() {
 		if(jQuery('select#location_type').val() == 'byzip' && jQuery('#byzip input.zip').val().length > 0){			
 			var result = '';
 			for(var i in param){				
-				var value = jQuery('#simpleAPIs_panel .'+param[i]).val();
+				var value = jQuery('#simpleAPIs_panel .byzip .'+param[i]).val();
 				if(typeof(value) !== 'undefined' && value.length > 0){
 					result += ' ' + param[i] + '="' + value + '"';
 				}
@@ -206,8 +207,8 @@ jQuery(document).ready( function() {
 			var param = ['location_title', 'city', 'state', 'zip', 'lat', 'lng', 'distance', 'groupby', 'output'];
 			var result = '';
 			for(var i in param){				
-				var value = jQuery('#simpleAPIs_panel .'+param[i]).val();
-				if(typeof(value) !== 'undefined' && value.length > 0){
+				var value = jQuery('#simpleAPIs_panel .bycoord .'+param[i]).val();                                
+				if(typeof(value) !== 'undefined' && value.length > 0){                                    
 					result += ' ' + param[i] + '="' + value + '"';
 				}
 			}
@@ -291,7 +292,7 @@ jQuery(document).ready( function() {
 					<option value="bycoord">Latitude/Longitude</option>
 				</select>
 		</div>
-		<table id="bycity" width="320" border="0" cellpadding="4" cellspacing="0">
+		<table id="bycity" class="bycity" width="320" border="0" cellpadding="4" cellspacing="0">
           <tr>
             <td colspan="2"><div align="center"><strong> Schools by City </strong></div></td>
           </tr>
@@ -304,7 +305,7 @@ jQuery(document).ready( function() {
             <td><?php print states_select('bycity_state', NULL, 'state'); ?><span>*</span></td>
           </tr>
         </table>
-		<table id="byzip" width="320" border="0" cellpadding="4" cellspacing="0">
+		<table id="byzip" class="byzip" width="320" border="0" cellpadding="4" cellspacing="0">
           <tr>
             <td colspan="2"><div align="center"><strong> Schools by Zip Code </strong></div></td>
           </tr>
@@ -323,7 +324,7 @@ jQuery(document).ready( function() {
             <td><input type="text" name="textfield322" class="zip"><span>*</span></td>
           </tr>
         </table>
-		<table id="bycoord" width="320" border="0" cellpadding="4" cellspacing="0">
+		<table id="bycoord" class="bycoord" width="320" border="0" cellpadding="4" cellspacing="0">
           <tr>
             <td colspan="2"><div align="center"><strong> Schools by Lat/Lng </strong></div></td>
           </tr>
@@ -338,7 +339,7 @@ jQuery(document).ready( function() {
             <td><input type="text" name="textfield32" class="lng"><span>*</span></td>
           </tr>
         </table>		
-		<div class="optional_params">
+		<div class="optional_params byzip bycity bycoord">
 			<div class="section_title">Optional Parameters</div>
 				<table width="320" border="0" cellpadding="4" cellspacing="0">		 
 					<td width="130">Location Name  </td>
@@ -420,22 +421,22 @@ jQuery(document).ready( function() {
 	
 	<div id="get_coordinates" class="collapsible">
 		<div class="section_title">Get Coordinates</div>
-				 <table id="coord_form" cellpadding="4" cellspacing="0" style="width:100%;">
+				 <table id="coord_form" class="bycoord" cellpadding="4" cellspacing="0" style="width:100%;">
 					<tr>
 					  <td><?php _e("Street Address:", 'simpleGMap_address'); ?></td>
 					  <td><input type="text" name="simpleGMap_address" id="listings_address" size="30" /></td>
 		  </tr>
 					<tr>
 					  <td><label for="simpleGMap_city"><?php _e("City:", 'simpleGMap_city'); ?></label></td>
-					  <td><input type="text" name="simpleGMap_city" id="listings_city" size="30" /></td>
+					  <td><input type="text" name="simpleGMap_city" id="listings_city" class="city" size="30" /></td>
 					</tr>
 					<tr>
 					  <td><label for="simpleGMap_state"><?php _e("State:", 'simpleGMap_state'); ?></label></td>
-					  <td><?php print states_select('simpleGMap_state', 'listings_state'); ?></td>
+					  <td><?php print states_select('simpleGMap_state', 'listings_state', 'state'); ?></td>
 					</tr>
 					<tr>
 					  <td><label for="simpleGMap_zipcode"><?php _e("Zipcode:", 'simpleGMap_zip'); ?></label></td>
-					  <td><input type="text" name="simpleGMap_zipcode" id="listings_postcode" size="30" /></td>
+					  <td><input type="text" name="simpleGMap_zipcode" id="listings_postcode" class="zip" size="30" /></td>
 					</tr>
 					<tr>
 					  <td>&nbsp;</td>
