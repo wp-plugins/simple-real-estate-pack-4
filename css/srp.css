@@ -229,7 +229,11 @@ span.srp_amnt {
 }
 
 .srp_table .yelp_rating {
-	padding: 4px 8px 0px 8px;
+    text-align: center;
+}
+.srp_table .yelp_rating img {
+	padding: 0;
+        margin: 0;
 	border: none;
 }
 

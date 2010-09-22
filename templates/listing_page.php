@@ -4,7 +4,11 @@
     <div class="clearfix">
     <div class="listing-slideshow span-10">
             <div class="box">
-            <?php echo nggShowSlideshow(get_listing_galleryid(), $width='356', $height='267') ?>
+            <?php 
+            if(function_exists('nggShowSlideshow')){
+                echo nggShowSlideshow(get_listing_galleryid(), $width='356', $height='267');
+            }
+            ?>
             </div>
     </div>
     <div class="page-propdata-box span-5 last">
@@ -115,6 +119,7 @@
             ?>
 
             <?php
+            //TODO: Give users an option to embed their own form.
             if(function_exists('insert_form')){
                 print '<a name="more_info"></a><h2><span>Request More Information</span></h2>';
                 insert_cform('Request More Information');

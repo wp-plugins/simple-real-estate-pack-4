@@ -17,6 +17,16 @@ function srp_general_options_page(){
 				'notes'	=> 'Neighborhood data will be loaded via AJAX - much faster than static output.',
 				'value'	=> 1,
 			),
+
+                    /*
+                     * ToDo Max: Canadian Version - Education.com doesn't support Canada.
+                     * All numbers should be switched to CAN $.
+                        'srp_canadian'=> array(
+				'name'	=> 'Canadian Version',
+				'notes'	=> 'This version will include Canadian Provinces instead of the States.',
+				'value'	=> false,
+			),                     
+                    */
 		),
 	);
 		

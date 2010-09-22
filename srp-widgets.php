@@ -379,7 +379,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 		$request_url = $url.$ZWSID;
 	}
 	
-	$xml = simplexml_load_file($request_url, 'SimpleXMLElement');
+	$xml = srp_wp_http_xml($request_url);
 	
 	if($xml->message->code != 0){
 		exit($xml->message->text);
@@ -389,7 +389,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 			'15 Year Fixed',
 			'5/1 ARM',
 		);
-		$srp_display_rates = get_option('srp_display_rates');
+		$srp_display_rates = $opt['display_rates'];
 		$width = 'width="100%"';
 		
 		$output .= '
@@ -405,20 +405,20 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 		}
 		  
 		foreach($loan_types as $k => $v){
-			if($srp_display_rates == 0){
+			
 				if($xml->response->today->rate[$k] > $xml->response->lastWeek->rate[$k]){
 					$change = ' class="srp_rte_up"';
 				}else{
 					$change = ' class="srp_rte_down"';
-				}
-			}
+				}			
 
 			$output .='
 			<tr>
 				<td>' . $v . '</td>
 				<td class="srp_mrtg_rte"><span'. $change .'>' . number_format($xml->response->today->rate[$k], 2) . '%</span></td>';
-				if($srp_display_rates == 1){
-					$output .= '<td class="srp_mrtg_rte"><span'. $change .'>' . number_format($xml->response->lastWeek->rate[$k], 2) . '%</span></td>';
+				//Do not show change (up/down) for the last week rates, since we have nothng to compare to.
+                                if($srp_display_rates == 1){
+					$output .= '<td class="srp_mrtg_rte"><span>' . number_format($xml->response->lastWeek->rate[$k], 2) . '%</span></td>';
 				}
 			$output .= '</tr>';
 		}
@@ -433,7 +433,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 		</div>';
 		
 		//add disclaimer to the footer
-		add_filter('wp_footer', 'srp_zillow_disclaimer');
+		add_action('srp_footer_disclamers', 'srp_zillow_disclaimer');
 		
 		if($return_rate){
 			return $xml->response->today->rate[0];
@@ -443,7 +443,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 }
 
 function srp_zillow_disclaimer(){
-	$content = '<div class="spr_disclaimer">&copy; Zillow, Inc., 2008. Use is subject to <a href="http://www.zillow.com/corp/Terms.htm">Terms of Use</a></div>';
+	$content = '<div class="spr_disclaimer srp_zillow_disclamer">&copy; Zillow, Inc., 2008. Use is subject to <a href="http://www.zillow.com/corp/Terms.htm">Terms of Use</a></div>';
 	echo $content;
 }
 
@@ -498,7 +498,7 @@ class srp_RentMeter extends WP_Widget {
 			 . '<div class="srp_attrib"><a href="http://www.rentometer.com"><img src="' . SRP_URL . '/branding/rentometer_logo_api-med.gif" width="145" height="50" /></a></div>'
 			 . $after_widget;
 			 //add disclaimer to the footer
-			 add_filter('wp_footer', 'srp_rentometer_disclaimer');			 			 
+			 add_action('srp_footer_disclamers', 'srp_rentometer_disclaimer');
 			 $_SESSION['srp_rentometer_api_key'] = get_option('srp_rentometer_api_key');
 			 if(!$_SESSION['srp_rentometer_api_key']){ return; }
 		if($instance['return'] == true){
@@ -525,7 +525,7 @@ class srp_RentMeter extends WP_Widget {
 }
 
 function srp_rentometer_disclaimer(){
-	$content = '<div class="spr_disclaimer">&copy; Rentometer, 2007. Use is subject to <a href="http://www.rentometer.com/terms">Terms of Use</a></div>';
+	$content = '<div class="spr_disclaimer srp_rentometer_disclamer">&copy; Rentometer, 2007. Use is subject to <a href="http://www.rentometer.com/terms">Terms of Use</a></div>';
 	echo $content;
 }
 

@@ -1,5 +1,5 @@
 <?php
-define('EDU_API_URL', 'http://www.education.com/service/service.php');
+define('EDU_API_URL', 'http://api.education.com/service/service.php');
 define('EDU_API_KEY', '65f5fef47d17f7562c88128cae993b11');
 define('RESF', 'xml');
 
@@ -73,6 +73,17 @@ function srp_get_apiFunction($function_name){
 			'optional'	=> array(),
 			'return'	=> array(),
 		),
+
+                'gbd' => array(
+			'required'	=> array(
+				'sn'	=> 'sf',
+				'f'	=> 'gbd',
+				'key'	=> EDU_API_KEY,
+				'resf'	=> RESF,                                
+			),
+			'optional'	=> array( 'city', 'state'),
+			'return'	=> array(),
+		),
 		
 		
 	);
@@ -113,8 +124,8 @@ function srp_run_apiFunction($function_name, $arguments=array()){
 		}
 		
 		if(!empty($required) && !empty($optional)){
-                    $request = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);                    
-                    $xml = simplexml_load_file($request, 'SimpleXMLElement');
+                    $url = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);                    
+                    $xml = srp_wp_http_xml($url);                    
                     return $xml;
                }
 }
@@ -193,6 +204,10 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 		foreach($type as $item){
 			if($x%2){ $even_odd = "even"; } else { $even_odd = "odd"; }
 			$school = $item->school;
+                        if(!isset($city) && !isset($state) && $school->city){
+                            $city = $school->city;
+                            $state = $school->state;
+                        }
 			$list .= "\t\t<li>" . $school->schoolname . ' <br /> Phone: ' . $school->phonenumber . '<br />' . $school->address . ', ' . $school->city . ', ' . $school->state . $school->zip . "</li>\n";
 			
 			if($td_distance_header){
@@ -247,8 +262,8 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 		$tabs .= '<div style="clear:both;"></div>' . "\n";				
 		
 		//add disclaimer to the footer
-		add_action('wp_footer', 'srp_Education_disclaimer');
-		$output = '<div class="srp-tabs">' . srp_Education_attribution() . "\n" . $tabs . $$args['output'] . '</div>' . "\n";
+		add_action('srp_footer_disclamers', 'srp_Education_disclaimer');
+		$output = '<div class="srp-tabs">' . srp_Education_attribution($school->city, $school->state) . "\n" . $tabs . $$args['output'] . '</div>' . "\n";
 		if($ajax){
 			$content = $output;
 			return serialize(array('markers' => $coordinates));//, 'content' => $content));
@@ -261,13 +276,19 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 //Seann Birkelund @ sbirkelund@education.com
 //allowed to nofollow disclamer links, but not the attribution links within the content from the Education.com
 function srp_Education_disclaimer(){
-	$content = '<div class="spr_disclaimer">&copy; <a href="http://www.education.com/" rel="nofollow">Education.com, Inc.</a> 2008.&nbsp; Use is subject to <a href="http://www.education.com/schoolfinder/tools/webservice/terms/" rel="nofollow">Terms of Service</a></div>';
+	$content = '<div class="spr_disclaimer srp_education_disclamer">&copy; <a href="http://www.education.com/" rel="nofollow">Education.com, Inc.</a> 2008.&nbsp; Use is subject to <a href="http://www.education.com/schoolfinder/tools/webservice/terms/" rel="nofollow">Terms of Service</a></div>';
 	echo $content;
 }
 
-function srp_Education_attribution(){
-	$content = '<div id="srp_Education_attr">Data provided by <a href="http://www.education.com"><img src="'. SRP_URL .'/branding/edu-logo-75x31.jpg" width="75" height="31" alt="Education.com Logo"></a><br />
-<a href="http://www.education.com/schoolfinder/">See more school information from Education.com</a></div>';
+function srp_Education_attribution($city=false, $state=false){    
+    if($city && $state){
+        $xml = srp_run_apiFunction('gbd', array('city' => $city, 'state' => $state));        
+        $link = '<a href="' . $xml->lsc . '">See more information on ' . $city . ' schools from Education.com </a>';
+    }else{
+        $link = '<a href="http://www.education.com/schoolfinder/">See more school information from Education.com</a>';
+    }
+	$content = '<div id="srp_Education_attr">Data provided by <a href="http://www.education.com/schoolfinder/"><img src="'. SRP_URL .'/branding/edu-logo-75x31.jpg" width="75" height="31" alt="Education.com Logo"></a><br />
+'. $link .'</div>';
 	return $content;
 }
 

@@ -14,36 +14,36 @@ define('YELP_API_KEY', srp_yelp_get_api_key());
 define('YELP_OUTPUT', 'json');
 
 $yelp_categories = array(	
-	'grocery'		=> array(
-							'name'		=> 'Grocery Stores',
-							'category'	=> 'grocery',
-							'term'		=> 'grocery',
-						),
-	'restaurants'	=> array(
-							'name'		=> 'Restaurants',
-							'category'	=> 'restaurants',
-							'term'		=> 'restaurants',
-						),
-	'banks'			=> array(
-							'name'		=> 'Banks',
-							'category'	=> 'banks',
-							'term'		=> 'banks',
-						),
-	'gas_stations'	=> array(
-							'name'		=> 'Gas Stations',
-							'category'	=> 'servicestations',
-							'term'		=> 'gas_stations',
-						),
-	'golf'			=> array(
-							'name'		=> 'Golf Courses',
-							'category'	=> 'golf',
-							'term'		=> 'golf',
-						),
-	'hospitals'		=> array(
-							'name'		=> 'Hospitals',
-							'category'	=> 'hospitals',
-							'term'		=> 'hospitals',
-						)
+	'grocery'       => array(
+                                'name'		=> 'Grocery Stores',
+                                'category'	=> 'grocery',
+                                'term'		=> 'grocery',
+                        ),
+	'restaurants'   => array(
+                                'name'		=> 'Restaurants',
+                                'category'	=> 'restaurants',
+                                'term'		=> 'restaurants',
+                        ),
+	'banks'		=> array(
+                                'name'		=> 'Banks',
+                                'category'	=> 'banks',
+                                'term'		=> 'banks',
+                        ),
+        'gas_stations'  => array(
+                                'name'		=> 'Gas Stations',
+                                'category'	=> 'servicestations',
+                                'term'		=> 'gas_stations',
+                        ),
+	'golf'		=> array(
+                                'name'		=> 'Golf Courses',
+                                'category'	=> 'golf',
+                                'term'		=> 'golf',
+                        ),
+	'hospitals'	=> array(
+                                'name'		=> 'Hospitals',
+                                'category'	=> 'hospitals',
+                                'term'		=> 'hospitals',
+                        )
 );
 
 function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance', $term = null, $num_biz_requested = null, $ajax = null){
@@ -128,13 +128,13 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
  */
 $coordinates[$cat['term']][$biz['id']]['html'] = '
 <div class="srp_infoWindow clearfix" style="width: 315px; font-size: 12px;line-height: normal;">
-<img src="'.$biz['rating_img_url'].'" width="84" height="17" class="yelp_rating" style="float:left" />
+<img src="'.$biz['rating_img_url'].'" width="84" height="17" class="yelp_rating" style="float:left" /><a href="'.$biz['url'].'" target="_blank" title="Read Reviews">'. $biz['review_count'] .' Reviews</a>
 <img src="' . $biz['photo_url'].'" width="100" height="100" class="yelp_photo" style="float:right" />
 <div class="yelp_text" style="width: 200px">
 <span class="school_name">
 <a href="'.$biz['url'].'" target="_blank">'.$biz['name'].'</a>
 </span><br />
-Phone: '. format_phone($biz['phone'])
+Phone: '. srp_format_phone($biz['phone'])
 .'<br />' . $biz['address1'].', '. $biz['city'].', '.$biz['state_code'].' '. $biz['zip']
 .'</div>
 </div>
@@ -146,11 +146,12 @@ Phone: '. format_phone($biz['phone'])
 				
 				$table .= '<tr class="' . $even_odd . '">
 						<td style="vertical-align: middle;"><img src="' . $biz['photo_url_small'].'" class="yelp_photo" width="40" height="40" align="left"/></td>
-                                                <td style="vertical-align: middle;"><div class="yelp_text"><span class="school_name"><a href="'.$biz['url'].'" target="_blank">'.$biz['name'].'</a></span><br />Phone: '. format_phone($biz['phone']) .'<br />' . $biz['address1'].', '. $biz['city'].', '.$biz['state_code'].' '. $biz['zip'] .'</div></td>
+                                                <td style="vertical-align: middle;"><div class="yelp_text"><span class="school_name"><a href="'.$biz['url'].'" target="_blank">'.$biz['name'].'</a></span><br />Phone: '. srp_format_phone($biz['phone']) .'<br />' . $biz['address1'].', '. $biz['city'].', '.$biz['state_code'].' '. $biz['zip'] .'</div></td>
 						<td style="vertical-align: middle;">
 							<div class="yelp_distance">' . round($biz['distance'], 2) . ' miles</div>
 						</td>
-						<td style="vertical-align: middle;"><img src="'.$biz['rating_img_url_small'].'" width="50" height="10" align="right" class="yelp_rating"/>
+						<td style="vertical-align: middle;" class="yelp_rating">
+                                                    <img src="'.$biz['rating_img_url_small'].'" /><br /><a href="'.$biz['url'].'" target="_blank" title="Read Reviews">'. $biz['review_count'] .' Reviews</a>
 						</td>
 					  </tr>';
 			}

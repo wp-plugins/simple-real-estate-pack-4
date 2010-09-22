@@ -57,6 +57,8 @@ $srp_ext_gre_content = array_keys($srp_ext_gre_options['content']);
 $srp_ext_gre_tabs = $srp_ext_gre_options['tabs'];
 $srp_general_options = get_option('srp_general_options');
 
+
+/* TODO: Cleanup - this function is no longer needed
 function srp_gre_admin_scripts(){
 	if($g_api = get_option('greatrealestate_googleAPIkey')){		
 		echo "\n" . '<script type="text/javascript">
@@ -68,6 +70,7 @@ function srp_gre_admin_scripts(){
 	}
 }
 add_action('admin_footer', 'srp_gre_admin_scripts');
+*/
 
 function srp_gre_content_init($init){
     global $srp_widgets;
@@ -311,19 +314,19 @@ function srp_gre_the_mortgage_content(){
 	
         if(in_array('mortgage_calc', $srp_ext_gre_content)){
             $content = '
-		<div style="float: left; width: 50%;">'
+		<div style="float: left; width: 48%; padding: 0 1%;">'
 			. srp_MortgageCalc_shortcode(array('price_of_home'=> $srp_property_values['listing_price']))
 		. '</div>';
         }
 	
-        $content .= '<div style="float:left; width: 50%;">';
+        $content .= '<div style="float:left; width: 48%; padding: 0 1%;">';
 			
 	if(in_array('closing_estimator', $srp_ext_gre_content)){
             $content .= srp_ClosingCosts_shortcode(array('loan_amount'=>$srp_property_values['listing_price']));
         }
 
         $content .= '</div>
-		<div style="float:left; width: 50%;">';
+		<div style="float:left; width: 48%; padding: 0 1%;">';
 
         if(in_array('affordability_calc', $srp_ext_gre_content)){
             $content .= srp_AffordabilityCalc_shortcode();
@@ -331,7 +334,7 @@ function srp_gre_the_mortgage_content(){
 
         $content .= '
 		</div>
-		<div style="float:left; width: 50%;">';
+		<div style="float:left; width: 48%; padding: 0 1%;">';
 
         if(in_array('rental_meter', $srp_ext_gre_content)){
             $content .= srp_RentMeter_shortcode(array('citystatezip'=>$srp_property_values['zip_code'], 'beds'=>$srp_property_values['bedrooms']));

@@ -36,8 +36,9 @@ function srp_get_rentometer_rates($return_rate = false){
 		return;
 	}
 	if($api_key){
-		if(!$xml = simplexml_load_file($request_url, 'SimpleXMLElement')) return false;	
-	
+                //TODO: Check Rentometer when site come back from downtime.
+		//if(!$xml = srp_wp_http_xml($request_url)) return false;
+                if(!$xml = simplexml_load_file($request_url, "SimpleXMLElement")) return false;
 		print json_encode($xml);
 	}
 }

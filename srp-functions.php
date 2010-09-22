@@ -1,9 +1,19 @@
 <?php
-
+//Heleper for debugging :)
 function pa($x){
 	print '<pre>';
 	print_r($x);
 	print '</pre>';
+}
+
+if( !class_exists( 'WP_Http' ) ){
+    //this class was introduced in 2.7.0
+    // in v 3.0 file was renamed.
+    if ( version_compare($wp_version, 3.0, '>=') ){
+        include_once( ABSPATH . WPINC. '/class-http.php' );
+    }else{
+        include_once( ABSPATH . WPINC. '/http.php' );
+    }
 }
 
 function srp_get_states($key = NULL){
@@ -60,6 +70,29 @@ function srp_get_states($key = NULL){
 		'WI' => 'Wisconsin',
 		'WY' => 'Wyoming',
 	);
+
+        //Currently Canada is not supported by Education.com
+        $provinces = array(
+                'ON' => 'Ontario',
+                'QC' => 'Quebec',
+                'BC' => 'British Columbia',
+                'AB' => 'Alberta',
+                'MB' => 'Manitoba',
+                'SK' => 'Saskatchewan',
+                'NS' => 'Nova Scotia',
+                'NB' => 'New Brunswick',
+                'NL' => 'Newfoundland and Labrador',
+                'PE' => 'Prince Edward Island',
+                'NT' => 'Northwest Territories',
+                'YT' => 'Yukon',
+                'NU' => 'Nunavut',
+        );
+
+        $opt = get_option('srp_general_options');
+        if($opt['content']['srp_canadian']){
+            $states = $provinces;
+        }
+
 	if($key){
 		return $states[$key];
 	}else{
@@ -68,8 +101,10 @@ function srp_get_states($key = NULL){
 }
 
 
-
-function format_phone($phone){
+/*
+ * Turns numerical string into a phone number format
+ */
+function srp_format_phone($phone){
 	$phone = preg_replace("/[^0-9]/", "", $phone);
 	if(strlen($phone) == 7)
 		return preg_replace("/([0-9]{3})([0-9]{4})/", "$1-$2", $phone);
@@ -125,13 +160,19 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 /*
 ** CSS and JS initialization
 */
-function srp_admin_scripts(){
+function srp_admin_scripts(){        
+         //Declaring JS variables that are being used in a global scope for TinyMCE Widgets
 	echo "\n" . '<script type="text/javascript">
 //<![CDATA[
 	var srp_url = "'. SRP_URL .'";
 	var srp_wp_admin = "' . ADMIN_URL . '";
 //]]>
 ' . "\n" . '</script>' . "\n";
+        wp_enqueue_script('jquery');
+        $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
+	wp_enqueue_script( 'google', $googlepath, FALSE, false, false );
+        $srp_gre_admin = SRP_URL.'/js/srp-gre-admin.js';
+        wp_enqueue_script('srp-gre-admin', $srp_gre_admin, false, false, false);
 }
 
 function srp_default_headScripts(){
@@ -234,6 +275,7 @@ function _add_to_yelpselect() {
  * ToDo Max: Cleanup. Geocode AJAX functions are no longer necessary if using GMaps API v3
  */
 //Geocoding
+/*
 function srp_geocode_request($address){
 	if($srp_gmap_key = get_option('srp_gmap_api_key')){
 		$gapi = $srp_gmap_key;
@@ -256,6 +298,7 @@ function srp_geocode_ajax(){
 }
 add_action('wp_ajax_srp_geocode_ajax', 'srp_geocode_ajax');
 add_action('wp_ajax_nopriv_srp_geocode_ajax', 'srp_geocode_ajax');
+*/
 
 function srp_extend_gre_ajax(){
     global $srp_property_values, $srp_widgets;
@@ -270,7 +313,7 @@ add_action('wp_ajax_nopriv_srp_extend_gre_ajax', 'srp_extend_gre_ajax');
 function srp_ajax_call(){
     global $srp_property_values, $srp_widgets;
 
-    $_tmp = smartstripslashes($_REQUEST['srp_listing_values']);
+    $_tmp = _srp_smartstripslashes($_REQUEST['srp_listing_values']);
     $srp_property_values = json_decode($_tmp, true);
 
     if(is_object($srp_property_values)){ //For PHP below 5.2
@@ -307,7 +350,7 @@ function srp_buffer($callback_function){
     return $result;
 }
 
-function smartstripslashes($str) {
+function _srp_smartstripslashes($str) {
   $cd1 = substr_count($str, "\"");
   $cd2 = substr_count($str, "\\\"");
   $cs1 = substr_count($str, "'");
@@ -321,4 +364,27 @@ function smartstripslashes($str) {
   return $str;
 }
 
+
+//Disclamers and terms of use placeholder
+function srp_footer_disclamers(){
+    echo '<div id="srp-disclamers">';
+    do_action('srp_footer_disclamers');
+    echo '</div>';
+}
+add_action('wp_footer', 'srp_footer_disclamers', 2);
+
+//WP_Http requsts with SimpleXML conversion
+//on true returns object otherwise false
+function srp_wp_http_xml($url){
+    $request = new WP_Http;
+    $result = $request->request($url);
+    //TODO: figure out how to make this response check to work.
+    if($result['response']['code'] != 200){
+        $message = 'Request to URL: "' . $url . '" failed. Response code: ' . $result['response']['code'];
+        error('srp_wp_http_xml', $message);
+        die();
+    }
+    $xml = simplexml_load_string($result['body']);
+    return $xml;
+}
 ?>

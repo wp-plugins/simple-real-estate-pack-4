@@ -25,7 +25,7 @@ function srp_geocode(){
 
 //Utilizing GMap API v3 (no API key needed)
 function srp_geocode(){
-	if(typeof(srp_geo) !== 'undefined' && jQuery.trim(jQuery('#listings_address').val()) != '' && jQuery.trim(jQuery('#listings_city').val()) != '' && jQuery.trim(jQuery('#listings_state').val()) != '' && jQuery.trim(jQuery('#listings_postcode').val()) != ''){
+	if(jQuery.trim(jQuery('#listings_address').val()) != '' && jQuery.trim(jQuery('#listings_city').val()) != '' && jQuery.trim(jQuery('#listings_state').val()) != '' && jQuery.trim(jQuery('#listings_postcode').val()) != ''){
 
 			var address = jQuery('#listings_address').val() + ', ' + jQuery('#listings_city').val() + ', ' + jQuery('#listings_state').val() + ' ' + jQuery('#listings_postcode').val();
                         var geocoder;
@@ -55,6 +55,7 @@ function srp_geocode_test(lat, lng){
 		jQuery("#listings_latitude").triggerHandler("focus");
 	}
 
+//Adding Get Coordinates button at the bottom of the listing editor page created by the GRE plugin.
 jQuery(document).ready( function() {
 	// BEGIN for GRE Plugin
 
@@ -69,7 +70,7 @@ jQuery(document).ready( function() {
 		var lng = jQuery('#listings_longitude').val();
 		srp_geocode_test(lat, lng);
 	}
-	jQuery('#srp_get_coord').click(function() {
+	jQuery('#srp_get_coord').bind('click', function() {
 		srp_geocode();
 	});
 
