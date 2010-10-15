@@ -42,7 +42,7 @@ if($_GET['type'] == 'affordability'){
 		$x = $home_insurance + $property_tax + $pmi;
 		$b = $x/100/12;		
 		$principal = ($smaller - $down_payment*$b) / ($a + $b);
-		$deductions = 'Less: taxes, insurance and pmi<sup>[2]</sup>';
+		$deductions = 'Less: taxes, insurance and PMI<sup>[2]</sup>';
 	}
 	$total_amount = $principal + $down_payment;
 
@@ -53,7 +53,7 @@ if($_GET['type'] == 'affordability'){
 						<sup>[1]</sup> Calculations are based on the following estimate values:
 						<ul>
 							<li>Annual Property Tax - '.$property_tax.'% [$'. number_format($property_tax/100*$total_amount) .'/yr. or $'. number_format($property_tax/100*$total_amount/12) .'/mo]</li>
-							<li>Annual Home Isurance - '.$home_insurance.'% [$'. number_format($home_insurance/100*$total_amount) .'/yr. or $'. number_format($home_insurance/100*$total_amount/12) .']</li>';
+							<li>Annual Home Insurance - '.$home_insurance.'% [$'. number_format($home_insurance/100*$total_amount) .'/yr. or $'. number_format($home_insurance/100*$total_amount/12) .']</li>';
 							if($pmi > 0){ $deductions_ .= '<li>Premium Mortgage Insurance - '.$pmi.'% [$'. number_format($pmi/100*$total_amount) .'/yr. or $'. number_format($pmi/100*$total_amount/12) .'/mo.]</li>'; }
 		$deductions_ .= '</ul>	';
 						if($pmi > 0){ $deductions_ .= '<sup>[2]</sup> PMI (Premium Mortgage Insurance) only being calculated when the down payment is less than 20% of the price of the property.'; }
@@ -70,14 +70,14 @@ $deductions_ .= '</small></div>';
 			'Monthly gross income'						=> '$'.number_format($mo_gross_income),			
 			'Front-End Ratio'							=> '28%',
 			'Calculated payment for front-end ratio' 	=> '$'.number_format($front_end_ratio_payment),
-			'Explanation'								=> 'Your total montly housing allowance should not acceed 28% from your gross income, or $'.number_format($front_end_ratio_payment) . ' per month.',
+			'Explanation'								=> 'Your total monthly housing allowance should not ecceed 28% of your gross income, or $'.number_format($front_end_ratio_payment) . ' per month.',
 		),
 		'Back-End Ratio (36%)'	=> array(
 			'Debt and obligations'						=> '$'.number_format($mo_debt_expences),
 			'Percent of gross income'					=> number_format(($mo_debt_expences/$mo_gross_income*100), 2) . '%',
 			'Maximum percentage available for mortgage payment'	=> $percentage_available . '%',
 			'Calculated payment for back-end ratio'		=> '$'.number_format($funds_available),
-			'Explanation'								=> '36% from your total income is '. '$'.number_format($back_end_ratio_payment) .', minus your montly debt ('. '$'.number_format($mo_debt_expences) .'), equals '. '$'.number_format($funds_available) .' for your housing allowance, including insurance and taxes.',
+			'Explanation'								=> '36% of your total income is '. '$'.number_format($back_end_ratio_payment) .', minus your monthly debt ('. '$'.number_format($mo_debt_expences) .'), equals '. '$'.number_format($funds_available) .' for your housing allowance, including insurance and taxes.',
 		),
 		'Payment Calculation'	=> array(
 			'Smaller of the two ratio options'			=> '$'.number_format($smaller),

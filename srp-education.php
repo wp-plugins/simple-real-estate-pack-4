@@ -97,8 +97,7 @@ function srp_get_apiFunction($function_name){
 		$keys = implode(', ', $empty);
 		echo '<div class="error">Education API paramenters [' . $keys . '] for function ' . $function_name. '() were not found. Please check the Plugin Settings.</div>';
 		die();
-	}
-	
+	}        
 	return $api_funcs[$function_name];
 }
 
@@ -125,7 +124,9 @@ function srp_run_apiFunction($function_name, $arguments=array()){
 		
 		if(!empty($required) && !empty($optional)){
                     $url = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);                    
-                    $xml = srp_wp_http_xml($url);                    
+                    if(!$xml = srp_wp_http_xml($url)){
+                        return;
+                    }
                     return $xml;
                }
 }
@@ -153,6 +154,7 @@ function srp_groupSchoolsBy($args){
 		}
 		return $schools;
 	}
+        return;
 }
 
 function srp_tabs_byType($args = array(), $ajax = NULL){

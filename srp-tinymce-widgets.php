@@ -69,8 +69,14 @@ function srp_get_altos_stats($atts=array()){
 		"zipcode"	=> null,
 	), $atts);
 	$args = array_filter($args);
+
 	$url = 'http://charts.altosresearch.com/altos/app?s='.$args['type'].':l,&ra=c&st='.$args['state'].'&c='.$args['city'].'&z='.$args['zipcode'].'&sz=l&service=chart';
-	
+	//if (!@fclose(@fopen($url, "r"))) {
+        if(!$size = GetImageSize($url)){
+            
+            $url = SRP_URL . '/images/stats-n-a.png';
+        }
+
 	$img = '<img src="'.$url . $query.'" alt="'.$graph_types[$args['type']].'" alt="'.$metrics[$args['type']].' in '.$args['city'].', '. $args['state'] . ' ' . $args['zipcode'].'" width="'.$args['width'].'"/>';		
 	
 	return $img;

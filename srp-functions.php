@@ -1,11 +1,27 @@
 <?php
+define('SRP_DEBUG', true);
+define('SRP_DEBUG_DATA', false);
+function srp_debug($message = '', $data = null){
+    
+    if(SRP_DEBUG){        
+        if($message){
+            echo "<div class='error'>{$message}</div>";
+        }
+        if(SRP_DEBUG_DATA && $data){
+            pa($data);
+        }
+    }
+}
 //Heleper for debugging :)
 function pa($x){
-	print '<pre>';
+        print '<textarea cols="80" rows="10">';
+	//print '<pre>';
 	print_r($x);
-	print '</pre>';
+	//print '</pre>';
+        print '</textarea>';
 }
 
+/*
 if( !class_exists( 'WP_Http' ) ){
     //this class was introduced in 2.7.0
     // in v 3.0 file was renamed.
@@ -14,7 +30,7 @@ if( !class_exists( 'WP_Http' ) ){
     }else{
         include_once( ABSPATH . WPINC. '/http.php' );
     }
-}
+}*/
 
 function srp_get_states($key = NULL){
 	$states = array (
@@ -373,18 +389,32 @@ function srp_footer_disclamers(){
 }
 add_action('wp_footer', 'srp_footer_disclamers', 2);
 
-//WP_Http requsts with SimpleXML conversion
-//on true returns object otherwise false
 function srp_wp_http_xml($url){
-    $request = new WP_Http;
-    $result = $request->request($url);
-    //TODO: figure out how to make this response check to work.
-    if($result['response']['code'] != 200){
-        $message = 'Request to URL: "' . $url . '" failed. Response code: ' . $result['response']['code'];
-        error('srp_wp_http_xml', $message);
-        die();
-    }
-    $xml = simplexml_load_string($result['body']);
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+
+    $result = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if(!$code){
+        preg_match('@^(?:http://)?([^/]+)@i', $url, $matches);
+        $host = $matches[1];
+        preg_match('/[^.]+\.[^.]+$/', $host, $matches);
+        srp_debug(__('Something went wrong. No data is being returned from ' . $matches[0] . '.'), $result);
+        return;
+    }elseif($code != 200){
+        $message = 'Request to URL: "' . $url . '" failed. Response code: ' . $code;
+        srp_debug(__($message), $result);
+        return;
+    }    
+    $xml = @simplexml_load_string($result);
+    
     return $xml;
 }
 ?>

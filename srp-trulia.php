@@ -30,7 +30,12 @@ function srp_get_trulia_stats($atts=array()){
 		$query .= '&' . $k . '=' . $v;
 	}
 	
-	$img = '<img src="'.$url . $query.'" alt="'.$graph_types[$args['type']].'" width="'.$args['width'].'" height="'.$args['height'].'"/>';		
+        $img_url = $url . $query;
+        
+        if(!@GetImageSize($img_url)){
+            $img_url = SRP_URL . '/images/stats-n-a.png';
+        }
+	$img = '<img src="'.$img_url.'#'. $size . '" alt="'.$graph_types[$args['type']].'" width="'.$args['width'].'" height="'.$args['height'].'"/>';
 	
 	return $img;
 }
