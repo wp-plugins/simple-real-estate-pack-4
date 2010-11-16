@@ -400,8 +400,7 @@ function srp_wp_http_xml($url){
     $result = curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    curl_close($ch);
-
+    curl_close($ch);	
     if(!$code){
         preg_match('@^(?:http://)?([^/]+)@i', $url, $matches);
         $host = $matches[1];

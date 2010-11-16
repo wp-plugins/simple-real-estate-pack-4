@@ -24,7 +24,7 @@ function _srp_get_query_url($args = array()){
 			if($i > 0){
 				$q = '&';
 			}
-			$query .= $q . $key . '=' . $value;
+			$query .= $q . $key . '=' . str_replace(' ', '+', $value);
 			$i++;
 		}
 		return $query;

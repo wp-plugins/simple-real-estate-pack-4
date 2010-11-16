@@ -4,7 +4,7 @@ Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes, neighborhood, schools, yelp, zillow, map, trulia, altos, charts, statistics, real estate market
 Requires at least: 3.0
 Tested up to: 3.0.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
@@ -182,7 +182,11 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 **If something doesn't work, please try to troubleshoot the issue by checking is any JavaScript errors are reported. Also, try disabling other plugins and leave the SRP enabled just to make sure there are no conflicts.**
 
 == Changelog ==
-[See change logs in author's blog](http://www.phoenixhomes.com/tech/simple-real-estate-pack "Simple Real Estate Pack by PhoenixHomes.com").
+**Version 1.1.3**
+
+- Added messages for schools and businesses if no records returned within specified radius. The same applies to the maps when clicking on checkboxes.
+- Added dummy image output with a message if market stats is not available.
+- Fixed bug for multi-word cities in school requests.
 
 == Upgrade Notice ==
 

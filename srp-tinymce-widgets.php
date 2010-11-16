@@ -30,7 +30,12 @@ function srp_get_trulia_stats($atts=array()){
 		$query .= '&' . $k . '=' . $v;
 	}
 	
-	$img = '<img src="'.$url . $query.'" alt="'.$graph_types[$args['type']].'" width="'.$args['width'].'" height="'.$args['height'].'"/>';		
+	$img_url = $url . $query;
+        
+        if(!@GetImageSize($img_url)){
+            $img_url = SRP_URL . '/images/stats-n-a.png';
+        }
+	$img = '<img src="'.$img_url.'#'. $size . '" alt="'.$graph_types[$args['type']].'" width="'.$args['width'].'" height="'.$args['height'].'"/>';
 	
 	return $img;
 }
@@ -72,7 +77,7 @@ function srp_get_altos_stats($atts=array()){
 
 	$url = 'http://charts.altosresearch.com/altos/app?s='.$args['type'].':l,&ra=c&st='.$args['state'].'&c='.$args['city'].'&z='.$args['zipcode'].'&sz=l&service=chart';
 	//if (!@fclose(@fopen($url, "r"))) {
-        if(!$size = GetImageSize($url)){
+        if(!$size = @GetImageSize($url)){
             
             $url = SRP_URL . '/images/stats-n-a.png';
         }
