@@ -24,10 +24,10 @@ function srp_get_trulia_stats($atts=array()){
 	), $atts);
 	$args = array_filter($args);
 	$city_state = $args['city'] . '-' . srp_get_states($args['state']);
-	$url = 'http://graphs.trulia.com/real_estate/' . $city_state . '/graph.png?version=' . TRULIA_VER;
+	$url = 'http://graphs.trulia.com/real_estate/' . urlencode($city_state) . '/graph.png?version=' . TRULIA_VER;
 	
 	foreach($args as $k => $v){
-		$query .= '&' . $k . '=' . $v;
+		$query .= '&' . $k . '=' . urlencode($v);
 	}
 	
 	$img_url = $url . $query;
@@ -35,7 +35,7 @@ function srp_get_trulia_stats($atts=array()){
         if(!@GetImageSize($img_url)){
             $img_url = SRP_URL . '/images/stats-n-a.png';
         }
-	$img = '<img src="'.$img_url.'#'. $size . '" alt="'.$graph_types[$args['type']].'" width="'.$args['width'].'" height="'.$args['height'].'"/>';
+	$img = '<img src="' . $img_url . $size . '" alt="'.$graph_types[$args['type']].'" width="'.$args['width'].'" height="'.$args['height'].'"/>';
 	
 	return $img;
 }
@@ -75,7 +75,7 @@ function srp_get_altos_stats($atts=array()){
 	), $atts);
 	$args = array_filter($args);
 
-	$url = 'http://charts.altosresearch.com/altos/app?s='.$args['type'].':l,&ra=c&st='.$args['state'].'&c='.$args['city'].'&z='.$args['zipcode'].'&sz=l&service=chart';
+	$url = 'http://charts.altosresearch.com/altos/app?s='.$args['type'].':l,&ra=c&st='.urlencode($args['state']).'&c='.urlencode($args['city']).'&z='.$args['zipcode'].'&sz=l&service=chart';
 	//if (!@fclose(@fopen($url, "r"))) {
         if(!$size = @GetImageSize($url)){
             
