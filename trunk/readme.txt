@@ -4,7 +4,7 @@ Donate link: http://www.ibsteam.net/donate
 Tags: text, php, plugin, widget, sidebar
 Requires at least: 2.8
 Tested up to: 3.11
-Stable tag: 1.1.3
+Stable tag: 1.2
 
 Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as raw PHP code.
 
