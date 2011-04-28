@@ -1,15 +1,19 @@
 ==== Advanced Text Widget ====
 Contributors: Max Chirkov
-Donate link: http://www.ibsteam.net/donate
-Tags: text, php, plugin, widget, sidebar
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JRA6WSKH3MSPG
+Tags: text, php, plugin, widget, sidebar, conditions
 Requires at least: 2.8
-Tested up to: 3.11
-Stable tag: 1.2
+Tested up to: 3.1.2
+Stable tag: 2.0.0
 
 Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as raw PHP code.
 
 == Description ==
 Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code and shortcodes. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
+
+The plugin comes with a set of 9 conditions, you can edit them, as well as add your own.
+
+Thake a look at the [Inroduction Video](http://www.screenr.com/Owi "Advanced Text Widget 2.0 - Introductio Video")
 
 * Author: Max Chirkov
 * Author URI: [http://www.ibsteam.net](http://www.ibsteam.net "Real Estate Directory")
@@ -28,4 +32,4 @@ Text widget that has extensive conditional options to display content on pages, 
 
 **Notes:**
 
-* *When selecting to show widget on **Home** page - it will show up on the Blog's index (main) page. If you have a static front page where you would like to show your widget, you need to select **Page** and enter the ID of that page.*
+* *When selecting to show widget on **Home** page - it will show up on the Blog's index (main) page. If you have a static front page where you would like to show your widget, select the **Front page** option.*
