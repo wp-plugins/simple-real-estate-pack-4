@@ -1,13 +1,12 @@
 <?php if (function_exists('get_listing_status')) { ?>
 	<?php getandsetup_listingdata(); ?>
 <div id="srp_listing_details">
+    <h2 class="listing_address"><?php echo $property_address = get_listing_address() . ', ' .get_listing_city() . ' ' . get_listing_state() . ', ' . get_listing_postcode();?></h2>
     <div class="clearfix">
     <div class="listing-slideshow span-10">
             <div class="box">
-            <?php 
-            if(function_exists('nggShowSlideshow')){
-                echo nggShowSlideshow(get_listing_galleryid(), $width='356', $height='267');
-            }
+            <?php //echo nggShowSlideshow(get_listing_galleryid(), $width='356', $height='267');
+            echo srp_gre_slideshow_image(get_listing_galleryid(), $width = 356, $height = 267)
             ?>
             </div>
     </div>
@@ -65,17 +64,20 @@
     </div>
     </div>
             <?php } ?>
-    <?php the_listing_description_content(); ?>
 
     <?php } else { ?>
     <?php //the_content(); // plugin disabled, just spit out the normal content ?>
-    <?php } ?>
-
-    <?php edit_post_link('Edit this entry.', '<p>', '</p>'); ?>
-
+    <?php } ?>    
 
     <?php if (function_exists('get_listing_status')) { ?>
     <div id="listing-container">
+
+        <h4 class="callus"><?php echo srp_gre_listing_contact();?></h4>
+
+		<?php
+			$listing_description = srp_buffer('the_listing_description_content');
+			echo str_replace('<h2>Property Details</h2>', '<h2><span>Property Description</span></h2>', $listing_description);
+		?>
 
         <?php
             /* Begin SRP Template Code */
@@ -118,12 +120,8 @@
                     /* End SRP Template Code */
             ?>
 
-            <?php
-            //TODO: Give users an option to embed their own form.
-            if(function_exists('insert_form')){
-                print '<a name="more_info"></a><h2><span>Request More Information</span></h2>';
-                insert_cform('Request More Information');
-            }
+            <?php            
+            srp_inquiry_form();
             ?>
     <?php } ?>
     </div>

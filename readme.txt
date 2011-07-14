@@ -3,15 +3,13 @@ Contributors: Max Chirkov
 Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes, neighborhood, schools, yelp, zillow, map, trulia, altos, charts, statistics, real estate market
 Requires at least: 3.0
-Tested up to: 3.0.1
-Stable tag: 1.1.3.4
+Tested up to: 3.2
+Stable tag: 1.2.0
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
 == Description ==
-Simple Real Estate Pack is a package of real estate tools and widgets designed specifically for real estate industry blogs and web sites. The plugin includes mortgage and home affordability calculators, closing cost estimator, live mortgage rates, Trulia and ALTOS statistical charts, local schools, local rental rates meter, business listings from Yelp and Google Maps. Optionally, Simple Real Estate Pack can function as an extension for Great Real Estate (GRE) plugin, and will add new features to the GRE if it's installed. Take a look at live example of this functionality at [ScottsdaleHomes.com](http://www.scottsdalehomes.com/properties/kierland-greens-condo/).
-
-**Requires PHP 5.2 or higher**
+Simple Real Estate Pack is a package of real estate tools and widgets designed specifically for real estate industry blogs and web sites. The plugin includes mortgage and home affordability calculators, closing cost estimator, live mortgage rates, Trulia and ALTOS statistical charts, local schools, business listings from Yelp and Google Maps. Optionally, Simple Real Estate Pack can function as an extension for Great Real Estate (GRE) plugin, and will add new features to the GRE if it's installed. Take a look at live example of this functionality at [ScottsdaleHomes.com](http://www.scottsdalehomes.com/properties/kierland-greens-condo/).
 
 **Features Include:**
 
@@ -24,19 +22,17 @@ Simple Real Estate Pack is a package of real estate tools and widgets designed s
 
 3. Live Mortgage Rates via Zillow API (widget and shortcode).
 
-4. Rent Meter (widget and shortcode) - provides median rental rates for selected zip code via Rentometer API.
+4. Market trends and statistical graphs/charts via Trulia.com and ALTOS Research.
 
-5. Market trends and statistical graphs/charts via Trulia.com and ALTOS Research.
+5. Embed Google Maps with a click of a mouse with grocery stores, restaurants, gas stations, banks, golf courses and hospitals (optional) within 3 mile radius of the main marker (via Yelp API).
 
-6. Embed Google Maps with a click of a mouse with grocery stores, restaurants, gas stations, banks, golf courses and hospitals (optional) within 3 mile radius of the main marker (via Yelp API).
+6. Publish Yelp listings (shortcode) within 3 mile radius from a specified point into you content. Grouped with tabs by business type (i.e. grocery stores, restaurants etc.).
 
-7. Publish Yelp listings (shortcode) within 3 mile radius from a specified point into you content. Grouped with tabs by business type (i.e. grocery stores, restaurants etc.).
+7. Walk Score via Walkscore.com
 
-8. Walkscore via Walkscore.com
+8. Extension of GRE plugin (optional) via Neighborhood Profile options - mapping local grocery stores, restaurants, gas stations, banks, golf courses and hospitals within 3 mile radius of the property. Includes property location, contact information, ratings via Yelp API., as well as financial tools and statistical charts.
 
-9. Extension of GRE plugin (optional) via Neighborhood Profile options - mapping local grocery stores, restaurants, gas stations, banks, golf courses and hospitals within 3 mile radius of the property. Includes property location, contact information, ratings via Yelp API., as well as financial tools and statistical charts.
-
-10. Easy to use API for third party widget integration into the Neighborhood Profiles.
+9. Easy to use API for third party widget integration into the Neighborhood Profiles.
 
 For detailed usage instructions visit the [official site](http://www.phoenixhomes.com/tech/simple-real-estate-pack "Simple Real Estate Pack by PhoenixHomes.com").
 
@@ -50,13 +46,13 @@ For detailed usage instructions visit the [official site](http://www.phoenixhome
 
 **Install like any other basic plugin:**
 
-1.	Unzip and copy the simple-real-estate-pack folder to your /wp-content/plugins/ directory
+1. Unzip and copy the simple-real-estate-pack folder to your /wp-content/plugins/ directory
 
-2.	Activate the Simple Real Estate Pack on your plugins page.
+2. Activate the Simple Real Estate Pack on your plugins page.
 
-3.	Go to the Real Estate Pack Settings Page and adjust options to fit your needs.
+3. Go to the Real Estate Pack Settings Page and adjust options to fit your needs.
 
-4.  A lot of the functionality of the plugin depends on third party APIs. To take advantage of all the features it's highly recommended that you obtain (free) API keys for each service.
+4. A lot of the functionality of the plugin depends on third party APIs. To take advantage of all the features it's highly recommended that you obtain (free) API keys for each service.
 
 
 **Using Neighborhood Profiles in Templates**
@@ -168,7 +164,7 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 7. Local businesses via Yelp.
 8. Walk Score.
 9. Tabbed presentation of data.
-10. Neigborhood profile options.
+10. Neighborhood profile options.
 11. Custom tab names and subtitles of the widgets.
 12. TinyMCE widgets in post/page editor.
 13. Yelp TinyMCE widget to insert a shortcode into the post/page.
@@ -182,6 +178,20 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 **If something doesn't work, please try to troubleshoot the issue by checking is any JavaScript errors are reported. Also, try disabling other plugins and leave the SRP enabled just to make sure there are no conflicts.**
 
 == Changelog ==
+
+**Version 1.2.0
+
+- Added support for default templates if "Listings Summary" and "Individual Listings Page" settings of GRE are checked.
+- Added a simple inquiry form for the GRE Listing Page template; also an option to enter shortcodes for custom forms supplied by other plugins.
+- Added radius options for Yelp and Schools that can be customized for the Neighborhood Profiles.
+- Added chart and map dimensions options for the Neighborhood Profile outputs.
+- Fixed "double-window" issue with the ThickBox effect.
+- Discontinued support for the Rento-Meter - the service sucks and never really worked well.
+
+**Version 1.1.4**
+
+- Switched stats image check from fopen to curl. Works much faster since we're pretty much getting only response header.
+
 **Version 1.1.3**
 
 - Added messages for schools and businesses if no records returned within specified radius. The same applies to the maps when clicking on checkboxes.
@@ -190,6 +200,6 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 
 == Upgrade Notice ==
 
-It is strongly recomended to re-visit the plugin's settings pages and save them.
+It is strongly recommended to re-visit the plugin's settings pages and save them.
 
 If you have been using the Great Real Estate Plugin prior to upgrade, you need to update your listingpage.php file by following the Installation instructions in readme.txt.

@@ -6,8 +6,8 @@
 +   required for Stats and WordPress 2.5
 +----------------------------------------------------------------+
 */
-require_once( dirname( dirname(__FILE__) ) .'/srp-wp-load.php');
-require_once(dirname( dirname(__FILE__) ) .'/srp-tinymce-widgets.php');
+require_once( dirname( dirname(__FILE__) ) .'/includes/srp-wp-load.php');
+require_once(dirname( dirname(__FILE__) ) .'/includes/srp-tinymce-widgets.php');
 
 global $wpdb;
 

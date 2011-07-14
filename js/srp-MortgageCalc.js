@@ -21,12 +21,12 @@ function srp_check_prefilled(){
 	});
 }
 
-jQuery(document).ready(function(){        
+jQuery(document).ready(function(){
 	jQuery('.srp-tabs').css({"display" : "block"});
-		
+
 	jQuery('input[id^="widget-srp_mortgagecalc-"]').live('keyup', function(){
 		var id = jQuery(this).attr("id");
-		var num = id.replace(/\D/g,"");		
+		var num = id.replace(/\D/g,"");
 		var price_of_home	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").asNumber();
 		if(price_of_home > 0){
 			srp_MortgageCalc_calculate(num);
@@ -38,31 +38,25 @@ jQuery(document).ready(function(){
 		var num = id.replace(/\D/g,"");
 		srp_Affordability_calculate(num);
 	});
-		
+
 	jQuery('input[id$="price_of_home"]').live('blur', function(){
     	jQuery(this).formatCurrency( {dropDecimals:true, symbol:''});
-    });	
-	
+    });
+
 	jQuery('a#srp_help').live('click', function(){
 		jQuery("#srp_help_text > div.additional-info").css({"background" : "#F3F6FB", "border" : "1px solid #D2DFFF", "padding" : "5px"}).toggle('slow');
 	});
-	
+
 	jQuery('input[id^="widget-srp_closingcosts-"]').live('keyup', function(e){
 		var id = jQuery(this).attr("id");
 		var num = id.replace(/\D/g,"");
 		srp_ClosingCosts_calculate(num);
-	});	
-	
-	jQuery('input[id^="widget-srp_rentmeter-"]').live('keyup', function(e){
-		var id = jQuery(this).attr("id");
-		var num = id.replace(/\D/g,"");
-		srp_rentmeter(num);
-	});	
-	
+	});
+
 	//BEGIN check pre-filled values
 	srp_check_prefilled();
 	//END check pre-filled values
-	
+
 });
 
 //wrapping output into currencyLabel span
@@ -103,18 +97,18 @@ function srp_bindThickBoxEvents() {
 
 function srp_MortgageCalc_calculate(num){
 	jQuery("#srp_mortgagecalc-" + num + " div.additional-info").hide();
-	
+
 	var price_of_home	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").asNumber();
 	var down_payment	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-down_payment").asNumber();
 	var mortgage_term	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-mortgage_term").asNumber();
 	var interest_rate	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-interest_rate").asNumber();
 
-	
+
 	jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").removeClass("highlight");
 	if(!price_of_home){ jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").addClass("highlight"); var error = true; }
 	if(!mortgage_term || mortgage_term == 0){ jQuery("input#widget-srp_mortgagecalc-" + num + "-mortgage_term").addClass("highlight"); var error = true; }
-	if(!interest_rate || interest_rate == 0){ jQuery("input#widget-srp_mortgagecalc-" + num + "-interest_rate").addClass("highlight"); var error = true; }		
-	
+	if(!interest_rate || interest_rate == 0){ jQuery("input#widget-srp_mortgagecalc-" + num + "-interest_rate").addClass("highlight"); var error = true; }
+
 	if(error){
 		alert("Please fill out the highlighted fields.");
 	}
@@ -131,42 +125,42 @@ function srp_MortgageCalc_calculate(num){
 		var monthly_payments = Math.round(loan_amount*(monthly_interest_rate/(a))*100)/100;
 		var additional_charges = 0;
 		var additional_charges_text	= '';
-		
+
 		// calculate tax, insurance and pmi
 			var property_tax_rate	= jQuery("input#property_tax_rate").asNumber();
 			var home_insurance_rate	= jQuery("input#home_insurance_rate").asNumber();
 			var pmi					= jQuery("input#pmi").asNumber();
 			//alert(extended);
-			
+
 			var monthly_tax			= Math.round(price_of_home*property_tax_rate/100/12*100)/100;
 			var monthly_insurance	= Math.round(price_of_home*home_insurance_rate/100/12*100)/100;
 			if(down_payment < 20){
 				var monthly_pmi			= Math.round(price_of_home*pmi/100/12*100)/100;
 			}else{
-				var monthly_pmi = 0;	
+				var monthly_pmi = 0;
 			}
-			
+
 			additional_charges = monthly_tax + monthly_insurance + monthly_pmi;
 			additional_charges_text	=	"<div>Principal & Interest:		" + srp_cl(monthly_payments) + "</div>" +
-											"<div>Mo. Tax:				" + srp_cl(monthly_tax) + "</div>" + 
+											"<div>Mo. Tax:				" + srp_cl(monthly_tax) + "</div>" +
 											"<div>Mo. Home Insurance:	" + srp_cl(monthly_insurance) + "</div>" +
 											"<div>Mo. PMI:				" + srp_cl(monthly_pmi) + "</div>";
-		
+
 		//alert("Monthly Payments: " + monthly_payments);
 		var query = "?form_complete=1&sale_price="+ price_of_home + "&down_percent=" + down_payment + "&year_term=" + mortgage_term + "&annual_interest_percent=" + interest_rate + "&show_progress=1";
 		var thickbox = "&height=500&width=650";
-		var ammortization = "<a href=\"" + srp_url + "/srp-AmmortResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Mortgage Amortization Schedule\">Amortization Schedule</a>";
+		var ammortization = "<a href=\"" + srp_inc + "/srp-AmmortResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Mortgage Amortization Schedule\">Amortization Schedule</a>";
 
-		
+
 		var additional_info	=	additional_charges_text +
 								"<div>Down Payment:		" + srp_cl(down_payment_amount) + "</div>" +
 								"<div class='srp_tb srp_bb'>Financed Amount:	" + srp_cl(loan_amount) + "</div>" +
 								"<div class='srp_result_link'>" + ammortization + "</div>";
-		
-		jQuery("input#widget-srp_mortgagecalc-" + num + "-monthly_payment").val(Math.round((monthly_payments + additional_charges)*100)/100).formatCurrency( {symbol:''});		
+
+		jQuery("input#widget-srp_mortgagecalc-" + num + "-monthly_payment").val(Math.round((monthly_payments + additional_charges)*100)/100).formatCurrency( {symbol:''});
 		jQuery("input#widget-srp_mortgagecalc-" + num + "-monthly_payment").addClass("total");
 		jQuery("#widget-srp_mortgagecalc-" + num + "-result").html( additional_info ).slideDown("slow").show();
-		srp_bindThickBoxEvents();
+		//srp_bindThickBoxEvents();
 	}
 }
 
@@ -178,7 +172,7 @@ function srp_Affordability_calculate(num){
 	var property_tax		= jQuery("input#widget-srp_affordabilitycalc-" + num + "-property_tax").asNumber();
 	var home_insurance		= jQuery("input#widget-srp_affordabilitycalc-" + num + "-home_insurance").asNumber();
 	var pmi					= jQuery("input#widget-srp_affordabilitycalc-" + num + "-pmi").asNumber();
-	
+
 	var front_end_ratio_payment	= mo_gross_income * 0.28;
 	var funds_available			= mo_gross_income*0.36 - mo_debt_expences;
 	if(front_end_ratio_payment < funds_available){
@@ -186,7 +180,7 @@ function srp_Affordability_calculate(num){
 	}else{
 		smaller = Math.round(funds_available);
 	}
-	
+
 	/*
 	**Mortgage Calculation
 	*/
@@ -196,12 +190,12 @@ function srp_Affordability_calculate(num){
     var denom = Math.pow((1 + monthly_interest_rate), power);
     var a = monthly_interest_rate / (1 - denom);
 	var b = (home_insurance + property_tax + pmi)/100 / 12;
-	var principal = (smaller / (a + b));		
-	
+	var principal = (smaller / (a + b));
+
 	if(down_payment > 0){
 		principal = (smaller - down_payment*b) / (a + b);
 	}
-	
+
 	var pmi_text = 'Tax, insurance & PMI';
 	var dp_percent = down_payment * 100 / (principal + down_payment);
 	if(dp_percent >= 20){
@@ -210,34 +204,34 @@ function srp_Affordability_calculate(num){
 		b = (home_insurance + property_tax + pmi)/100 / 12;
 		principal = Math.round((smaller - down_payment*b) / (a + b));
 		dp_percent = down_payment * 100 / (principal + down_payment);
-		var pmi_text = 'Tax and insurance';		
+		var pmi_text = 'Tax and insurance';
 	}
-	
+
 	var total_amount =  Math.round(principal + down_payment);
-	
+
 	var deductions = Math.round((home_insurance + property_tax + pmi)* total_amount/100/12);
-	
+
 	var loan_text = '';
 	if(down_payment > 0){
 		var loan_text = '<div>Downpayment: ' + '<span class="srp_amnt">' + Math.round(dp_percent*100)/100 + '%</span></div><div>Loan Amount: ' + srp_cl( Math.round(principal)) + '</div>';
 	}
-	
+
 	/*---------------------------------------*/
-	
+
 	var query = "?type=affordability&mo_gross_income="+ mo_gross_income + "&mo_debt_expences=" + mo_debt_expences + "&down_payment=" + down_payment + '&interest_rate=' + interest_rate;
 	var thickbox = "&height=700&width=600";
-	var result_link = "<a href=\"" + srp_url + "/srp-AffordabilityResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Home Morgage Affordability\">View Calculation Details</a>";
-	
-	var result =	'<div class="srp_bb">You Should Afford: ' + srp_cl(total_amount) + '</div>' + 
-					loan_text + 					
-					'<div>Principal & Interest: ' + srp_cl(smaller - deductions) + '</div>' + 
-					'<div>' + pmi_text + ': ' + srp_cl(deductions) + ' </div>' + 
-					'<div class="srp_tb srp_bb">Total Payments (mo): ' + srp_cl(smaller) + '</div>' + 
+	var result_link = "<a href=\"" + srp_inc + "/srp-AffordabilityResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Home Morgage Affordability\">View Calculation Details</a>";
+
+	var result =	'<div class="srp_bb">You Should Afford: ' + srp_cl(total_amount) + '</div>' +
+					loan_text +
+					'<div>Principal & Interest: ' + srp_cl(smaller - deductions) + '</div>' +
+					'<div>' + pmi_text + ': ' + srp_cl(deductions) + ' </div>' +
+					'<div class="srp_tb srp_bb">Total Payments (mo): ' + srp_cl(smaller) + '</div>' +
 					'<div class="srp_result_link">' + result_link + '</div>';
-	
+
 	if(mo_gross_income > 0 && mo_debt_expences >= 0 && interest_rate > 0){
 		jQuery('#widget-srp_affordabilitycalc-' + num + '-result').html(result).slideDown("slow").addClass("total");
-		srp_bindThickBoxEvents();
+		//srp_bindThickBoxEvents();
 	}
 }
 
@@ -256,7 +250,7 @@ function srp_ClosingCosts_calculate(num){
 	var title_closing_fee			= jQuery("input#widget-srp_closingcosts-" + num + "-title_closing_fee").asNumber();
 	var title_doc_prep_fee			= jQuery("input#widget-srp_closingcosts-" + num + "-title_doc_prep_fee").asNumber();
 	var other_fees					= jQuery("input#widget-srp_closingcosts-" + num + "-other_fees").asNumber();
-	
+
 	if(discount_points > 0){
 		var discount_points_amount = discount_points/100*loan_amount;
 	}else{
@@ -267,10 +261,10 @@ function srp_ClosingCosts_calculate(num){
 	}else{
 		var origination_fee_amount = 0;
 	}
-	
+
 	var result = discount_points_amount + origination_fee_amount + lender_fees + credit_report_fee + appraisal + title_insurance + reconveyance_fee + recording_fee + wire_courier_fee + endorsement_fee + title_closing_fee + title_doc_prep_fee + other_fees;
 	var result_text = '<strong>Total Closing Cost: ' + srp_cl(result) + '</strong>';
-	
+
 	if(loan_amount > 1000 && result > 0){
 		jQuery("#widget-srp_closingcosts-" + num + "-result").html(result_text).slideDown("slow").addClass("total");
 	}
@@ -286,35 +280,5 @@ function srp_cl(nStr){
 	while (rgx.test(x1)) {
 		x1 = x1.replace(rgx, '$1' + ',' + '$2');
 	}
-	return '<span class="srp_amnt">$' + (x1+x2) + '</span>';	
-}
-
-function srp_rentmeter(num){
-	var citystatezip = jQuery("input#widget-srp_rentmeter-" + num + "-citystatezip").asNumber();
-	var beds = jQuery("input#widget-srp_rentmeter-" + num + "-beds").asNumber();
-	var rent = jQuery("input#widget-srp_rentmeter-" + num + "-rent").asNumber();
-	citystatezip = citystatezip + '';
-	beds = beds + '';
-	rent = rent + '';
-	if(beds.length > 0 && rent.length > 2 && citystatezip > 4) {
-		jQuery.getJSON(srp_url + '/srp-rentometer_api.php?citystatezip=' + citystatezip + '&rent=' + rent + '&beds=' + beds,
-			function(data){
-				//alert(data.low_rent);
-			  var low_rent = data.low_rent;
-			  var median_rent = data.median_rent;
-			  var med_num = median_rent.replace('$', '').replace(',', '');
-			  var high_rent = data.high_rent;
-			  var percent = Math.round((rent * 100 / med_num) - 100);
-			  if( percent < 0 ){
-				percent_text = '% lower ';  
-			  }else{
-				percent_text = '% higher ';  
-			  }
-			  result_text = '<div class="srp_bb">Median Rent: <span class="srp_amnt">' + median_rent + '</span></div>' + 
-			  				'<div>High Rent: <span class="srp_amnt">' + high_rent + '</span></div>' +
-							'<div>Low Rent: <span class="srp_amnt">' + low_rent + '</span></div>' + 			  											
-							'<div class="srp_tb" style="text-align: center"> Your rent is ' + percent + percent_text + 'than the median rate in ' +  data.zip + '.</div>';
-			  jQuery('#widget-srp_rentmeter-' + num + '-result').html(result_text).slideDown("slow").addClass("total");
-			});
-	}
+	return '<span class="srp_amnt">$' + (x1+x2) + '</span>';
 }

@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Simple Real Estate Pack
+Plugin Name: Simple Real Estate Packx
 Plugin URI: http://www.phoenixhomes.com/tech/simple-real-estate-pack
 Description: Package of real estate tools and widgets designed specifically for real estate industry blogs and sites. Includes mortgage and home affordability calculators, closing cost estimator, lilve mortgage rates, Trulia statistical graphs, local schools and other features.
-Version: 1.1.3.4
+Version: 1.2.0
 Author: Max Chirkov
 Author URI: http://www.PhoenixHomes.com
 */
@@ -34,18 +34,21 @@ define("SRP_DIR", WP_PLUGIN_DIR . '/' . SRP_BASENAME);
 define("SRP_URL", WP_PLUGIN_URL . '/' . SRP_BASENAME);
 define("ADMIN_URL", get_bloginfo('url') . '/wp-admin');
 
+define("SRP_CSS", SRP_DIR . '/css');
+define("SRP_IMG", SRP_URL . '/images');
+define("SRP_INC", SRP_DIR . '/includes');
+define("SRP_JS", SRP_DIR . '/js');
+define("SRP_LIB", SRP_DIR. '/lib');
+define("SRP_SET", SRP_DIR . '/settings');
+define("SRP_TPL", SRP_DIR . '/templates');
+define("SRP_TMCE", SRP_DIR . '/tinymce');
+
 register_activation_hook(__FILE__, 'srp_activation');
 
-require_once 'Class_srpWidgets.php';
-include_once ("tinymce/tinymce.php");
-include 'srp-functions.php';
-include 'srp-widgets.php';
-include 'srp-education.php';
-include 'srp-yelp.php';
-include 'srp-tinymce-widgets.php';
-include 'srp-profile.php';
-include 'srp-shortcodes.php';
-include 'settings/settings.php';
+require_once SRP_INC . '/Class_srpWidgets.php';
+include_once (SRP_TMCE . '/tinymce.php');
+include SRP_INC . '/srp-functions.php';
+include SRP_SET . '/settings.php';
 
 /*
  * Set default settings on plugin activation

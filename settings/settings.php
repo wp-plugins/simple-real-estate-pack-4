@@ -17,14 +17,13 @@ function srp_options_init(){
 }
 
 function simpleRealEstatePack_menu(){
-	add_menu_page('Simple Real Estate Pack', 'Real Estate Pack', 8, __FILE__, 'srp_show_menu', WP_CONTENT_URL . '/plugins/' . plugin_basename(dirname(__FILE__)). '/../images/logo_22.png');
+	add_menu_page('Simple Real Estate Pack', 'SREP Settings', 8, __FILE__, 'srp_show_menu');
 	add_submenu_page(__FILE__, 'Mortgage Calcs Options', 'Mortgage Calcs', 8, 'srp_mortgage_calc', 'srp_show_menu');
 	add_submenu_page(__FILE__, 'Mortgage Rates Options', 'Mortgage Rates', 8, 'srp_mortgage_rates', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Rental Rates Meter API Key Setup', 'Rental Rates Meter', 8, 'srp_rentmeter', 'srp_show_menu');
 	//add_submenu_page(__FILE__, 'Education API Key Setup', 'Education', 8, 'srp_education', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Yelp API Settings', 'Yelp API Settings', 8, 'srp_yelp', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Walkscore API Settings', 'Walkscore API Settings', 8, 'srp_walkscore', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Google Maps API', 'Google Maps', 8, 'srp_gmap', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Yelp', 'Yelp', 8, 'srp_yelp', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Walk Score<sup>&reg;</sup>', 'Walk Score<sup>&reg;</sup>', 8, 'srp_walkscore', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Google Maps', 'Google Maps', 8, 'srp_gmap', 'srp_show_menu');
         add_submenu_page(__FILE__, 'Neighborhood', 'Neighborhood', 8, 'srp_profile', 'srp_show_menu');
 }
 
@@ -41,11 +40,6 @@ function srp_show_menu() {
 	default :
 		include_once (dirname (__FILE__) . '/mortgage_calc.php');
 		simpleMortgageCalc_options_page();
-		break;
-
-	case "srp_rentmeter" :
-		include_once (dirname (__FILE__) . '/rentmeter.php');
-		srp_RentMeter_options_page();
 		break;
 
         //Education API Key is hardcoded - no need for the education.php
