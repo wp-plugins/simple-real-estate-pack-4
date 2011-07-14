@@ -179,7 +179,7 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 
 == Changelog ==
 
-**Version 1.2.0
+**Version 1.2.0**
 
 - Added support for default templates if "Listings Summary" and "Individual Listings Page" settings of GRE are checked.
 - Added a simple inquiry form for the GRE Listing Page template; also an option to enter shortcodes for custom forms supplied by other plugins.
