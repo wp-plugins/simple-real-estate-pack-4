@@ -4,7 +4,7 @@ Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes, neighborhood, schools, yelp, zillow, map, trulia, altos, charts, statistics, real estate market
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
@@ -178,6 +178,11 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 **If something doesn't work, please try to troubleshoot the issue by checking is any JavaScript errors are reported. Also, try disabling other plugins and leave the SRP enabled just to make sure there are no conflicts.**
 
 == Changelog ==
+
+**Version 1.2.2**
+
+- Fixed: blank emails were sent out on each visit of listing details pages.
+- Fixed: Education API requires lat/lng explicitly defined if distance parameter is used. Added a condition where parameter distance is dropped if lat/lng is not set.
 
 **Version 1.2.0**
 

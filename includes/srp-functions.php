@@ -546,7 +546,7 @@ function srp_inquiry_form(){
                         echo $form_title;
 			if($_POST['sendinquiry'] && (!$_POST['email'] && !$_POST['phone'])){
 				echo '<p class="error">Please provide your email address or phone number so we could reply back to you.</p>';
-			}else{
+			}elseif($_POST['sendinquiry'] && ($_POST['email'] || $_POST['phone'])){
 				$admin_email = get_option('admin_email');
 				$headers = 'From: Property Inquiry <' . $admin_email . '>' . "\r\n";
 				$message = 'First Name: ' . $_POST['first_name']  . "\r\n";

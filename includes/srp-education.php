@@ -17,6 +17,11 @@ function _srp_get_query_url($args = array()){
 	if(is_array($args) && count($args)>0){
 		$i = 0;
 		$q = NULL;
+
+		//distance parameter is invalid if lat/lng is not setup
+		if(!$args['latitude'])
+			unset($args['distance']);
+
 		foreach($args as $key => $value){
 			if(!$value){
 				return;
@@ -27,6 +32,7 @@ function _srp_get_query_url($args = array()){
 			$query .= $q . $key . '=' . str_replace(' ', '+', $value);
 			$i++;
 		}
+		
 		return $query;
 	}
 }
@@ -120,10 +126,10 @@ function srp_run_apiFunction($function_name, $arguments=array()){
 			if(in_array($arg, $function['optional'])){
 				$optional[$arg] = $value;
 			}
-		}
+		}		
 
 		if(!empty($required) && !empty($optional)){
-                    $url = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);
+                    $url = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);                    
                     if(!$xml = srp_wp_http_xml($url)){
                         return;
                     }
@@ -163,8 +169,11 @@ function srp_groupSchoolsBy($args){
 }
 
 function srp_tabs_byType($args = array(), $ajax = NULL){
-	if(empty($args)) { return; }
-        $distance = $args['location']['distance'];
+	if(empty($args)) { return; }        
+        //To use param distance - lat/lng has to be set (API's requirement)
+        if($args['location']['latitude'] && $args['location']['longitude'])
+			$distance = $args['location']['distance'];
+
 	if(!$types = srp_groupSchoolsBy($args)) {
             if($distance){
                 $message = "<p class='no-schools-found'>There are no schools within {$distance} miles radius of this location.</p>";
