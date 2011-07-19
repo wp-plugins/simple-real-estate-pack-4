@@ -175,14 +175,6 @@ function srp_MortgageRates_shortcode($atts=array()) {
   return $sb->widget($args, $instance);
 }
 
-function srp_RentMeter_shortcode($atts=array()) {
-  $args = shortcode_atts(srp_merge_atts('rentmeter'), $atts);
-  $instance = $args;
-  $sb = new srp_RentMeter();
-  $sb->number = rand(100, 999);
-  return $sb->widget($args, $instance);
-}
-
 /*
  * * @groupby = zip, gradelevel, schooltype, schooldistrictname
  */

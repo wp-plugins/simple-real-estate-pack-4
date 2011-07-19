@@ -3,7 +3,7 @@
 Plugin Name: Simple Real Estate Packx
 Plugin URI: http://www.phoenixhomes.com/tech/simple-real-estate-pack
 Description: Package of real estate tools and widgets designed specifically for real estate industry blogs and sites. Includes mortgage and home affordability calculators, closing cost estimator, lilve mortgage rates, Trulia statistical graphs, local schools and other features.
-Version: 1.2.2
+Version: 1.2.3
 Author: Max Chirkov
 Author URI: http://www.PhoenixHomes.com
 */
