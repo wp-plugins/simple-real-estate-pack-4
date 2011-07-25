@@ -3,13 +3,15 @@ Contributors: Max Chirkov
 Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes, neighborhood, schools, yelp, zillow, map, trulia, altos, charts, statistics, real estate market
 Requires at least: 3.0
-Tested up to: 3.2
-Stable tag: 1.2.2
+Tested up to: 3.2.1
+Stable tag: 1.2.3
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
 == Description ==
 Simple Real Estate Pack is a package of real estate tools and widgets designed specifically for real estate industry blogs and web sites. The plugin includes mortgage and home affordability calculators, closing cost estimator, live mortgage rates, Trulia and ALTOS statistical charts, local schools, business listings from Yelp and Google Maps. Optionally, Simple Real Estate Pack can function as an extension for Great Real Estate (GRE) plugin, and will add new features to the GRE if it's installed. Take a look at live example of this functionality at [ScottsdaleHomes.com](http://www.scottsdalehomes.com/properties/kierland-greens-condo/).
+
+**API data on businesses, schools and real estate statistics is not available outside of the US.**
 
 **Features Include:**
 
@@ -178,6 +180,11 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 **If something doesn't work, please try to troubleshoot the issue by checking is any JavaScript errors are reported. Also, try disabling other plugins and leave the SRP enabled just to make sure there are no conflicts.**
 
 == Changelog ==
+
+**Version 1.2.3**
+
+- Bug Fix: reworked yelp logic to fix "no businesses" issue, that was appearing for all categories even if only one was empty.
+- Bug Fix: Thickbox incompatibility with new jQuery 1.6.x. Needed additional function to kill propagation of uload event.
 
 **Version 1.2.2**
 

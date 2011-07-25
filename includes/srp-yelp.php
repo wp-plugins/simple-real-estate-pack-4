@@ -88,38 +88,40 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 			return;
 
 		$result = json_decode($request_result, true);
-		$phparray = $result;
+		$phparray = $result;		
 
-                if(count($phparray['businesses']) < 1){
-                    $content_output = '<p class="no-businesses-found">There are no businesses within ' . $radius . ' miles radius from this property.</p>';
-                    if($ajax)
-                        return json_encode(array('message' => $content_output));
+        if(count($phparray['businesses']) < 1){
+            $message = '<p class="no-businesses-found">There are no ' . $cat['name'] . ' within ' . $radius . ' miles radius from this property.</p>';
+            if($ajax){
+                return json_encode(array('message' => $message));
+            }            
+        }
+        
+		if(count($_categories) > 1){
+			$tabs .= '<li><a href="#tabs-'.$cat['term'].'"  title="'.__($cat['name'],"simplerealestatepack") . '" ><span>'
+			. __($cat['name'],"simplerealestatepack")
+			. '</span></a></li>' . "\n";
+		}
+		$x = 0;
+		//pre-sorting
+		$businesses = array();
+		$coordinates = array();
+		$table = null;
 
-                    return $content_output;
-                }else{
-			if(count($_categories) > 1){
-				$tabs .= '<li><a href="#tabs-'.$cat['term'].'"  title="'.__($cat['name'],"simplerealestatepack") . '" ><span>'
-				. __($cat['name'],"simplerealestatepack")
-				. '</span></a></li>' . "\n";
-			}
-			$x = 0;
-			//pre-sorting
-			$businesses = array();
-			$coordinates = array();
-			$table = null;
-			foreach($phparray['businesses'] as $item){
-				$businesses[] = array($item[$sortby], 'biz' => $item);
-			}
-			switch($sortby){
-					case 'avg_rating':
-						rsort($businesses);
-						break;
-					case 'distance':
-					case 'name':
-						sort($businesses);
-						break;
-				}
-				//print_r($businesses);
+		foreach($phparray['businesses'] as $item){
+			$businesses[] = array($item[$sortby], 'biz' => $item);
+		}
+		switch($sortby){
+			case 'avg_rating':
+				rsort($businesses);
+				break;
+			case 'distance':
+			case 'name':
+				sort($businesses);
+				break;
+		}				
+		
+		if(!empty($businesses)){
 			foreach($businesses as $item){
 				$biz = $item['biz'];
 				$x++;
@@ -127,52 +129,56 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 				$coordinates[$cat['term']][$biz['id']]['lat'] = $biz['latitude'];
 				$coordinates[$cat['term']][$biz['id']]['lng'] = $biz['longitude'];
 
-/*
- * Every single element needs to have inline styls with their corresponding widths
- * so JS can calculate the total width and height of the InfoWindow correctly
- * otherwise it calculates dimensions of the content being stacked as is.
- */
-$coordinates[$cat['term']][$biz['id']]['html'] = '
-<div class="srp_infoWindow clearfix" style="width: 315px; font-size: 12px;line-height: normal;">
-<img src="'.$biz['rating_img_url'].'" width="84" height="17" class="yelp_rating" style="float:left" /><a href="'.$biz['url'].'" target="_blank" title="Read Reviews">'. $biz['review_count'] .' Reviews</a>
-<img src="' . $biz['photo_url'].'" width="100" height="100" class="yelp_photo" style="float:right" />
-<div class="yelp_text" style="width: 200px">
-<span class="school_name">
-<a href="'.$biz['url'].'" target="_blank">'.$biz['name'].'</a>
-</span><br />
-Phone: '. srp_format_phone($biz['phone'])
-.'<br />' . $biz['address1'].', '. $biz['city'].', '.$biz['state_code'].' '. $biz['zip']
-.'</div>
-</div>
-<div id="yelp_attribution" style="float:none; width: 315px; text-align: right;">
-<a href="http://www.yelp.com">
-<img src="'. SRP_IMG .'/branding/reviewsFromYelpWHT.gif" width="115" height="25" alt="Reviews from Yelp.com" />
-</a>
-</div>';
+				/*
+				 * Every single element needs to have inline styls with their corresponding widths
+				 * so JS can calculate the total width and height of the InfoWindow correctly
+				 * otherwise it calculates dimensions of the content being stacked as is.
+				 */
+				$coordinates[$cat['term']][$biz['id']]['html'] = '
+				<div class="srp_infoWindow clearfix" style="width: 315px; font-size: 12px;line-height: normal;">
+				<img src="'.$biz['rating_img_url'].'" width="84" height="17" class="yelp_rating" style="float:left" /><a href="'.$biz['url'].'" target="_blank" title="Read Reviews">'. $biz['review_count'] .' Reviews</a>
+				<img src="' . $biz['photo_url'].'" width="100" height="100" class="yelp_photo" style="float:right" />
+				<div class="yelp_text" style="width: 200px">
+				<span class="school_name">
+				<a href="'.$biz['url'].'" target="_blank">'.$biz['name'].'</a>
+				</span><br />
+				Phone: '. srp_format_phone($biz['phone'])
+				.'<br />' . $biz['address1'].', '. $biz['city'].', '.$biz['state_code'].' '. $biz['zip']
+				.'</div>
+				</div>
+				<div id="yelp_attribution" style="float:none; width: 315px; text-align: right;">
+				<a href="http://www.yelp.com">
+				<img src="'. SRP_IMG .'/branding/reviewsFromYelpWHT.gif" width="115" height="25" alt="Reviews from Yelp.com" />
+				</a>
+				</div>';
 
 				$table .= '<tr class="' . $even_odd . '">
-						<td style="vertical-align: middle;"><img src="' . $biz['photo_url_small'].'" class="yelp_photo" width="40" height="40" align="left"/></td>
-                                                <td style="vertical-align: middle;"><div class="yelp_text"><span class="school_name"><a href="'.$biz['url'].'" target="_blank">'.$biz['name'].'</a></span><br />Phone: '. srp_format_phone($biz['phone']) .'<br />' . $biz['address1'].', '. $biz['city'].', '.$biz['state_code'].' '. $biz['zip'] .'</div></td>
-						<td style="vertical-align: middle;">
-							<div class="yelp_distance">' . round($biz['distance'], 2) . ' miles</div>
-						</td>
-						<td style="vertical-align: middle;" class="yelp_rating">
-                                                    <img src="'.$biz['rating_img_url_small'].'" /><br /><a href="'.$biz['url'].'" target="_blank" title="Read Reviews">'. $biz['review_count'] .' Reviews</a>
-						</td>
-					  </tr>';
-			}
-
-			//$_SESSION['srp_coordinates'] = $coordinates;
-			if($ajax)
-			{
-				$ajax_output .= json_encode($coordinates);
-			}elseif($table)
-			{
-				$content_output .= $wrap_open;
-				$content_output .= '<table class="srp_table tableStyle">' . $table . '</table>';
-				$content_output .= $wrap_close;
-			}
+					<td style="vertical-align: middle;"><img src="' . $biz['photo_url_small'].'" class="yelp_photo" width="40" height="40" align="left"/></td>
+                                            <td style="vertical-align: middle;"><div class="yelp_text"><span class="school_name"><a href="'.$biz['url'].'" target="_blank">'.$biz['name'].'</a></span><br />Phone: '. srp_format_phone($biz['phone']) .'<br />' . $biz['address1'].', '. $biz['city'].', '.$biz['state_code'].' '. $biz['zip'] .'</div></td>
+					<td style="vertical-align: middle;">
+						<div class="yelp_distance">' . round($biz['distance'], 2) . ' miles</div>
+					</td>
+					<td style="vertical-align: middle;" class="yelp_rating">
+                                                <img src="'.$biz['rating_img_url_small'].'" /><br /><a href="'.$biz['url'].'" target="_blank" title="Read Reviews">'. $biz['review_count'] .' Reviews</a>
+					</td>
+				  </tr>';
+			}	
+		}else{
+			$table = $message;
 		}
+		
+
+		//$_SESSION['srp_coordinates'] = $coordinates;
+		if($ajax && $coordinates)
+		{
+			$ajax_output .= json_encode($coordinates);
+		}elseif($table)
+		{
+			$content_output .= $wrap_open;
+			$content_output .= '<table class="srp_table tableStyle">' . $table . '</table>';
+			$content_output .= $wrap_close;
+		}
+		
 	}
 	if($ajax_output){
 		return $ajax_output;
