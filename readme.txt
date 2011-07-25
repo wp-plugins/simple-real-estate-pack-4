@@ -3,8 +3,8 @@ Contributors: Max Chirkov
 Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes, neighborhood, schools, yelp, zillow, map, trulia, altos, charts, statistics, real estate market
 Requires at least: 3.0
-Tested up to: 3.2
-Stable tag: 1.2.2
+Tested up to: 3.2.1
+Stable tag: 1.2.3
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
@@ -184,6 +184,7 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 **Version 1.2.3**
 
 - Bug Fix: reworked yelp logic to fix "no businesses" issue, that was appearing for all categories even if only one was empty.
+- Bug Fix: Thickbox incompatibility with new jQuery 1.6.x. Needed additional function to kill propagation of uload event.
 
 **Version 1.2.2**
 

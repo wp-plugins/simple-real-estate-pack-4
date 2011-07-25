@@ -125,7 +125,9 @@ jQuery(document).ready( function() {
 	function _fixed_tb_remove() {
 	 	jQuery("#TB_imageOff").unbind("click");
 		jQuery("#TB_closeWindowButton").unbind("click");
-		jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').unload("#TB_ajaxContent").unbind().remove();});
+		//jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').unload("#TB_ajaxContent").unbind().remove();});
+		jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').trigger("unload").unbind().remove();});
+		jQuery("#TB_window,#TB_overlay,#TB_HideSelect").one("unload",killTheDamnUnloadEvent);
 		jQuery("#TB_load").remove();
 		if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
 			jQuery("body","html").css({height: "auto", width: "auto"});
@@ -133,6 +135,15 @@ jQuery(document).ready( function() {
 		}
 		jQuery(document).unbind('.thickbox');
 		return false;
+	}
+	//http://themeforest.net/forums/thread/wordpress-32-admin-area-thickbox-triggering-unload-event/46916?page=1#434388
+	function killTheDamnUnloadEvent(e) {
+	    // you
+	    e.stopPropagation();
+	    // must
+	    e.stopImmediatePropagation();
+	    // DIE!
+	    return false;
 	}
 
 srp_refresh_tabs("#srp-tab-wrap");
