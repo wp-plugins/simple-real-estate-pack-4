@@ -7,13 +7,10 @@ function srp_education_get_api_key(){
 		return EDU_API_KEY;
 }
 
-function srp_Education_Scripts(){
-	wp_enqueue_script('jquery');
-	wp_enqueue_script('jquery-ui-tabs');
-}
-add_action('plugins_loaded', 'srp_Education_Scripts');
-
 function _srp_get_query_url($args = array()){
+  global $srp_scripts;
+  $srp_scripts = true;
+
 	if(is_array($args) && count($args)>0){
 		$i = 0;
 		$q = NULL;
@@ -32,7 +29,7 @@ function _srp_get_query_url($args = array()){
 			$query .= $q . $key . '=' . str_replace(' ', '+', $value);
 			$i++;
 		}
-		
+
 		return $query;
 	}
 }
@@ -126,10 +123,10 @@ function srp_run_apiFunction($function_name, $arguments=array()){
 			if(in_array($arg, $function['optional'])){
 				$optional[$arg] = $value;
 			}
-		}		
+		}
 
 		if(!empty($required) && !empty($optional)){
-                    $url = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);                    
+                    $url = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);
                     if(!$xml = srp_wp_http_xml($url)){
                         return;
                     }
@@ -169,7 +166,7 @@ function srp_groupSchoolsBy($args){
 }
 
 function srp_tabs_byType($args = array(), $ajax = NULL){
-	if(empty($args)) { return; }        
+	if(empty($args)) { return; }
         //To use param distance - lat/lng has to be set (API's requirement)
         if($args['location']['latitude'] && $args['location']['longitude'])
 			$distance = $args['location']['distance'];

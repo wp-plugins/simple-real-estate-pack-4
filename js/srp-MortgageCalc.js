@@ -1,26 +1,6 @@
-// JavaScript Document
-function srp_refresh_tabs(selector){
-      jQuery(selector).tabs();
-}
-
-function srp_check_prefilled(){
-    jQuery('input[id$="price_of_home"]').each(function(i) {
-		if(jQuery(this).val() != ''){
-			var id = jQuery(this).attr("id");
-			var num = id.replace(/\D/g,"");
-			srp_MortgageCalc_calculate(num);
-		}
-	});
-
-	jQuery('input[id$="loan_amount"]').each(function(i) {
-		if(jQuery(this).val() != ''){
-			var id = jQuery(this).attr("id");
-			var num = id.replace(/\D/g,"");
-			srp_ClosingCosts_calculate(num);
-		}
-	});
-}
-
+/**
+ * Document-Ready Events
+ */
 jQuery(document).ready(function(){
 	jQuery('.srp-tabs').css({"display" : "block"});
 
@@ -59,19 +39,27 @@ jQuery(document).ready(function(){
 
 });
 
-//wrapping output into currencyLabel span
-/*
-function srp_cl(value){
-	var str = '<span class="currencyLabel">' + value + '</span>';
-	return str;
-}
+/**
+ * FUNCTIONS
+ */
 
-function srp_currency() {
-        jQuery('.labelCurrency').each(function(i) {
-            jQuery(this).formatCurrency();
-        });
-    }
-*/
+function srp_check_prefilled(){
+    jQuery('input[id$="price_of_home"]').each(function(i) {
+		if(jQuery(this).val() != ''){
+			var id = jQuery(this).attr("id");
+			var num = id.replace(/\D/g,"");
+			srp_MortgageCalc_calculate(num);
+		}
+	});
+
+	jQuery('input[id$="loan_amount"]').each(function(i) {
+		if(jQuery(this).val() != ''){
+			var id = jQuery(this).attr("id");
+			var num = id.replace(/\D/g,"");
+			srp_ClosingCosts_calculate(num);
+		}
+	});
+}
 
 function showClosingDetails(id){
 	if(jQuery('#'+id).is(':hidden')){
@@ -85,14 +73,14 @@ function srp_removeThickBoxEvents() {
         jQuery('.thickbox').each(function(i) {
             jQuery(this).unbind('click');
         });
-    }
+}
 
 function srp_bindThickBoxEvents() {
         srp_removeThickBoxEvents();
         //tb_closeImage = tmp_tb_closeImage;
 		//tb_pathToImage = tmp_tb_pathToImage;
 		tb_init('a.thickbox, area.thickbox, input.thickbox');
-    }
+}
 
 
 function srp_MortgageCalc_calculate(num){
@@ -149,7 +137,7 @@ function srp_MortgageCalc_calculate(num){
 		//alert("Monthly Payments: " + monthly_payments);
 		var query = "?form_complete=1&sale_price="+ price_of_home + "&down_percent=" + down_payment + "&year_term=" + mortgage_term + "&annual_interest_percent=" + interest_rate + "&show_progress=1";
 		var thickbox = "&height=500&width=650";
-		var ammortization = "<a href=\"" + srp_inc + "/srp-AmmortResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Mortgage Amortization Schedule\">Amortization Schedule</a>";
+		var ammortization = "<a href=\"" + srp.srp_inc + "/srp-AmmortResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Mortgage Amortization Schedule\">Amortization Schedule</a>";
 
 
 		var additional_info	=	additional_charges_text +
@@ -220,7 +208,7 @@ function srp_Affordability_calculate(num){
 
 	var query = "?type=affordability&mo_gross_income="+ mo_gross_income + "&mo_debt_expences=" + mo_debt_expences + "&down_payment=" + down_payment + '&interest_rate=' + interest_rate;
 	var thickbox = "&height=700&width=600";
-	var result_link = "<a href=\"" + srp_inc + "/srp-AffordabilityResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Home Morgage Affordability\">View Calculation Details</a>";
+	var result_link = "<a href=\"" + srp.srp_inc + "/srp-AffordabilityResult.php" + query + thickbox + "\" class=\"thickbox\" title=\"Home Morgage Affordability\">View Calculation Details</a>";
 
 	var result =	'<div class="srp_bb">You Should Afford: ' + srp_cl(total_amount) + '</div>' +
 					loan_text +

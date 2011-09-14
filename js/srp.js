@@ -2,6 +2,103 @@ var srp_map;
 var custom_icons = [];
 var myOptions = [];
 
+//Other AJAX mapping
+var markerArray;
+markerArray = new Array();
+
+jQuery(document).ready( function() {
+
+	//Overriding Thickbox' tb_remove function because it breaks tabs
+	window.tb_remove = function() {
+		_fixed_tb_remove();
+	};
+
+  srp_refresh_tabs("#srp-tab-wrap");
+  srp_refresh_tabs(".srp-tabs");
+
+	//BEGIN Yelp AJAX
+
+		// This is the hack for IE
+		if (jQuery.browser.msie) {
+		  jQuery('input[id^="yelp_cat_"]').click(function() {
+			this.blur();
+			this.focus();
+		  });
+
+		  jQuery('input#schools_select').click(function() {
+			this.blur();
+			this.focus();
+		  });
+		}
+
+	jQuery('input[id^="yelp_cat_"]').change( function() {
+		srp_requestYelp(this);
+	});
+
+	jQuery('input#schools_select').change( function() {
+		srp_requestSchools();
+	})
+
+
+
+	if(typeof srp_listing_values != 'undefined'){
+		srp_initialize();
+	}
+
+  if(typeof srp_profile_view != 'undefined'){
+    window[srp_profile_view]();
+  }
+
+	//END Schools Preload
+
+	// END for GRE Plugin
+
+});//END for document ready
+
+/**
+ * FUNCTIONS
+ */
+
+// addLoadEvent by Simon Willison
+// http://www.webreference.com/programming/javascript/onloads/
+function addLoadEvent(func) {
+	  var oldonload = window.onload;
+	  if (typeof window.onload != 'function') {
+	    window.onload = func;
+	  } else {
+	    window.onload = function() {
+	      if (oldonload) {
+	        oldonload();
+	      }
+	      func();
+		}
+	  }
+}
+
+function _fixed_tb_remove() {
+	 	jQuery("#TB_imageOff").unbind("click");
+		jQuery("#TB_closeWindowButton").unbind("click");
+		//jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').unload("#TB_ajaxContent").unbind().remove();});
+		jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').trigger("unload").unbind().remove();});
+		jQuery("#TB_window,#TB_overlay,#TB_HideSelect").one("unload",killTheDamnUnloadEvent);
+		jQuery("#TB_load").remove();
+		if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
+			jQuery("body","html").css({height: "auto", width: "auto"});
+			jQuery("html").css("overflow","");
+		}
+		jQuery(document).unbind('.thickbox');
+		return false;
+	}
+	//http://themeforest.net/forums/thread/wordpress-32-admin-area-thickbox-triggering-unload-event/46916?page=1#434388
+	function killTheDamnUnloadEvent(e) {
+	    // you
+	    e.stopPropagation();
+	    // must
+	    e.stopImmediatePropagation();
+	    // DIE!
+	    return false;
+	}
+
 function _icon_array(icon_title, icon_file){
 	var _icon = {
 		position:		'',
@@ -13,14 +110,6 @@ function _icon_array(icon_title, icon_file){
 													new google.maps.Point(0,0),
 													new google.maps.Point(16, 37)
 													)
-		/*
-		,
-		shadow:			new google.maps.MarkerImage('http://labs.google.com/ridefinder/images/mm_20_shadow.png',
-													new google.maps.Size(22, 20),
-													new google.maps.Point(0,0),
-													new google.maps.Point(6, 20)
-													),
-		*/
 	};
 	return _icon;
 }
@@ -35,7 +124,7 @@ function _get_icon(icon_title){
         'Banks': 'banks.png',
         'Gas Stations': 'gas_stations.png'
     };
-    return srp_url + '/images/icons/' + icons[icon_title];
+    return srp.srp_url + '/images/icons/' + icons[icon_title];
 }
 
 function srp_custom_icons(){
@@ -110,44 +199,14 @@ function srp_initialize() {
 		srp_setupmap();
 }
 
-//Other AJAX mapping
-var loc = srp_wp_admin + '/admin-ajax.php';
-var markerArray;
-markerArray = new Array();
+function srp_setupmap(){
 
-jQuery(document).ready( function() {
+  var point = new google.maps.LatLng( srp_listing_values.lat, srp_listing_values.lng );
+  srp_map.setCenter(point, 13);
+  srp_setDefaultMarker(point, srp_listing_values.html);
 
-	//Overriding Thickbox' tb_remove function because it breaks tabs
-	window.tb_remove = function() {
-		_fixed_tb_remove();
-	};
+}
 
-	function _fixed_tb_remove() {
-	 	jQuery("#TB_imageOff").unbind("click");
-		jQuery("#TB_closeWindowButton").unbind("click");
-		//jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').unload("#TB_ajaxContent").unbind().remove();});
-		jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').trigger("unload").unbind().remove();});
-		jQuery("#TB_window,#TB_overlay,#TB_HideSelect").one("unload",killTheDamnUnloadEvent);
-		jQuery("#TB_load").remove();
-		if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
-			jQuery("body","html").css({height: "auto", width: "auto"});
-			jQuery("html").css("overflow","");
-		}
-		jQuery(document).unbind('.thickbox');
-		return false;
-	}
-	//http://themeforest.net/forums/thread/wordpress-32-admin-area-thickbox-triggering-unload-event/46916?page=1#434388
-	function killTheDamnUnloadEvent(e) {
-	    // you
-	    e.stopPropagation();
-	    // must
-	    e.stopImmediatePropagation();
-	    // DIE!
-	    return false;
-	}
-
-srp_refresh_tabs("#srp-tab-wrap");
-srp_refresh_tabs(".srp-tabs");
 function srp_addOverlay(marker){
 	if(typeof gre_map !== "undefined"){
 				marker.setMap(gre_map);
@@ -167,7 +226,7 @@ function srp_removeOverlay(marker){
 }
 
 function srp_function_exists(name, type, callbackfunc, arg){
-	jQuery.post(loc, {
+	jQuery.post(srp.ajaxurl, {
 				action: 'srp_function_exists',
 				name:		name,
 				type:		type
@@ -184,34 +243,8 @@ function srp_function_exists(name, type, callbackfunc, arg){
 	return false;
 }
 
-	//BEGIN Yelp AJAX
 
-		// This is the hack for IE
-		if (jQuery.browser.msie) {
-		  jQuery('input[id^="yelp_cat_"]').click(function() {
-			this.blur();
-			this.focus();
-		  });
-
-		  jQuery('input#schools_select').click(function() {
-			this.blur();
-			this.focus();
-		  });
-		}
-
-	jQuery('input[id^="yelp_cat_"]').change( function() {
-		//no need to check for yelp api key on every click
-		//srp_function_exists('srp_yelp_api_key', 'option', srp_requestYelp, this);
-		srp_requestYelp(this);
-	});
-
-	jQuery('input#schools_select').change( function() {
-		//no need to check for yelp api key on every click
-		//srp_function_exists('srp_yelp_api_key', 'option', srp_requestYelp, this);
-		srp_requestSchools();
-	})
-
-	function srp_requestYelp(arg){
+function srp_requestYelp(arg){
 		var prop_coord = jQuery('#srp_gre_prop_coord').val();
 		var coord = prop_coord.split(',');
 		var cat = jQuery(arg).attr("name");
@@ -233,7 +266,7 @@ function srp_function_exists(name, type, callbackfunc, arg){
 				}
 			}
 			var ajax_id = srp_ajax_loaderStart('gre_map_canvas', null);
-			jQuery.post(loc, {
+			jQuery.post(srp.ajaxurl, {
 				action: 'srp_getYelp_ajax',
 				term:		cat,
 				lat:		coord[0],
@@ -306,7 +339,7 @@ function srp_function_exists(name, type, callbackfunc, arg){
 			}
 
 			var ajax_id = srp_ajax_loaderStart('gre_map_canvas', null);
-			jQuery.post(loc, {
+			jQuery.post(srp.ajaxurl, {
 						action: 'srp_getSchools_ajax',
 						address:		address,
 						lat:		coord[0],
@@ -356,29 +389,6 @@ function srp_function_exists(name, type, callbackfunc, arg){
 				return false;
 	}
 
-
-
-	//END Schools Preload
-
-	// END for GRE Plugin
-});
-
-// addLoadEvent by Simon Willison
-// http://www.webreference.com/programming/javascript/onloads/
-function addLoadEvent(func) {
-	  var oldonload = window.onload;
-	  if (typeof window.onload != 'function') {
-	    window.onload = func;
-	  } else {
-	    window.onload = function() {
-	      if (oldonload) {
-	        oldonload();
-	      }
-	      func();
-		}
-	  }
-}
-
 function srp_ajax_loaderStart(id, title){
         var randomnumber=Math.floor(Math.random()*100001)
         var ajax_id = "ajax_loading_" + id + "_" + randomnumber;
@@ -396,7 +406,7 @@ function srp_ajax_loaderStart(id, title){
 		_width = jQuery(window).width();
 		_height = jQuery(window).height();
 	}
-	var img = '<img src="' + srp_url + '/images/ajax-loader.gif" alt="Loading. Please wait.">';
+	var img = '<img src="' + srp.srp_url + '/images/ajax-loader.gif" alt="Loading. Please wait.">';
 	if(title == null || title == 'undefined'){
 		title = "Loading...";
 	}
@@ -433,7 +443,7 @@ function srp_profile(x){
            //alert(_init_function);
             jQuery.ajax({
                     type: "POST",
-                    url: loc,
+                    url: srp.ajaxurl,
                     data: {
                         action: 'srp_ajax_call',
                         callback: _init_function,
@@ -475,7 +485,7 @@ function srp_profile_tabs(x){
             jQuery.ajax({
 
                 type: "POST",
-                url: loc,
+                url: srp.ajaxurl,
                 data: {
                     action: 'srp_ajax_call',
                     callback: _init_function,
@@ -495,8 +505,16 @@ function srp_profile_tabs(x){
         function srp_output_gre(data){
             jQuery('#srp_extension').append(data);
             srp_check_prefilled();
-            jQuery("#srp-tab-wrap").tabs("destroy");
-            jQuery(".srp-tabs").tabs("destroy");
-            srp_refresh_tabs("#srp-tab-wrap");
-            srp_refresh_tabs(".srp-tabs");
+            if(typeof jQuery.ui.tabs == 'function'){
+              jQuery("#srp-tab-wrap").tabs("destroy");
+              jQuery(".srp-tabs").tabs("destroy");
+              srp_refresh_tabs("#srp-tab-wrap");
+              srp_refresh_tabs(".srp-tabs");
+            }
         }
+
+function srp_refresh_tabs(selector){
+  if(typeof jQuery.ui.tabs == 'function'){
+   jQuery(selector).tabs();
+  }
+}

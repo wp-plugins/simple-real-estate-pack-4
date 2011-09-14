@@ -8,6 +8,7 @@ include 'srp-shortcodes.php';
 
 define('SRP_DEBUG', true);
 define('SRP_DEBUG_DATA', false);
+
 function srp_debug($message = '', $data = null){
 
     if(SRP_DEBUG){
@@ -162,70 +163,61 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
             $output .= '<span><img src="http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - ' . $srp_gmap_options['mainmarker_label'] . '</span>';
         }
         $output .= '</div>
-	</div>
-<script type="text/javascript">
-/* <![CDATA[ */
-	function srp_setupmap() {
-		var point = new google.maps.LatLng(' . $lat . ',' . $lng . ');
-		srp_map.setCenter(point, 13);
-		srp_setDefaultMarker(point, \'' . $html . '\');
-		';
-		//GoogleBar is not working with GMaps API3 - might be ported later
-		//if (get_option('srp_gmap_search')) $output .= 'srp_map.enableGoogleBar();';
-		$output .= '
-	}
-	addLoadEvent(srp_initialize);
-/* ]]> */
-</script>';
+	</div>';
 	return $output;
 }
 
 /*
 ** CSS and JS initialization
 */
+function srp_ajax_vars(){
+  $vars = array(
+      'srp_url'       => SRP_URL,
+      'srp_inc'       => SRP_URL .'/includes',
+      'srp_wp_admin'  => ADMIN_URL,
+      'ajaxurl'       => admin_url('admin-ajax.php')
+  );
+  return $vars;
+}
 function srp_admin_scripts(){
-         //Declaring JS variables that are being used in a global scope for TinyMCE Widgets
-	echo "\n" . '<script type="text/javascript">
-//<![CDATA[
-	var srp_url = "'. SRP_URL .'";
-    var srp_inc = "'. SRP_URL .'/includes";
-	var srp_wp_admin = "' . ADMIN_URL . '";
-//]]>
-' . "\n" . '</script>' . "\n";
-        wp_enqueue_script('jquery');
-        $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
-	wp_enqueue_script( 'google', $googlepath, FALSE, false, false );
-        $srp_gre_admin = SRP_URL.'/js/srp-gre-admin.js';
-        wp_enqueue_script('srp-gre-admin', $srp_gre_admin, false, false, false);
+
+    if (isset($_GET['page']) && strstr($_GET['page'], 'simple-real-estate-pack') || strstr($_GET['page'], 'srp_')){
+        wp_enqueue_script('postbox');
+        wp_enqueue_script('dashboard');
+        wp_enqueue_style('dashboard');
+        wp_enqueue_style('global');
+        wp_enqueue_style('wp-admin');
+        wp_enqueue_style('blogicons-admin-css', SRP_URL . '/settings/settings.css');
+    }
+
+    wp_enqueue_script('jquery');
+    $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
+    wp_enqueue_script( 'google', $googlepath, FALSE, false, false );
+    $srp_gre_admin = SRP_URL.'/js/srp-gre-admin.js';
+    wp_enqueue_script('srp-gre-admin', $srp_gre_admin, false, false, false);
 }
 
 function srp_default_headScripts(){
-    //wp_deregister_script('jquery');
 
-    //$jquery = "http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js";
-    //wp_register_script('jquery', $jquery, '1.4.4');
 	wp_enqueue_script('jquery');
-    wp_enqueue_script('jquery-ui');
-	wp_enqueue_script('jquery-ui-tabs');
-    add_thickbox();
-
-    if (isset($_GET['page']) && strstr($_GET['page'], 'simple-real-estate-pack') || strstr($_GET['page'], 'srp_')){
-		wp_enqueue_script('postbox');
-		wp_enqueue_script('dashboard');
-		wp_enqueue_style('dashboard');
-		wp_enqueue_style('global');
-		wp_enqueue_style('wp-admin');
-		wp_enqueue_style('blogicons-admin-css', SRP_URL . '/settings/settings.css');
-	}
-        $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
+  add_thickbox();
+  $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
 	wp_enqueue_script( 'google', $googlepath, FALSE, false, false );
-        if(function_exists('greatrealestate_init')){
-            remove_action( 'wp_enqueue_scripts', 'greatrealestate_add_javascript' );
-        }
+    if(function_exists('greatrealestate_init')){
+        remove_action( 'wp_enqueue_scripts', 'greatrealestate_add_javascript' );
+    }
 
+    wp_register_script('srp-jsmin', SRP_URL . '/js/jsmin.js', array('jquery'), '1.0', true);
+    wp_register_script('srp', SRP_URL . '/js/srp.js', array('jquery'), '1.0', true);
+    wp_register_script('srp-calcs', SRP_URL . '/js/srp-MortgageCalc.js', array('jquery', 'srp', 'srp-currency'), '1.0', true);
+    wp_register_script('srp-currency', SRP_URL . '/js/jquery.formatCurrency-1.0.0.js', array('jquery'), '1.0', true);
+    //Pass JS vars so they can be used in a global scope
+    wp_localize_script( 'srp', 'srp', srp_ajax_vars() );
 }
 
 function srp_head_scripts(){
+    global $srp_scripts;
+
     $myStyleUrl		= SRP_URL . '/css/srp.css';
     $myStyleFile	= SRP_DIR . '/css/srp.css';
     if ( file_exists($myStyleFile) ) {
@@ -244,20 +236,26 @@ function srp_head_scripts(){
 /*<![CDATA[ */' ."\n"
 . "\t" . 'tb_pathToImage = "' . get_option('siteurl') . '/wp-includes/js/thickbox/loadingAnimation.gif";'."\n"
 . "\t" . 'tb_closeImage = "' . get_option('siteurl') . '/wp-includes/js/thickbox/tb-close.png";'. "\n"
-. "\t" . 'var srp_url = "'. SRP_URL .'";' . "\n"
-. "\t" . 'var srp_inc = "'. SRP_URL .'/includes";' . "\n"
-. "\t" . 'var srp_wp_admin = "' . ADMIN_URL . '";
-/* ]]> */
+.'/* ]]> */
 ' . "\n" . '</script>' . "\n";
-        //echo '<!--[if lt IE 8]>';
-        echo '<script type="text/javascript" src="' . SRP_URL . '/js/jsmin.js"></script>'."\n";
-        //echo '<![endif]-->';
-	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp.js"></script>'."\n";
+
 }
 
 function srp_footer_scripts(){
-	echo '<script type="text/javascript" src="' . SRP_URL . '/js/srp-MortgageCalc.js"></script>'."\n";
-	echo '<script type="text/javascript" src="' . SRP_URL . '/lib/jquery.formatCurrency-1.0.0.js"></script>'."\n";
+	global $srp_scripts;
+
+    if( !$srp_scripts )
+        return;
+
+    $srp_general_options = get_option('srp_general_options');
+    if($srp_general_options['content']['srp_profile_tabs']){
+      wp_print_scripts('jquery-ui');
+      wp_print_scripts('jquery-ui-tabs');
+    }
+    wp_print_scripts('srp-jsmin');
+    wp_print_scripts('srp');
+    wp_print_scripts('srp-calcs');
+    wp_print_scripts('srp-currency');
 }
 
 add_action('admin_print_scripts', 'srp_admin_scripts');
@@ -574,4 +572,19 @@ function srp_inquiry_form(){
             <?php
             }
 }
+
+//Loads TinyMCE window for a widget via AJAX
+function srp_ajax_tinymce(){
+    // check for rights
+    if ( !current_user_can('edit_pages') && !current_user_can('edit_posts') )
+        die(__("You are not allowed to be here"));
+
+    if( !$_REQUEST['plugin'] )
+        die($_REQUEST['plugin']);
+
+    include_once( SRP_TMCE . '/' . $_REQUEST['plugin'] . '.php');
+
+    die();
+}
+add_action( 'wp_ajax_srp_tinymce', 'srp_ajax_tinymce' );
 ?>

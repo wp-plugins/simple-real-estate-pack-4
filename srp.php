@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Simple Real Estate Packx
+Plugin Name: Simple Real Estate Pack
 Plugin URI: http://www.phoenixhomes.com/tech/simple-real-estate-pack
 Description: Package of real estate tools and widgets designed specifically for real estate industry blogs and sites. Includes mortgage and home affordability calculators, closing cost estimator, lilve mortgage rates, Trulia statistical graphs, local schools and other features.
-Version: 1.2.3
+Version: 1.2.4
 Author: Max Chirkov
 Author URI: http://www.PhoenixHomes.com
 */
@@ -25,8 +25,13 @@ Author URI: http://www.PhoenixHomes.com
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/*Un-Committed Changes:
+- changed absolution positioning of hidden ui tabs
+- 
+
 /*
  * ToDo Max: Instructions on API, and how to include GRE template, finish GRE template + CSS for it, videos on implementation of all of the above.
+ TODO: optimize JS script size and conditional loading only on pages that are using scripts.
  */
 
 define("SRP_BASENAME", plugin_basename(dirname(__FILE__)));
@@ -44,6 +49,8 @@ define("SRP_TPL", SRP_DIR . '/templates');
 define("SRP_TMCE", SRP_DIR . '/tinymce');
 
 register_activation_hook(__FILE__, 'srp_activation');
+
+$srp_scripts = false;
 
 require_once SRP_INC . '/Class_srpWidgets.php';
 include_once (SRP_TMCE . '/tinymce.php');

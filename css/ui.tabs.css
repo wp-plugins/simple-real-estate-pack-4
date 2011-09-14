@@ -58,5 +58,6 @@
 .ui-tabs-panel { margin-bottom: 1.5em;}
 .ui-tabs .ui-tabs-hide {
     position: absolute;
-    top: -10000px;
+    left: -10000px;
+    width: 100%;
 }

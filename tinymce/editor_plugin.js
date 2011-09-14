@@ -17,7 +17,7 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mcesrp_TruliaStats');
 			ed.addCommand('mcesrp_TruliaStats', function() {
 				ed.windowManager.open({
-					file : url + '/window.php',
+					file : ajaxurl + '?action=srp_tinymce&plugin=window',
 					width : 360 + ed.getLang('srp_TruliaStats.delta_width', 0),
 					height : 300 + ed.getLang('srp_TruliaStats.delta_height', 0),
 					inline : 1

@@ -1,28 +1,3 @@
-/*Old function that uses GMap API 2 with API key requried
-function srp_geocode(){
-	if(typeof(srp_geo) !== 'undefined' && jQuery.trim(jQuery('#listings_address').val()) != '' && jQuery.trim(jQuery('#listings_city').val()) != '' && jQuery.trim(jQuery('#listings_state').val()) != '' && jQuery.trim(jQuery('#listings_postcode').val()) != ''){
-			var geo_url = 'http://maps.google.com/maps/geo?q=';
-			var params = '&oe=utf8&sensor=false&output=json&key=' + srp_geo + '&jsoncallback=?';
-			var address = jQuery('#listings_address').val() + ', ' + jQuery('#listings_city').val() + ', ' + jQuery('#listings_state').val() + ' ' + jQuery('#listings_postcode').val();
-			var url = geo_url + address.replace(/ /g, "+") + params;
-			var loc = srp_wp_admin + '/admin-ajax.php';
-			jQuery.post(loc, {
-				action: 'srp_geocode_ajax',
-				address: address
-			  }, function(data){
-					lat = data[1];
-					lng = data[0];
-					jQuery('#listings_latitude').val(lat);
-					jQuery('#listings_longitude').val(lng);
-					srp_geocode_test(lat, lng);
-				}, "json"
-			);
-		return false;
-		}
-
-}
-*/
-
 //Utilizing GMap API v3 (no API key needed)
 function srp_geocode(){
 	if(jQuery.trim(jQuery('#listings_address').val()) != '' && jQuery.trim(jQuery('#listings_city').val()) != '' && jQuery.trim(jQuery('#listings_state').val()) != '' && jQuery.trim(jQuery('#listings_postcode').val()) != ''){
@@ -34,7 +9,7 @@ function srp_geocode(){
                               geocoder.geocode( { 'address': address}, function(results, status) {
                                 if (status == google.maps.GeocoderStatus.OK) {
                                     var latlng = results[0].geometry.location;
-                                    
+
                                     jQuery('#listings_latitude').val(latlng.lat());
                                     jQuery('#listings_longitude').val(latlng.lng());
                                     srp_geocode_test(latlng.lat(), latlng.lng());
@@ -78,12 +53,12 @@ jQuery(document).ready( function() {
 
 	//Overriding Thickbox' tb_remove function because it breaks tabs
 	window.tb_remove = function() {
-		_fixed_tb_remove();	
+		_fixed_tb_remove();
 	};
 
 	function _fixed_tb_remove() {
 	 	jQuery("#TB_imageOff").unbind("click");
-		jQuery("#TB_closeWindowButton").unbind("click");	
+		jQuery("#TB_closeWindowButton").unbind("click");
 		jQuery("#TB_window").fadeOut("fast",function(){jQuery('#TB_window,#TB_overlay,#TB_HideSelect').unload("#TB_ajaxContent").unbind().remove();});
 		jQuery("#TB_load").remove();
 		if (typeof document.body.style.maxHeight == "undefined") {//if IE 6

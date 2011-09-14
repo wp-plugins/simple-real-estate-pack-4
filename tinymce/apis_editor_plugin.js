@@ -17,7 +17,7 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mcesrp_APIs');
 			ed.addCommand('mcesrp_APIs', function() {
 				ed.windowManager.open({
-					file : url + '/apis_window.php',
+					file : ajaxurl + '?action=srp_tinymce&plugin=apis_window',
 					width : 380 + ed.getLang('srp_APIs.delta_width', 0),
 					height : 355 + ed.getLang('srp_APIs.delta_height', 0),
 					inline : 1

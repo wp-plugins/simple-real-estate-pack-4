@@ -17,7 +17,7 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mcesrp_Calcs');
 			ed.addCommand('mcesrp_Calcs', function() {
 				ed.windowManager.open({
-					file : url + '/calcs_window.php',
+					file : ajaxurl + '?action=srp_tinymce&plugin=calcs_window',
 					width : 360 + ed.getLang('srp_Calcs.delta_width', 0),
 					height : 355 + ed.getLang('srp_Calcs.delta_height', 0),
 					inline : 1

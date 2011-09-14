@@ -11,7 +11,7 @@
 require_once( dirname( dirname(__FILE__) ) .'/includes/srp-wp-load.php');
 require_once(dirname( dirname(__FILE__) ) .'/includes/srp-tinymce-widgets.php');
 
-global $wpdb;
+global $wpdb, $graph_types;
 
 // check for rights
 if ( !is_user_logged_in() || !current_user_can('edit_posts') ) 

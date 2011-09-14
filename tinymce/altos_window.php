@@ -8,10 +8,10 @@
 +----------------------------------------------------------------+
 */
 
-require_once( dirname( dirname(__FILE__) ) .'/includes/srp-wp-load.php');
-require_once(dirname( dirname(__FILE__) ) .'/includes/srp-tinymce-widgets.php');
+require_once( SRP_INC .'/srp-wp-load.php');
+require_once( SRP_INC .'/srp-tinymce-widgets.php' );
 
-global $wpdb;
+global $wpdb, $metrics, $pricerangequartile, $rollingaverage;
 
 // check for rights
 if ( !is_user_logged_in() || !current_user_can('edit_posts') ) 
@@ -23,7 +23,6 @@ foreach($states_arr as $k => $v){
 	$states .= "\t".'<option value="'.$k.'">'.$v.'</option>'."\n";
 }
 $states .= "</select>\n";
-
 
 foreach($metrics as $k => $v){
 	$left_axis .= "\t".'<input type="checkbox" name="simpleAltos_stats" value="'.$k.':l">'. $v ."<br />\n";

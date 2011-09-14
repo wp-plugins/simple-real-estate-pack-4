@@ -12,6 +12,9 @@ class srp_MortgageCalc extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+		global $srp_scripts;
+		$srp_scripts = true;
+
 		extract($args);
 		$title = apply_filters('srp_MortgageCalc', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
@@ -102,6 +105,9 @@ class srp_AffordabilityCalc extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+		global $srp_scripts;
+		$srp_scripts = true;
+
 		extract($args);
 		$title = apply_filters('srp_AffordabilityCalc', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
@@ -198,6 +204,9 @@ class srp_ClosingCosts extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+		global $srp_scripts;
+		$srp_scripts = true;
+
 		extract($args);
 		$title = apply_filters('srp_ClosingCosts', empty($instance['title']) ? '' : $instance['title']);
 		$text = apply_filters( 'srp_ClosingCosts', $instance['text'] );
@@ -338,6 +347,9 @@ class srp_MortgageRates extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+		global $srp_scripts;
+		$srp_scripts = true;
+
 		extract($args);
 		$title = apply_filters('srp_MortgageRates', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
@@ -472,6 +484,9 @@ class srp_RentMeter extends WP_Widget {
 	}
 
 	function widget( $args, $instance ) {
+		global $srp_scripts;
+		$srp_scripts = true;
+		
 		extract($args);
 		$title = apply_filters('srp_RentMeter', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }

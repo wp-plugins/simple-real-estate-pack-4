@@ -47,7 +47,8 @@ $yelp_categories = array(
 );
 
 function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance', $term = null, $num_biz_requested = null, $ajax = null){
-	global $yelp_categories;
+	global $yelp_categories, $srp_scripts;
+
 	if($term && $yelp_categories[$term]) {
 		$_categories = array($term => $yelp_categories[$term]);
 	}elseif($term && $terms = explode(',', $term)){
@@ -88,15 +89,15 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 			return;
 
 		$result = json_decode($request_result, true);
-		$phparray = $result;		
+		$phparray = $result;
 
         if(count($phparray['businesses']) < 1){
             $message = '<p class="no-businesses-found">There are no ' . $cat['name'] . ' within ' . $radius . ' miles radius from this property.</p>';
             if($ajax){
                 return json_encode(array('message' => $message));
-            }            
+            }
         }
-        
+
 		if(count($_categories) > 1){
 			$tabs .= '<li><a href="#tabs-'.$cat['term'].'"  title="'.__($cat['name'],"simplerealestatepack") . '" ><span>'
 			. __($cat['name'],"simplerealestatepack")
@@ -119,8 +120,8 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 			case 'name':
 				sort($businesses);
 				break;
-		}				
-		
+		}
+
 		if(!empty($businesses)){
 			foreach($businesses as $item){
 				$biz = $item['biz'];
@@ -162,11 +163,11 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
                                                 <img src="'.$biz['rating_img_url_small'].'" /><br /><a href="'.$biz['url'].'" target="_blank" title="Read Reviews">'. $biz['review_count'] .' Reviews</a>
 					</td>
 				  </tr>';
-			}	
+			}
 		}else{
 			$table = $message;
 		}
-		
+
 
 		//$_SESSION['srp_coordinates'] = $coordinates;
 		if($ajax && $coordinates)
@@ -178,11 +179,13 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 			$content_output .= '<table class="srp_table tableStyle">' . $table . '</table>';
 			$content_output .= $wrap_close;
 		}
-		
+
 	}
 	if($ajax_output){
+    $srp_scripts = true;
 		return $ajax_output;
 	}elseif($content_output){
+    $srp_scripts = true;
 		return '<div class="srp-tabs"><ul class="clearfix">' . $tabs . '</ul><div style="clear:both;"></div>' . $content_output . '</div><div id="yelp_attribution"><a href="http://www.yelp.com"><img src="'. SRP_IMG .'/branding/reviewsFromYelpWHT.gif" width="115" height="25" alt="Reviews from Yelp.com"/></a></div>';
 	}else{
 		return;

@@ -181,6 +181,13 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 
 == Changelog ==
 
+**Version 1.2.4**
+
+- Fixes CSS issue where Schools were overlaying main content on the page.
+- Changed TinyMCE plugins to open windows via Ajax rather than direct calls.
+- Added dirty patch to load JS only on the pages that utilizing the plugin.
+- Misc. clean up.
+
 **Version 1.2.3**
 
 - Bug Fix: reworked yelp logic to fix "no businesses" issue, that was appearing for all categories even if only one was empty.

@@ -128,10 +128,12 @@ if (function_exists('greatrealestate_init')) {
  */
 
 function srp_profile($args = array()) {
-  global $srp_general_options, $srp_widgets, $srp_property_values, $srp_ext_gre_content;
+  global $srp_general_options, $srp_widgets, $srp_property_values, $srp_ext_gre_content, $srp_scripts;
 
   if (count($srp_property_values) < 6)
     return;
+
+  $srp_scripts = true;
 
   if (empty($args)) {
     $args['tabs'] = $srp_general_options['content']['srp_profile_tabs'];
@@ -139,7 +141,7 @@ function srp_profile($args = array()) {
   }
 
   srp_prepare_widgets_object();
-  //var_dump($srp_widgets);
+//var_dump($srp_widgets);
   $js_func = 'srp_profile';
   $content = '<div id="srp-tab-wrap">';
   if ($args['tabs']) {
@@ -188,7 +190,7 @@ function srp_profile($args = array()) {
 
       $content .= "\t\t" . '};
                     var load_srp_functions = [' . $callbacks_string . '];
-                    addLoadEvent(' . $js_func . ');
+                    var srp_profile_view = \'' . $js_func .'\';
                   </script>
                   ';
     }

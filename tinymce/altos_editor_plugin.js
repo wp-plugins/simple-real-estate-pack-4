@@ -17,7 +17,7 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mcesrp_AltosStats');
 			ed.addCommand('mcesrp_AltosStats', function() {
 				ed.windowManager.open({
-					file : url + '/altos_window.php',
+					file : ajaxurl + '?action=srp_tinymce&plugin=altos_window',
 					width : 360 + ed.getLang('srp_AltosStats.delta_width', 0),
 					height : 300 + ed.getLang('srp_AltosStats.delta_height', 0),
 					inline : 1
