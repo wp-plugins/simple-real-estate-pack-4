@@ -164,7 +164,7 @@ function srp_profile($args = array()) {
 
       //check if any functions exist that use 3rd party APIs and require desclamers in the footer
       /*
-       * ToDo Max: add filter to wp_footer to add disclamers.
+       * ToDo Max: add filter to wp_footer to add disclaimers.
        * Don't loop an array, but rather do each instance separately since I have to check for their API keys.
        *
         $apis = array(

@@ -1,4 +1,6 @@
 <?php
+//TODO: for some reason Currency JS was removed from previous version. See if it doesn't need to be there.
+
 include 'srp-widgets.php';
 include 'srp-education.php';
 include 'srp-yelp.php';
@@ -364,13 +366,13 @@ function _srp_smartstripslashes($str) {
 }
 
 
-//Disclamers and terms of use placeholder
-function srp_footer_disclamers(){
-    echo '<div id="srp-disclamers">';
-    do_action('srp_footer_disclamers');
+//Disclaimers and terms of use placeholder
+function srp_footer_disclaimer(){
+    echo '<div id="srp-disclaimers">';
+    do_action('srp_footer_disclaimer');
     echo '</div>';
 }
-add_action('wp_footer', 'srp_footer_disclamers', 2);
+add_action('wp_footer', 'srp_footer_disclaimer', 2);
 
 function srp_wp_http_xml($url){
     $ch = curl_init();
@@ -580,7 +582,7 @@ function srp_ajax_tinymce(){
         die(__("You are not allowed to be here"));
 
     if( !$_REQUEST['plugin'] )
-        die($_REQUEST['plugin']);
+        die();
 
     include_once( SRP_TMCE . '/' . $_REQUEST['plugin'] . '.php');
 

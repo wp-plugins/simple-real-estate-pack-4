@@ -286,7 +286,7 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 		$tabs .= '<div style="clear:both;"></div>' . "\n";
 
 		//add disclaimer to the footer
-		add_action('srp_footer_disclamers', 'srp_Education_disclaimer');
+		add_action('srp_footer_disclaimers', 'srp_Education_disclaimer');
 		$output = '<div class="srp-tabs">' . srp_Education_attribution($school->city, $school->state) . "\n" . $tabs . $$args['output'] . '</div>' . "\n";
 		if($ajax){
 			$content = $output;
@@ -298,9 +298,9 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 }
 
 //Seann Birkelund @ sbirkelund@education.com
-//allowed to nofollow disclamer links, but not the attribution links within the content from the Education.com
+//allowed to nofollow disclaimer links, but not the attribution links within the content from the Education.com
 function srp_Education_disclaimer(){
-	$content = '<div class="spr_disclaimer srp_education_disclamer">&copy; <a href="http://www.education.com/" rel="nofollow">Education.com, Inc.</a> 2008.&nbsp; Use is subject to <a href="http://www.education.com/schoolfinder/tools/webservice/terms/" rel="nofollow">Terms of Service</a></div>';
+	$content = '<div class="spr_disclaimer srp_education_disclaimer">&copy; <a href="http://www.education.com/" rel="nofollow">Education.com, Inc.</a> 2008.&nbsp; Use is subject to <a href="http://www.education.com/schoolfinder/tools/webservice/terms/" rel="nofollow">Terms of Service</a></div>';
 	echo $content;
 }
 

@@ -445,7 +445,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 		</div>';
 
 		//add disclaimer to the footer
-		add_action('srp_footer_disclamers', 'srp_zillow_disclaimer');
+		add_action('srp_footer_disclaimers', 'srp_zillow_disclaimer');
 
 		if($return_rate){
 			return $xml->response->today->rate[0];
@@ -455,7 +455,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 }
 
 function srp_zillow_disclaimer(){
-	$content = '<div class="spr_disclaimer srp_zillow_disclamer">&copy; Zillow, Inc., 2008. Use is subject to <a href="http://www.zillow.com/corp/Terms.htm">Terms of Use</a></div>';
+	$content = '<div class="spr_disclaimer srp_zillow_disclaimer">&copy; Zillow, Inc., 2008. Use is subject to <a href="http://www.zillow.com/corp/Terms.htm">Terms of Use</a></div>';
 	echo $content;
 }
 
@@ -486,7 +486,7 @@ class srp_RentMeter extends WP_Widget {
 	function widget( $args, $instance ) {
 		global $srp_scripts;
 		$srp_scripts = true;
-		
+
 		extract($args);
 		$title = apply_filters('srp_RentMeter', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
@@ -513,7 +513,7 @@ class srp_RentMeter extends WP_Widget {
 			 . '<div class="srp_attrib"><a href="http://www.rentometer.com"><img src="' . SRP_IMG . '/branding/rentometer_logo_api-med.gif" width="145" height="50" /></a></div>'
 			 . $after_widget;
 			 //add disclaimer to the footer
-			 add_action('srp_footer_disclamers', 'srp_rentometer_disclaimer');
+			 add_action('srp_footer_disclaimers', 'srp_rentometer_disclaimer');
 			 $_SESSION['srp_rentometer_api_key'] = get_option('srp_rentometer_api_key');
 			 if(!$_SESSION['srp_rentometer_api_key']){ return; }
 		if($instance['return'] == true){
@@ -540,7 +540,7 @@ class srp_RentMeter extends WP_Widget {
 }
 
 function srp_rentometer_disclaimer(){
-	$content = '<div class="spr_disclaimer srp_rentometer_disclamer">&copy; Rentometer, 2007. Use is subject to <a href="http://www.rentometer.com/terms">Terms of Use</a></div>';
+	$content = '<div class="spr_disclaimer srp_rentometer_disclaimer">&copy; Rentometer, 2007. Use is subject to <a href="http://www.rentometer.com/terms">Terms of Use</a></div>';
 	echo $content;
 }
 
