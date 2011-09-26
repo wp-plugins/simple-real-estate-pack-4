@@ -63,7 +63,25 @@ For detailed usage instructions visit the [official site](http://www.phoenixhome
 
 = Extending GRE listings with SRP Neighborhood Profiles =
 
-If you're using the Great Real Estate Plugin, you can simply include the existing template that comes with the Simple Real Estate Plugin. To do so, follow the following steps:
+Simple Real Estate Pack can output information like map, schools, local businesses and market statistics within certain radius of the location of the property listing, presented by GRE plugin.
+
+**GRE supports 2 ways of presenting listings:**
+1. Via default auto-generated templates of listings summary and individual listings pages.
+2. Via custom templates that have be located inside your theme’s folder.
+
+**First Method doesn’t require any HTML or PHP skills, but some knowledge of CSS may be needed.**
+1.  After GRE and SRP are installed, assure that Permalinks for your website are activated. You can do that via Settings -> Permalinks. This step is required by the GRE plugin.
+2.  Go into GRE Settings. Make sure that the Main Listings Page is selected (if you don’t have one, create a blank one and then select it in the settings).
+3.  Listing Summary and Individual Listings Pages must be checked. Leave the rest of the checkboxes unchecked.
+4.  Make sure that comments and trackbacks are deactivated on your Main Listings Page and all individual listings as well.
+5.  That’s it – SRP information should appear below each listing on the individual listing pages. Follow the GRE instructions on how to create and manage listings.
+
+*Even though GRE and SRP plugins come with some pre-defined styles, which can be activated via their respective settings pages, remember that only one style should be used, otherwise they will conflict. Some themes may conflict with the default styles as well, so you may need to make adjustmetns in your own theme's style.css file.*
+
+**Second Method:  via custom listings templates. In short - you MUST know what you’re doing.**
+If you don’t know what “loop” means in WordPress, and how to create page templates – this section will not teach you how to do it, so you better find someone who can do it for you.
+
+Create a new page template. This is how I do it:
 
 **1.** Create a copy of your page.php template and name it listingpage.php. It has to be in your theme's folder where other templates are (page.php, post.php etc.).
 
@@ -77,7 +95,7 @@ Template Name: SRP Listing Page
 ?>
 `
 
-**3.** Find the line that begins with `<div class="entry">` and its corresponding closing `</div>`. Delete everything in between and insert this code:
+**3.** Place the following code inside the loop of the page template. You might also want to delete everything else from the loop, otherwise you'll endup with some duplicate content on the same page.
 
 `<?php
 if(SRP_DIR)
@@ -86,7 +104,7 @@ if(SRP_DIR)
 
 **4.** Now, you should be able to use SRP Listing Page template from the drop-down selection list when editing your listings.
 
-= Using SRP Neighborhood Profiles in Custom Templates =
+= Using SRP Neighborhood Profiles in Other Custom Templates =
 
 Assuming that a number of values that refer to property location will be passes to your custom template, you need to define the following global variable as an associative array with preset keys followed by the `srp_profile()` function:
 
