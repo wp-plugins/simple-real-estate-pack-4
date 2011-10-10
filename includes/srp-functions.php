@@ -217,23 +217,28 @@ function srp_default_headScripts(){
     wp_localize_script( 'srp', 'srp', srp_ajax_vars() );
 }
 
-function srp_head_scripts(){
-    global $srp_scripts;
+add_action('wp_print_styles', 'srp_register_header_styles');
+function srp_register_header_styles(){
+  global $srp_scripts, $wp_query;
+  $myStyleUrl		= SRP_URL . '/css/srp.css';
+  $myStyleFile	= SRP_DIR . '/css/srp.css';
+  if ( file_exists($myStyleFile) ) {
+      wp_register_style('srp', $myStyleUrl, array(), false, 'screen');
+      wp_enqueue_style('srp');
+  }
 
-    $myStyleUrl		= SRP_URL . '/css/srp.css';
-    $myStyleFile	= SRP_DIR . '/css/srp.css';
-    if ( file_exists($myStyleFile) ) {
-        wp_register_style('srp', $myStyleUrl);
-        wp_print_styles( 'srp');
-    }
-	$uitabsStyle	= SRP_URL . '/css/ui.tabs.css';
+  $uitabsStyle	= SRP_URL . '/css/ui.tabs.css';
 	$uitabsFile		= SRP_DIR . '/css/ui.tabs.css';
 	$srp_general_options = get_option('srp_general_options');
 	$srp_ext_gre_options = get_option('srp_ext_gre_options');
 	if($srp_general_options['content']['srp_gre_css'] || $srp_ext_gre_options['content']['srp_gre_css']  && file_exists($uitabsFile)){
-            wp_register_style('srp_uitabs', $uitabsStyle);
-            wp_print_styles( 'srp_uitabs');
+            wp_register_style('srp_uitabs', $uitabsStyle, array(), false, 'screen');
+            wp_enqueue_style('srp_uitabs');
 	}
+
+}
+
+function srp_head_scripts(){
 		echo "\n" . '<script type="text/javascript">
 /*<![CDATA[ */' ."\n"
 . "\t" . 'tb_pathToImage = "' . get_option('siteurl') . '/wp-includes/js/thickbox/loadingAnimation.gif";'."\n"

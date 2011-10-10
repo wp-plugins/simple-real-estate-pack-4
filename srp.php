@@ -25,15 +25,6 @@ Author URI: http://www.PhoenixHomes.com
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/*Un-Committed Changes:
-- changed absolution positioning of hidden ui tabs
-- 
-
-/*
- * ToDo Max: Instructions on API, and how to include GRE template, finish GRE template + CSS for it, videos on implementation of all of the above.
- TODO: optimize JS script size and conditional loading only on pages that are using scripts.
- */
-
 define("SRP_BASENAME", plugin_basename(dirname(__FILE__)));
 define("SRP_DIR", WP_PLUGIN_DIR . '/' . SRP_BASENAME);
 define("SRP_URL", WP_PLUGIN_URL . '/' . SRP_BASENAME);
