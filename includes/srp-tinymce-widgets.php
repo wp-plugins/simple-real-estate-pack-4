@@ -26,6 +26,7 @@ function srp_get_trulia_stats($atts=array()){
 	$city_state = urlencode($args['city'] . '-' . srp_get_states($args['state']));
 	$url = 'http://graphs.trulia.com/real_estate/' . $city_state . '/graph.png?version=' . TRULIA_VER;
 
+  $query = '';
 	foreach($args as $k => $v){
 		$query .= '&' . $k . '=' . urlencode($v);
 	}
@@ -66,7 +67,7 @@ $rollingaverage = array(
 );
 
 function srp_get_altos_stats($atts=array()){
-	global $metrics;
+	global $graph_types, $metrics;
 	$args = shortcode_atts(array(
 		"width"		=> null,
 		"type"		=> 'median',
@@ -83,7 +84,12 @@ function srp_get_altos_stats($atts=array()){
             $url = SRP_URL . '/images/stats-n-a.png';
         }
 
-	$img = '<img src="'.$url.'" alt="'.$graph_types[$args['type']].'" alt="'.$metrics[$args['type']].' in '.$args['city'].', '. $args['state'] . ' ' . $args['zipcode'].'" width="'.$args['width'].'"/>';
+  $alt_text = ( isset($metrics[$args['type']]) ) ? $metrics[$args['type']] . ' in ' : 'Real Estate Statistics for ';
+  $alt_text .= ( isset($args['city']) ) ? $args['city'] . ', ' : '';
+  $alt_text .= ( isset($args['state']) ) ? $args['state'] . ' ' : '';
+  $alt_text .= ( isset($args['zipcode']) ) ? $args['zipcode'] : '';
+  
+	$img = '<img src="'.$url.'" alt="'. $alt_text .'" width="'.$args['width'].'"/>';
 
 	return $img;
 }

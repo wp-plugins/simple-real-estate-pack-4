@@ -1,5 +1,5 @@
-<?php   
-if (function_exists(get_pages_with_active_listings)) {
+<?php
+if ( function_exists('get_pages_with_active_listings') ) {
 ?>
 <!-- list of listings -->
 <?php
@@ -21,22 +21,22 @@ if (function_exists(get_pages_with_active_listings)) {
 			<a href="<?php the_permalink() ?>" rel="bookmark" title="More about <?php the_title(); ?>"><?php the_listing_thumbnail(); ?></a>
 		</div>
 	</div>
-        
+
     <div class="box">
 	  	<div>
  	<?php the_listing_blurb(); ?>
       	</div>
-	<?php if ($bedrooms = get_listing_bedrooms()) 
+	<?php if ($bedrooms = get_listing_bedrooms())
 		$line1 .= "<div>$bedrooms Bedrooms</div>"; ?>
 	<?php if ($bathrooms = get_listing_bathrooms()) {
 		$line1 .= "<div>$bathrooms Full ";
-		if ($halfbaths = get_listing_halfbaths()) 
+		if ($halfbaths = get_listing_halfbaths())
 			$line1 .= "&amp; $halfbaths Half ";
-		$line1 .= " Baths</div>"; 
+		$line1 .= " Baths</div>";
               }	?>
-	<?php if (get_listing_garage()) 
+	<?php if (get_listing_garage())
 		$line1 .= "<div>" . get_listing_garage() . " Garage Spaces</div>"; ?>
-	<?php if (get_listing_acsf()) 
+	<?php if (get_listing_acsf())
 		$line2 .= "<div>" . get_listing_acsf() ." Sq/Ft Under Air</div>"; ?>
 	<?php if (get_listing_totsf()) $line2 .= "<div>" .get_listing_totsf(). " Sq/Ft Total</div>"; ?>
 	<?php if (get_listing_acres()) $line2 .= "<div>" .get_listing_acres()." Acres</div>"; ?>
@@ -52,18 +52,18 @@ if (function_exists(get_pages_with_active_listings)) {
 	<?php } ?>
   			<h4><?php the_listing_status(); ?>
 		<?php if (get_listing_listprice()) { ?>
-		- Offered at <?php the_listing_listprice(); } ?> 
+		- Offered at <?php the_listing_listprice(); } ?>
 			</h4>
 			<a class="view-details-link" href="<?php the_permalink() ?>" rel="bookmark" title="View Listing Details: <?php the_title(); ?>">View Details</a>
     	</div>
   	</div>
   <?php endforeach; ?>
-  
+
   </div>
  <?php endif; ?>
 
 <!-- list of pending sales -->
-<?php   
+<?php
 
  $pageposts = get_pages_with_pending_listings('','highprice');
 
@@ -84,22 +84,22 @@ if (function_exists(get_pages_with_active_listings)) {
 			<a href="<?php the_permalink() ?>" rel="bookmark" title="More about <?php the_title(); ?>"><?php the_listing_thumbnail(); ?></a>
 		</div>
 	</div>
-        
+
     <div class="box">
 	  	<div>
  	<?php the_listing_blurb(); ?>
       	</div>
-	<?php if ($bedrooms = get_listing_bedrooms()) 
+	<?php if ($bedrooms = get_listing_bedrooms())
 		$line1 .= "<div>$bedrooms Bedrooms</div>"; ?>
 	<?php if ($bathrooms = get_listing_bathrooms()) {
 		$line1 .= "<div>$bathrooms Full ";
-		if ($halfbaths = get_listing_halfbaths()) 
+		if ($halfbaths = get_listing_halfbaths())
 			$line1 .= "&amp; $halfbaths Half ";
-		$line1 .= " Baths</div>"; 
+		$line1 .= " Baths</div>";
               }	?>
-	<?php if (get_listing_garage()) 
+	<?php if (get_listing_garage())
 		$line1 .= "<div>" . get_listing_garage() . " Garage Spaces</div>"; ?>
-	<?php if (get_listing_acsf()) 
+	<?php if (get_listing_acsf())
 		$line2 .= "<div>" . get_listing_acsf() ." Sq/Ft Under Air</div>"; ?>
 	<?php if (get_listing_totsf()) $line2 .= "<div>" .get_listing_totsf(). " Sq/Ft Total</div>"; ?>
 	<?php if (get_listing_acres()) $line2 .= "<div>" .get_listing_acres()." Acres</div>"; ?>
@@ -115,18 +115,18 @@ if (function_exists(get_pages_with_active_listings)) {
 	<?php } ?>
   			<h4><?php the_listing_status(); ?>
 		<?php if (get_listing_listprice()) { ?>
-		- Offered at <?php the_listing_listprice(); } ?> 
+		- Offered at <?php the_listing_listprice(); } ?>
 			</h4>
 			<a class="view-details-link" href="<?php the_permalink() ?>" rel="bookmark" title="View Listing Details: <?php the_title(); ?>">View Details</a>
     	</div>
   	</div>
   <?php endforeach; ?>
-  </div> 
+  </div>
  <?php endif; ?>
 
 
 <!-- list of sold -->
-<?php   
+<?php
 
  $pageposts = get_pages_with_sold_listings('','saledate');
 
@@ -147,22 +147,22 @@ if (function_exists(get_pages_with_active_listings)) {
 			<a href="<?php the_permalink() ?>" rel="bookmark" title="More about <?php the_title(); ?>"><?php the_listing_thumbnail(); ?></a>
 		</div>
 	</div>
-        
+
     <div class="box">
 	  	<div>
  	<?php the_listing_blurb(); ?>
       	</div>
-	<?php if ($bedrooms = get_listing_bedrooms()) 
+	<?php if ($bedrooms = get_listing_bedrooms())
 		$line1 .= "<div>$bedrooms Bedrooms</div>"; ?>
 	<?php if ($bathrooms = get_listing_bathrooms()) {
 		$line1 .= "<div>$bathrooms Full ";
-		if ($halfbaths = get_listing_halfbaths()) 
+		if ($halfbaths = get_listing_halfbaths())
 			$line1 .= "&amp; $halfbaths Half ";
-		$line1 .= " Baths</div>"; 
+		$line1 .= " Baths</div>";
               }	?>
-	<?php if (get_listing_garage()) 
+	<?php if (get_listing_garage())
 		$line1 .= "<div>" . get_listing_garage() . " Garage Spaces</div>"; ?>
-	<?php if (get_listing_acsf()) 
+	<?php if (get_listing_acsf())
 		$line2 .= "<div>" . get_listing_acsf() ." Sq/Ft Under Air</div>"; ?>
 	<?php if (get_listing_totsf()) $line2 .= "<div>" .get_listing_totsf(). " Sq/Ft Total</div>"; ?>
 	<?php if (get_listing_acres()) $line2 .= "<div>" .get_listing_acres()." Acres</div>"; ?>
@@ -178,7 +178,7 @@ if (function_exists(get_pages_with_active_listings)) {
 	<?php } ?>
   			<h4><?php the_listing_status(); ?>
 		<?php if (get_listing_listprice()) { ?>
-		for <?php the_listing_listprice(); } ?> 
+		for <?php the_listing_listprice(); } ?>
 			</h4>
 			<a class="view-details-link" href="<?php the_permalink() ?>" rel="bookmark" title="View Listing Details: <?php the_title(); ?>">View Details</a>
     	</div>

@@ -115,7 +115,7 @@ function srp_get_states($key = NULL){
         );
 
         $opt = get_option('srp_general_options');
-        if($opt['content']['srp_canadian']){
+        if( isset($opt['content']['srp_canadian']) ){
             $states = $provinces;
         }
 
@@ -150,7 +150,7 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 	   if($width){ $width = "width:{$width}px;"; }
 	   if($height){ $height = "height:{$height}px;"; }
         $srp_gmap_options = get_option('srp_gmap');
-	$output .= '<div id="map">
+	$output = '<div id="map">
 	  <div id="map_area" style="' . $width . $height . '">
    		<div id="gre_map_canvas" style="' . $width . $height . '"></div>';
 
@@ -161,7 +161,7 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 	$output .= '<input id="srp_gre_prop_coord" type="hidden" value="' . $lat .',' . $lng . '" />
 	   </div>
 	   <div class="srp_gre_legend">';
-        if($srp_gmap_options['mainmarker']){
+        if( isset($srp_gmap_options['mainmarker']) ){
             $output .= '<span><img src="http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - ' . $srp_gmap_options['mainmarker_label'] . '</span>';
         }
         $output .= '</div>
@@ -302,10 +302,6 @@ function srp_walkscore($ws_wsid, $ws_address, $ws_width=500, $ws_height=286, $ws
 	return $output;
 }
 
-function _add_to_yelpselect() {
-    do_action('_add_to_yelpselect');
-}
-
 function srp_extend_gre_ajax(){
     global $srp_property_values, $srp_widgets;
 
@@ -334,14 +330,16 @@ function srp_ajax_call(){
         if(!is_array($init))
             return;
 
-        foreach($init as $array){
-            foreach($array as $k => $v){
-                $$k = $v;
-            }
-            $srp_widgets->add($name, $title, $tab_name, $content, $callback_function, $init_function, $ajax, $save_to_buffer);
+        foreach($init as $atts){
+            $srp_widgets->add($atts);
+            extract($atts); //expecting $name to be set
             break;
         }
-	die($srp_widgets->print_widget($name));
+
+  if( isset($name) )
+    die($srp_widgets->print_widget($name));
+
+  die();
 }
 add_action('wp_ajax_srp_ajax_call', 'srp_ajax_call');
 add_action('wp_ajax_nopriv_srp_ajax_call', 'srp_ajax_call');
@@ -470,7 +468,7 @@ function srp_gre_add_listdetails() {
         global $post, $listing, $temp_buffer;
         $page_template = get_post_meta($post->ID,'_wp_page_template',true);
         if ((get_option('greatrealestate_pageforlistings') == $post->post_parent )
-            && !($listing->endloop) && $page_template == 'default') {
+            && !isset($listing->endloop) && $page_template == 'default') {
                include(SRP_TPL . '/listing_page.php');
         }
 }
@@ -536,19 +534,22 @@ function srp_gre_slideshow_image($gallery_id, $width = 356, $height = 267){
 
 function srp_inquiry_form(){
     $srp_ext_gre_options = get_option('srp_ext_gre_options');
+
+    $form_title = false;
+    if( isset($srp_ext_gre_options['form-title']) ){
+      $form_title = '<a name="more_info"></a><h2><span>' . strip_tags($srp_ext_gre_options['form-title']) . '</span></h2>';
+    }
+
     if($srp_ext_gre_options['form-shortcode']){
-        if($srp_ext_gre_options['form-title']){
-          $form_title = '<a name="more_info"></a><h2><span>' . strip_tags($srp_ext_gre_options['form-title']) . '</span></h2>';
-        }
         if(strpos($srp_ext_gre_options['form-shortcode'],'<!--cforms')!==false && function_exists('insert_cform')){
-                    echo $form_title;
-                    echo cforms_insert($srp_ext_gre_options['form-shortcode']);
+          echo $form_title;
+          echo cforms_insert($srp_ext_gre_options['form-shortcode']);
         }else{
           echo $form_title;
           echo do_shortcode($srp_ext_gre_options['form-shortcode']);
         }
     }else{
-                        echo $form_title;
+      echo $form_title;
 			if($_POST['sendinquiry'] && (!$_POST['email'] && !$_POST['phone'])){
 				echo '<p class="error">Please provide your email address or phone number so we could reply back to you.</p>';
 			}elseif($_POST['sendinquiry'] && ($_POST['email'] || $_POST['phone'])){
@@ -561,8 +562,8 @@ function srp_inquiry_form(){
 				$message .= 'Message: ' . $_POST['message']  . "\r\n";
 				$message .= 'Referring URL: ' . $_SERVER["REQUEST_URI"]  . "\r\n";
 
-			   	if(wp_mail($admin_email, $property_address, $message, $headers))
-                                    echo '<p class="srp_success">Thank you for your inquiry! We will get back to you shortly.</p>';
+        if(wp_mail($admin_email, $property_address, $message, $headers))
+          echo '<p class="srp_success">Thank you for your inquiry! We will get back to you shortly.</p>';
 			}
 		?>
 		<form action="<?php echo $PHP_SELF; ?>#more_info" method="post" class="moreinforequest">
@@ -576,8 +577,8 @@ function srp_inquiry_form(){
 		</fieldset>
 		<p><input type="submit" name="sendinquiry" id="sendinquiry" class="sendbutton" value="Send Inquiry"/></p>
 		</form>
-            <?php
-            }
+  <?php
+  }
 }
 
 //Loads TinyMCE window for a widget via AJAX

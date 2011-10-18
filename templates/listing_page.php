@@ -67,7 +67,7 @@
 
     <?php } else { ?>
     <?php //the_content(); // plugin disabled, just spit out the normal content ?>
-    <?php } ?>    
+    <?php } ?>
 
     <?php if (function_exists('get_listing_status')) { ?>
     <div id="listing-container">
@@ -120,7 +120,7 @@
                     /* End SRP Template Code */
             ?>
 
-            <?php            
+            <?php
             srp_inquiry_form();
             ?>
     <?php } ?>

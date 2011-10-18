@@ -16,9 +16,10 @@ function _srp_get_query_url($args = array()){
 		$q = NULL;
 
 		//distance parameter is invalid if lat/lng is not setup
-		if(!$args['latitude'])
+		if( !isset($args['latitude']) )
 			unset($args['distance']);
 
+    $query = '';
 		foreach($args as $key => $value){
 			if(!$value){
 				return;
@@ -96,7 +97,7 @@ function srp_get_apiFunction($function_name){
 			$empty[] = $key;
 		}
 	}
-	if($empty){
+	if( isset($empty) ){
 		$keys = implode(', ', $empty);
 		echo '<div class="error">Education API paramenters [' . $keys . '] for function ' . $function_name. '() were not found. Please check the Plugin Settings.</div>';
 		die();
@@ -187,6 +188,9 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 	$coordinates = array();
 
 	$i = 0;
+  $list = false;
+  $table = false;
+  $tabs = false;
 	foreach($types as $type){
 		$groups[$i]	= $titles[$i];
 		$totals[$i]	= count($type);

@@ -16,6 +16,14 @@ class srp_MortgageCalc extends WP_Widget {
 		$srp_scripts = true;
 
 		extract($args);
+
+    //check widget-related variables
+    //since we allow to embed widgets into content where these vars don't exist
+    $before_title = ( isset($before_title) ) ? $before_title : '';
+    $after_title = ( isset($after_title) ) ? $after_title : '';
+    $before_widget = ( isset($before_widget) ) ? $before_widget : '';
+    $after_widget = ( isset($after_widget) ) ? $after_widget : '';
+
 		$title = apply_filters('srp_MortgageCalc', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
 		$interest_rate = srp_get_option('annual_interest_rate', $instance['interest_rate']);
@@ -109,6 +117,14 @@ class srp_AffordabilityCalc extends WP_Widget {
 		$srp_scripts = true;
 
 		extract($args);
+
+    //check widget-related variables
+    //since we allow to embed widgets into content where these vars don't exist
+    $before_title = ( isset($before_title) ) ? $before_title : '';
+    $after_title = ( isset($after_title) ) ? $after_title : '';
+    $before_widget = ( isset($before_widget) ) ? $before_widget : '';
+    $after_widget = ( isset($after_widget) ) ? $after_widget : '';
+
 		$title = apply_filters('srp_AffordabilityCalc', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
 		if($instance['width']){ $width = 'style="width:'.$instance['width'].'px"'; }
@@ -209,7 +225,15 @@ class srp_ClosingCosts extends WP_Widget {
 
 		extract($args);
 		$title = apply_filters('srp_ClosingCosts', empty($instance['title']) ? '' : $instance['title']);
-		$text = apply_filters( 'srp_ClosingCosts', $instance['text'] );
+    if( isset($instance['text']) )
+      $text = apply_filters( 'srp_ClosingCosts', $instance['text'] );
+
+    //check widget-related variables
+    //since we allow to embed widgets into content where these vars don't exist
+    $before_title = ( isset($before_title) ) ? $before_title : '';
+    $after_title = ( isset($after_title) ) ? $after_title : '';
+    $before_widget = ( isset($before_widget) ) ? $before_widget : '';
+    $after_widget = ( isset($after_widget) ) ? $after_widget : '';
 
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
 		if($instance['width']){ $width = 'style="width:'.$instance['width'].'px"'; }
@@ -351,6 +375,14 @@ class srp_MortgageRates extends WP_Widget {
 		$srp_scripts = true;
 
 		extract($args);
+
+    //check widget-related variables
+    //since we allow to embed widgets into content where these vars don't exist
+    $before_title = ( isset($before_title) ) ? $before_title : '';
+    $after_title = ( isset($after_title) ) ? $after_title : '';
+    $before_widget = ( isset($before_widget) ) ? $before_widget : '';
+    $after_widget = ( isset($after_widget) ) ? $after_widget : '';
+
 		$title = apply_filters('srp_MortgageRates', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
 		if($instance['width']){ $width = 'style="width:'.$instance['width'].'px"'; }
@@ -379,7 +411,7 @@ class srp_MortgageRates extends WP_Widget {
 }
 
 function srp_get_zillow_mortgage_rates($return_rate = false){
-        $opt = get_option('srp_mortgage_rates');
+  $opt = get_option('srp_mortgage_rates');
 	$ZWSID = $opt['getratesummary_api_key'];
 	$state = $opt['getratesummary_state'];
 
@@ -404,7 +436,7 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 		$srp_display_rates = $opt['display_rates'];
 		$width = 'width="100%"';
 
-		$output .= '
+		$output = '
 		<div class="simpleMortgageCalcwidget" ' . $width . '>
 		<table class="srp_table" ' . $width . '>';
 
@@ -427,10 +459,10 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 			$output .='
 			<tr>
 				<td>' . $v . '</td>
-				<td class="srp_mrtg_rte"><span'. $change .'>' . number_format($xml->response->today->rate[$k], 2) . '%</span></td>';
+				<td class="srp_mrtg_rte"><span'. $change .'>' . number_format( (float) $xml->response->today->rate[$k], 2 ) . '%</span></td>';
 				//Do not show change (up/down) for the last week rates, since we have nothng to compare to.
                                 if($srp_display_rates == 1){
-					$output .= '<td class="srp_mrtg_rte"><span>' . number_format($xml->response->lastWeek->rate[$k], 2) . '%</span></td>';
+					$output .= '<td class="srp_mrtg_rte"><span>' . number_format( (float) $xml->response->lastWeek->rate[$k], 2 ) . '%</span></td>';
 				}
 			$output .= '</tr>';
 		}
@@ -488,6 +520,14 @@ class srp_RentMeter extends WP_Widget {
 		$srp_scripts = true;
 
 		extract($args);
+
+    //check widget-related variables
+    //since we allow to embed widgets into content where these vars don't exist
+    $before_title = ( isset($before_title) ) ? $before_title : '';
+    $after_title = ( isset($after_title) ) ? $after_title : '';
+    $before_widget = ( isset($before_widget) ) ? $before_widget : '';
+    $after_widget = ( isset($after_widget) ) ? $after_widget : '';
+
 		$title = apply_filters('srp_RentMeter', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
 		if($instance['width']){ $width = 'style="width:'.$instance['width'].'px"'; }

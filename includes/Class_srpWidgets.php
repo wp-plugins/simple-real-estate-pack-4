@@ -5,10 +5,29 @@ Class srpWidgets{
 
     function __construct(){}
 
-    function add($name, $title=NULL, $tab_name=NULL, $content=NULL, $callback_function=NULL, $init_function=NULL, $ajax=false, $save_to_buffer=false){
-        $this->widgets[$name] = new srpWidget($name, $title, $tab_name, $content, $callback_function, $init_function, $ajax, $save_to_buffer);
-        $tab = new srpTab($name, $title, $tab_name, $before, $after);
-        $this->widgets[$name]->tab = $tab->tab;
+    function add($atts){
+      //Default $atts
+      $default_atts = array(
+          'name'        => NULL,
+          'title'       => NULL,
+          'tab_name'    => NULL,
+          'content'     => NULL,
+          'callback_function' => NULL,
+          'init_function'     => NULL,
+          'ajax'        => false,
+          'save_to_buffer'    => false,
+      );
+      //use shortcodes API logic http://codex.wordpress.org/Shortcode_API
+      $merged_atts = shortcode_atts($default_atts, $atts);
+      extract( $merged_atts, EXTR_REFS );
+
+      //$name is required
+      if( NULL == $name )
+        return;
+
+      $this->widgets[$name] = new srpWidget($name, $title, $tab_name, $content, $callback_function, $init_function, $ajax, $save_to_buffer);
+      $tab = new srpTab($name, $title, $tab_name);
+      $this->widgets[$name]->tab = $tab->tab;
     }
 
     function add_title($name, $title){
@@ -39,14 +58,15 @@ Class srpWidgets{
 
     function get_all(){
         global $srp_ext_gre_content, $srp_ext_gre_tabs;
-        
+
         if(count($this->widgets) < 1)
                 return;
 
+        $content = '';
         foreach($this->widgets as $widget){
             if(in_array($widget->name, $srp_ext_gre_content)){
                 $content .= '<div id="srp_'.$widget->name.'_tab" class="clearfix">';
-                
+
                 if(!empty($srp_ext_gre_tabs[$widget->name]['heading'])){
                     $content .= '<h2><span>' . $srp_ext_gre_tabs[$widget->name]['heading'] . '</span></h2>';
                 }else
@@ -68,7 +88,7 @@ Class srpWidgets{
 
     function get_all_ajax($ajax){
         global $srp_ext_gre_content, $srp_ext_gre_tabs;
-        
+
         if(count($this->widgets) < 1)
                 return;
         foreach($this->widgets as $widget){
@@ -78,13 +98,14 @@ Class srpWidgets{
                 }
             }
         }
-        
+
         if(!is_array($nonajax))
             return;
 
-        foreach($nonajax as $widget){         
+        $content = '';
+        foreach($nonajax as $widget){
             $content .= '<div id="srp_'.$widget->name.'_tab" class="clearfix">';
-            
+
             if(!empty($srp_ext_gre_tabs[$widget->name]['heading'])){
                 $content .= '<h2><span>' . $srp_ext_gre_tabs[$widget->name]['heading'] . '</span></h2>';
             }elseif($widget->title){
@@ -129,9 +150,9 @@ Class srpWidgets{
 
         if(!$this->widgets[$name])
                 return;
-        
-        $widget = $this->widgets[$name];
-            $content .= '<div id="srp_'.$widget->name.'_tab" class="clearfix">';
+
+          $widget = $this->widgets[$name];
+            $content = '<div id="srp_'.$widget->name.'_tab" class="clearfix">';
 
             if(!empty($srp_ext_gre_tabs[$widget->name]['heading'])){
                 $content .= '<h2><span>' . $srp_ext_gre_tabs[$widget->name]['heading'] . '</span></h2>';
@@ -151,16 +172,17 @@ Class srpWidgets{
 
     function get_tabs(){
         global $srp_ext_gre_content, $srp_ext_gre_tabs;
-       
+
         if(count($this->widgets) < 1)
                 return;
 
+        $tabs = false;
         foreach($this->widgets as $widget){
             if(in_array($widget->name, $srp_ext_gre_content)){
                 if(!empty($srp_ext_gre_tabs[$widget->name]['tabname'])){
-                    $tabs .= '<li>' . '<a href="#srp_'. $widget->name . '_tab" title="'.__($widget->title, 'simplerealestatepack') . '"><span>' . __($srp_ext_gre_tabs[$widget->name]['tabname'], 'simplerealestatepack') . '</span></a>' . '</li>';
+                   $tabs .= '<li>' . '<a href="#srp_'. $widget->name . '_tab" title="'.__($widget->title, 'simplerealestatepack') . '"><span>' . __($srp_ext_gre_tabs[$widget->name]['tabname'], 'simplerealestatepack') . '</span></a>' . '</li>';
                 }else{
-                    $tabs .= '<li>' . $widget->tab . '</li>';
+                    $tabs .= $widget->tab;
                 }
             }
         }
@@ -173,23 +195,7 @@ Class srpWidgets{
     }
 
     function print_tabs(){
-        if(count($this->widgets) < 1)
-                return;
-        
-        foreach($this->widgets as $widget){            
-            if(in_array($widget->name, $srp_ext_gre_content)){
-                if(!empty($srp_ext_gre_tabs[$widget->name]['tabname'])){
-                    $tabs .= '<li>' . '<a href="#srp_'. $widget->name . '_tab" title="'.__($widget->title, 'simplerealestatepack') . '"><span>' . __($srp_ext_gre_tabs[$widget->name]['tabname'], 'simplerealestatepack') . '</span></a>' . '</li>';
-                }else{
-                    $tabs .= '<li>' . $widget->tab . '</li>';
-                }
-            }
-        }
-        if($tabs){
-            echo '<ul class="clearfix">';
-            echo $tabs;
-            echo '</ul>';
-        }
+        echo $this->get_tabs();
     }
 }
 

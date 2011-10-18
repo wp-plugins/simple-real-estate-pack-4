@@ -59,6 +59,8 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 		$_categories = $yelp_categories;
 	}
 	//print_r($_categories);
+  $tabs = false;
+  $content_output = false;
 	foreach($_categories as $cat){
 		$args = array(
 			'term'				=> $cat['term'],
@@ -181,10 +183,10 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 		}
 
 	}
-	if($ajax_output){
+	if( isset($ajax_output) ){
     $srp_scripts = true;
 		return $ajax_output;
-	}elseif($content_output){
+	}elseif( isset($content_output) ){
     $srp_scripts = true;
 		return '<div class="srp-tabs"><ul class="clearfix">' . $tabs . '</ul><div style="clear:both;"></div>' . $content_output . '</div><div id="yelp_attribution"><a href="http://www.yelp.com"><img src="'. SRP_IMG .'/branding/reviewsFromYelpWHT.gif" width="115" height="25" alt="Reviews from Yelp.com"/></a></div>';
 	}else{
@@ -195,7 +197,7 @@ function srp_getYelp($lat, $lng, $radius, $output = 'table', $sortby = 'distance
 function srp_yelp_select(){
 	global $yelp_categories;
 	$output = '<div id="yelp_select">';
-	$output .= apply_filters('_add_to_yelpselect', $value);
+	$output .= apply_filters('_add_to_yelpselect', $output);
 	foreach($yelp_categories as $cat){
 		$output .= '<input id="yelp_cat_'.$cat['term'].'" name="'.$cat['term'].'" type="checkbox"><label for="'.$cat['term'].'">'.$cat['name'].'</label><br />' . "\n";
 	}
@@ -210,7 +212,7 @@ function srp_getYelp_ajax(){
 	$lng = $_POST['lng'];
 	$radius = $_POST['radius'];
 	$term = $_POST['term'];
-	if($result = srp_getYelp($lat, $lng, $radius=3, $output = 'table', $sortby = 'distance', $term , $num_biz_requested = null, $ajax = true)){
+	if( $result = srp_getYelp($lat, $lng, $radius=3, $output = 'table', $sortby = 'distance', $term , $num_biz_requested = null, $ajax = true) ){
 		die($result);
 	}
 }

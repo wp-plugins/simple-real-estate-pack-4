@@ -17,18 +17,13 @@ function srp_prepare_widgets_object() {
 
   if (!is_array($init))
     return;
-  foreach ($init as $array) {
-    foreach ($array as $k => $v) {
-      $$k = $v;
-    }
-    $srp_widgets->add($name, $title, $tab_name, $content, $callback_function, $init_function, $ajax, $save_to_buffer);
-    foreach ($array as $k => $v) {
-      unset($$k);
-    }
+
+  foreach ($init as $atts) {
+    $srp_widgets->add($atts);
   }
 }
 
-if ($_POST['srp_listing_values']) {
+if (isset($_POST['srp_listing_values'])) {
   $srp_property_values = $_POST['srp_listing_values'];
 }
 
@@ -53,6 +48,7 @@ function _check_required_values() {
 
 if (!$srp_ext_gre_options = get_option('srp_ext_gre_options'))
   return;
+
 $srp_ext_gre_content = array_keys($srp_ext_gre_options['content']);
 $srp_ext_gre_tabs = $srp_ext_gre_options['tabs'];
 $srp_general_options = get_option('srp_general_options');
@@ -70,24 +66,28 @@ function srp_get_radius($type, $echo = false) {
 
 function srp_get_chart_size($side) {
   global $srp_ext_gre_options;
-  if (!$size = $srp_ext_gre_options['chart-dimensions'][$side]) {
+  if ( !isset($srp_ext_gre_options['chart-dimensions'][$side]) ) {
     if ($side == 'width') {
       $size = 500;
     } elseif ($side == 'height') {
       $size = 300;
     }
+  }else{
+    $size = $srp_ext_gre_options['chart-dimensions'][$side];
   }
   return $size;
 }
 
 function srp_get_map_size($side) {
   global $srp_ext_gre_options;
-  if (!$size = $srp_ext_gre_options['map-dimensions'][$side]) {
+  if ( !isset($srp_ext_gre_options['map-dimensions'][$side]) ) {
     if ($side == 'width') {
       $size = 500;
     } elseif ($side == 'height') {
       $size = 300;
     }
+  }else{
+    $size = $srp_ext_gre_options['map-dimensions'][$side];
   }
   return $size;
 }
@@ -136,26 +136,57 @@ function srp_profile($args = array()) {
   $srp_scripts = true;
 
   if (empty($args)) {
-    $args['tabs'] = $srp_general_options['content']['srp_profile_tabs'];
-    $args['ajax'] = $srp_general_options['content']['srp_profile_ajax'];
+    if( isset($srp_general_options['content']['srp_profile_tabs']) ){
+      $args['tabs'] = $srp_general_options['content']['srp_profile_tabs'];
+    }
+    if( isset($srp_general_options['content']['srp_profile_ajax']) ){
+      $args['ajax'] = $srp_general_options['content']['srp_profile_ajax'];
+    }
   }
 
   srp_prepare_widgets_object();
 //var_dump($srp_widgets);
   $js_func = 'srp_profile';
   $content = '<div id="srp-tab-wrap">';
-  if ($args['tabs']) {
+
+  //Load Tabs
+  if ( isset($args['tabs']) ) {
     $content .= $srp_widgets->get_tabs();
     $js_func = 'srp_profile_tabs';
   }
+
+  //Load inline map JS since it's the same for AJAX and non-AJAX option
+  $ajax_js = '';
+  $nonajax_js = "\n" . '<script type="text/javascript">
+  var srp_listing_values = {' . "\n";
+      $i = 0;
+      $n = count($srp_property_values);
+      foreach ($srp_property_values as $k => $v) {
+        $i++;
+        if ($i == $n) {
+          $comma = '';
+        } else {
+          $comma = ',';
+        }
+        $nonajax_js .= "\t" . $k . ': \'' . $v . '\'' . $comma . "\n";
+      }
+
+      $nonajax_js .= "\t" . '};%ajax_js%
+  var srp_profile_view = \'' . $js_func .'\';
+</script>' . "\n";
+
   if (!get_option('srp_ext_gre_options')) {
     $content .= '<div style="background:red; color: white; font-weight: bold; padding: 10px;">Please visit the <a href="' . ADMIN_URL . '/admin.php?page=srp_ext_gre">Extension to GRE settings</a> page to complete the installation.</div>';
-  } elseif ($args['ajax']) {
 
-    foreach ($srp_widgets->widgets as $widget) {
-      if ($widget->ajax == true) {
-        if (in_array($widget->name, $srp_ext_gre_content)) {
-          $callbacks[] = '\'' . $widget->init_function . '\'';
+  } elseif ( isset($args['ajax']) ) {
+
+    $widgets = $srp_widgets->widgets;
+    if( is_array($widgets) && !empty($widgets) ){
+      foreach ($widgets as $widget) {
+        if ($widget->ajax == true) {
+          if (in_array($widget->name, $srp_ext_gre_content)) {
+            $callbacks[] = '\'' . $widget->init_function . '\'';
+          }
         }
       }
     }
@@ -173,36 +204,21 @@ function srp_profile($args = array()) {
         '' => 'srp_Education_disclaimer',
         );
        */
-      $callbacks_string = implode(',', $callbacks);
-      $content .= '<script type="text/javascript">
-                        var srp_listing_values = {' . "\n";
-      $i = 0;
-      $n = count($srp_property_values);
-      foreach ($srp_property_values as $k => $v) {
-        $i++;
-        if ($i == $n) {
-          $comma = '';
-        } else {
-          $comma = ',';
-        }
-        $content .= "\t\t\t" . $k . ': \'' . $v . '\'' . $comma . "\n";
-      }
 
-      $content .= "\t\t" . '};
-                    var load_srp_functions = [' . $callbacks_string . '];
-                    var srp_profile_view = \'' . $js_func .'\';
-                  </script>
-                  ';
+      $ajax_js = "\n  " . 'var load_srp_functions = [' . implode(',', $callbacks) . '];';
     }
 
     $content .= '<div id="srp_extension">' . $srp_widgets->get_all_ajax(false) . '</div>';
+
   } else {
     $content .= '<div id="srp_extension">';
     $content .= $srp_widgets->get_all();
     $content .= '</div>';
   }
+
   $content .= '</div>';
 
+  echo str_replace('%ajax_js%', $ajax_js, $nonajax_js);
   echo $content;
 }
 
@@ -284,13 +300,15 @@ add_filter('srp_prepare_widgets_object', 'srp_schools_content_init');
  * *------------------------------------------------------------------------- */
 
 function srp_gre_the_trulia_stats_content() {
-  global $srp_widgets, $srp_ext_gre_content, $srp_ext_gre_tabs, $srp_property_values;
+  global $graph_types, $srp_widgets, $srp_ext_gre_content, $srp_ext_gre_tabs, $srp_property_values;
   if (!in_array('trulia_stats', $srp_ext_gre_content))
     return;
 
   if (!function_exists('srp_get_trulia_stats'))
     return;
-  global $graph_types;
+
+  $output = '';
+  $li = '';
   foreach ($graph_types as $k => $v) {
     $id = str_replace(' ', '_', strtolower($k));
     $output .='<div id="' . $id . '">' . srp_get_trulia_stats(array('type' => $k, 'city' => $srp_property_values['city'], 'state' => $srp_property_values['state'], 'zipcode' => $srp_property_values['zip_code'])) . '</div>';
@@ -323,22 +341,25 @@ add_filter('srp_prepare_widgets_object', 'srp_trulia_stats_content_init');
  * *------------------------------------------------------------------------- */
 
 function srp_gre_the_altos_stats_content($width = false, $height = false) {
+  global $metrics, $pricerangequartile, $rollingaverage, $srp_widgets, $srp_ext_gre_content, $srp_ext_gre_tabs, $srp_property_values;
+
   if (!$width)
     $width = srp_get_chart_size('width') . 'px';
 
   if (!$height)
     $height = srp_get_chart_size('height') . 'px';
 
-  global $srp_widgets, $srp_ext_gre_content, $srp_ext_gre_tabs, $srp_property_values;
-
   if (!function_exists('srp_get_altos_stats'))
     return;
-  global $metrics, $pricerangequartile, $rollingaverage;
+
+  $output = '';
+  $li = '';
   foreach ($metrics as $k => $v) {
     $id = str_replace(' ', '_', strtolower($k));
     $output .='<div id="' . $id . '">' . srp_get_altos_stats(array('type' => $k, 'width' => $width, 'height' => $height, 'city' => $srp_property_values['city'], 'state' => $srp_property_values['state'], 'zipcode' => $srp_property_values['zip_code'])) . '</div>';
     $li .= '<li><a href="#' . $id . '">' . $v . '</a></li>' . "\n";
   }
+
   $content = "<div class=\"srp-tabs\"><ul class=\"clearfix\">\n $li \n </ul>\n";
   $content .= $output . '</div>';
 
