@@ -11,6 +11,7 @@ class atw_Admin extends Plugin_Admin_Class {
     var $optionname	= 'atw';
     var $menu		= true;
     var $prefix		= 'atw_';
+
     var $credits = array(
                     'download_url'  => 'http://wordpress.org/extend/plugins/advanced-text-widget/', //plugin page on wp.org
                     'official_url'  => 'http://www.ibsteam.net/blog/web-development/advanced-text-widget-wordpress', //plugin page on author's website
@@ -192,15 +193,14 @@ class atw_Admin extends Plugin_Admin_Class {
                     return $output;
                 }
     
-    function contextual_help($contextual_help) {        
-        if ($_GET['page'] == $this->hook) {
+    function contextual_help() {                
 
-            $contextual_help = '<H3>Advanced Text Widget Help</H3>
-            <p>All code is executed inside this condition: <code>IF( YOUR CODE ){ return TRUE; }else{ return FALSE; }</code>. So make sure your code doesn\'t break the <code>IF</code> section.</p>
-            <p>If your condition supports arguments (page id, slug, title), then use variable <code>$arg</code> for a single function, and $argN for multiple functions, where N is a number.<br/>Example 1: <code>is_single($arg)</code>. Example 2: <code>is_single($arg1) && !in_category($arg2)</code>. When using multiple arguments that are assigned to different functions, you can divide their values with pipe symbol "|" when entering into the Slug/Title/ID filed on the widgets page. Multiple arguments that belong to the same function should be delimited by comma.</p>
-            <p>Please note that each <code>$arg</code> is exploded and executed as an array. <br>For example: <code>is_single($arg)</code> is executed as <code>is_single(explode(",", $arg))</code>.</p>
-            <p>For mor details on functions that you can use read <a href="http://codex.wordpress.org/Conditional_Tags" target="_blank">WP Codex on Conditional Tags</a></p>';
-        }
+        $contextual_help = '<H3>Advanced Text Widget Help</H3>
+        <p>All code is executed inside this condition: <code>IF( YOUR CODE ){ return TRUE; }else{ return FALSE; }</code>. So make sure your code doesn\'t break the <code>IF</code> section.</p>
+        <p>If your condition supports arguments (page id, slug, title), then use variable <code>$arg</code> for a single function, and $argN for multiple functions, where N is a number.<br/>Example 1: <code>is_single($arg)</code>. Example 2: <code>is_single($arg1) && !in_category($arg2)</code>. When using multiple arguments that are assigned to different functions, you can divide their values with pipe symbol "|" when entering into the Slug/Title/ID filed on the widgets page. Multiple arguments that belong to the same function should be delimited by comma.</p>
+        <p>Please note that each <code>$arg</code> is exploded and executed as an array. <br>For example: <code>is_single($arg)</code> is executed as <code>is_single(explode(",", $arg))</code>.</p>
+        <p>For mor details on functions that you can use read <a href="http://codex.wordpress.org/Conditional_Tags" target="_blank">WP Codex on Conditional Tags</a></p>';
+        
         return $contextual_help;
     }     
 }	

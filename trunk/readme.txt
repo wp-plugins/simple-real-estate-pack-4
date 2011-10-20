@@ -3,7 +3,7 @@ Contributors: Max Chirkov
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JRA6WSKH3MSPG
 Tags: text, php, plugin, widget, sidebar, conditions
 Requires at least: 2.8
-Tested up to: 3.1.2
+Tested up to: 3.3
 Stable tag: 2.0.0
 
 Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as raw PHP code.

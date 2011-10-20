@@ -21,6 +21,7 @@ if(!class_exists('Plugin_Admin_Class')){
 		var $shortname		= '';
 		var $ozhicon		= '';
 		var $optionname		= '';
+        var $screen_name    = '';
 		var $accesslevel	= 'manage_options';		
 		var $prefix			= '';
 		var $submenu_pages	= array(); //key - function; value - page title;
@@ -45,7 +46,7 @@ if(!class_exists('Plugin_Admin_Class')){
                             add_filter('plugin_action_links', array(&$this, 'add_action_link'), 10, 2);
                     }
                     add_filter('ozh_adminmenu_icon', array(&$this, 'add_ozh_adminmenu_icon'));
-                    add_filter('contextual_help', array(&$this, 'contextual_help'), 10);    
+                    add_action('admin_init', array(&$this, 'add_contextual_help'));    
 
                     add_action('admin_print_scripts', array(&$this,'config_page_scripts'));
                     add_action('admin_print_styles', array(&$this,'config_page_styles'));
@@ -101,7 +102,15 @@ if(!class_exists('Plugin_Admin_Class')){
 			return $hook;
 		}
 		
-    function contextual_help ($contextual_help){}
+        //Returns the help context
+        function contextual_help (){}
+
+        //using add_contextual_help hook
+        function add_contextual_help(){        
+            if( '' != $this->screen_name && $this->contextual_help() )
+                add_contextual_help( $this->screen_name, $this->contextual_help() ); 
+
+        }
 
 		/**
 		 * Config Page Scripts
@@ -148,7 +157,7 @@ if(!class_exists('Plugin_Admin_Class')){
 		 * Register Settings Page
 		 */
 		function register_settings_page() {
-			add_options_page($this->longname, $this->shortname, $this->accesslevel, $this->hook, array(&$this,'config_page'));
+			$this->screen_name = add_options_page($this->longname, $this->shortname, $this->accesslevel, $this->hook, array(&$this,'config_page'));
 		}
 		
 		function plugin_options_url() {

@@ -4,9 +4,11 @@ Plugin Name: Advanced Text Widget
 Plugin URI: 
 Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
 Author: Max Chirkov
-Version: 2.0.0
+Version: 2.1.0
 Author URI: http://www.ibsteam.net
 */
+
+//TODO: Add opt-out option to remove conditions from ALL widgets and just leave it on ATW widget.
           
 define("ATW_BASENAME", plugin_basename(dirname(__FILE__)));
 define("ATW_DIR", WP_PLUGIN_DIR . '/' . ATW_BASENAME);
@@ -20,8 +22,7 @@ $atw_opt = get_option('atw');
 		  
 class advanced_text extends WP_Widget {
 
-	function advanced_text() {
-        //parent::WP_Widget(false, $name = 'Simple Sidebar Navigation');	
+	function advanced_text() {        
 		/* Widget settings. */
 		$widget_ops = array( 'classname' => 'advanced_text', 'description' => __('Advanced text widget. Raw PHP code support.', 'advanced_text'));
 
@@ -150,7 +151,7 @@ class advanced_text extends WP_Widget {
  			$i++;			 			
  		} 				
  		 		
-		if($action == "1"){									
+		if($code != false && $action == "1"){									
 			$code = "if($code){ return true; }else{ return false; }";							
 			if(eval($code)){
 					echo $before_widget;
@@ -162,7 +163,7 @@ class advanced_text extends WP_Widget {
 					";		
 			}
 			
-		}else{			
+		}elseif($code != false){			
 			$code = "if($code){ return false; }else{ return true; }";		
 			if(eval($code)){
 					echo $before_widget;
@@ -203,4 +204,169 @@ function atw_admin_scripts(){
 	}
 }
 add_action('init', 'atw_admin_scripts');
+
+add_action('in_widget_form', 'atw_test');
+function atw_test($widget){
+	global $atw;	
+	$widget_settings = get_option($widget->option_name);
+	$instance = $widget_settings[$widget->number];
+
+	$allSelected = $homeSelected = $postSelected = $postInCategorySelected = $pageSelected = $categorySelected = $blogSelected = $searchSelected = false;
+	switch ($instance[$atw->prefix . 'action']) {
+		case "1":
+		$showSelected = true;
+		break;
+		case "0":
+		$dontshowSelected = true;
+		break;
+	}
+
+//print '<pre>';
+//print_r($instance);
+//print '</pre>';					
+	?>				
+	<label for="<?php echo $widget->get_field_id($atw->prefix . 'action'); ?>"  title="Show only on specified page(s)/post(s)/category. Default is All" style="line-height:35px;">		
+		<select name="<?php echo $widget->get_field_name($atw->prefix . 'action'); ?>">
+			<option value="1" <?php if ($showSelected){echo "selected";} ?>>Show</option>
+			<option value="0" <?php if ($dontshowSelected){echo "selected";} ?>>Do NOT show</option>
+		</select> only on: 
+		<select name="<?php echo $widget->get_field_name($atw->prefix . 'show'); ?>" id="<?php echo $widget->get_field_id($atw->prefix . 'show'); ?>">
+		
+			<?php						
+			foreach($atw->options['condition'] as $k => $item){
+				echo '<option label="' . $item['name'] . '" value="'. $k . '"' . selected($instance[$atw->prefix . 'show'], $k) . '>' . $item['name'] .'</option>';
+			}				
+
+			
+			?>
+
+		</select>
+	</label>
+	<br/> 
+	<label for="<?php echo $widget->get_field_id($atw->prefix . 'slug'); ?>"  title="Optional limitation to specific page, post or category. Use ID, slug or title.">Slug/Title/ID: 
+		<input type="text" style="width: 99%;" id="<?php echo $widget->get_field_id($atw->prefix . 'slug'); ?>" name="<?php echo $widget->get_field_name($atw->prefix . 'slug'); ?>" value="<?php echo htmlspecialchars($instance[$atw->prefix . 'slug']); ?>" />
+	</label>
+	<?php 
+	if ($postInCategorySelected) echo "<p>In <strong>Post In Category</strong> add one or more cat. IDs (not Slug or Title) comma separated!</p>" 
+	?>
+	<br />
+	<label for="<?php echo $widget->get_field_id($atw->prefix . 'suppress_title'); ?>"  title="Do not output widget title in the front-end.">
+		<input idx="<?php echo $widget->get_field_name($atw->prefix . 'suppress_title'); ?>" name="<?php echo $widget->get_field_name($atw->prefix . 'suppress_title'); ?>" type="checkbox" value="1" <?php checked($instance[$atw->prefix . 'suppress_title'],'1', true);?> /> Suppress Title Output
+	</label>
+	
+<?php
+	$return = null;
+}
+
+add_filter('widget_update_callback', 'atw_update_callback', 1, 4);
+function atw_update_callback($instance, $new_instance, $old_instance, $this){	
+	global $atw;
+	
+	$instance[$atw->prefix . 'action'] = $new_instance[$atw->prefix . 'action'];
+	$instance[$atw->prefix . 'show'] = $new_instance[$atw->prefix . 'show'];
+	$instance[$atw->prefix . 'slug'] = $new_instance[$atw->prefix . 'slug'];
+	$instance[$atw->prefix . 'suppress_title'] = $new_instance[$atw->prefix . 'suppress_title'];
+	return $instance;
+}
+
+//this acction applies formating to the widget output if any (example: title suppression)
+add_filter('widget_display_callback', 'atw_check_widget_visibility');
+function atw_check_widget_visibility($instance){
+	global $atw, $post;
+		
+		if(false != $instance[$atw->prefix . 'suppress_title']){
+			unset($instance['title']);
+		}
+					
+		$action  = $instance[$atw->prefix . 'action'];
+		$show 	 = $instance[$atw->prefix . 'show'];
+		$slug 	 = $instance[$atw->prefix . 'slug'];				
+							
+		/* Do the conditional tag checks. */
+ 		$arg = explode('|', $slug);
+ 		
+ 		$code = $atw->options['condition'][$show]['code'];				
+ 		
+ 		$num = count($arg); 		
+ 		$i = 1;
+ 		
+		foreach($arg as $k => $v){ 			
+			$ids = explode(",", $v); 			
+			$str = '';
+			$values = array();
+			
+			//wrap each value into quotation marks
+			foreach($ids as $val){
+				if($val !="")			
+					$values[] = '"' . $val . '"';
+			} 			 			
+			
+			
+			$str = ( 1 == count($values) ) ? $values[0] : "array(" . implode(',', $values) . ")";	
+			
+
+			//if multiple values, then put them into an array			
+			if( 1 < $num ){			
+				$code = str_replace('$arg' . $i, $str, $code);
+			}else{ 	 							
+				$code = str_replace('$arg', $str, $code);
+			} 
+			$i++;			 			
+		}
+ 		
+	 		 				
+ 		 		
+		if($code != false && $action == "1"){									
+			$code = "if($code){ return true; }else{ return false; }";						
+			if(eval($code)){
+				return $instance;
+			}			
+		}elseif($code != false){			
+			$code = "if($code){ return false; }else{ return true; }";				
+			if(eval($code)){
+				return $instance;
+			}
+		}
+	return false;
+	
+}
+
+//this action remves widget form the global $sidevar_widgets if visibility is set to false
+add_filter('sidebars_widgets', 'awc_remove_hidden_widgets');
+function awc_remove_hidden_widgets($sidebar_widgets){
+	global $wp_registered_widgets;
+
+	//don't apply conditions in the admin dashboard
+	if(is_admin() || empty($sidebar_widgets))
+		return $sidebar_widgets;
+	
+	//loop through each sidebar
+	foreach($sidebar_widgets as $sidebar => $widgets){		
+		//loop through each registered widget
+		foreach ($widgets as $widget_id) {			
+
+			//check if widget_id is within the sidebar
+			//if( in_array($widget_id, $widgets) ) {
+				//grab widget object
+				$widget = $wp_registered_widgets[$widget_id]['callback'][0];
+				//get widget settings
+				$widget_settings = get_option($widget->option_name);
+				//get instance of this particular widget
+				$instance = $widget_settings[$widget->number];
+				//check visibility
+				$show = atw_check_widget_visibility($instance);
+				//if not show - unset widget from the sidebar
+				if (!$show) { 
+					$key = array_search($widget_id, $widgets);
+					unset($sidebar_widgets[$sidebar][$key]);
+				}
+			//}											
+			
+		}
+	}
+		
+	return $sidebar_widgets;
+}
+
+
 ?>
