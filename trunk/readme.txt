@@ -6,17 +6,18 @@ Requires at least: 2.8
 Tested up to: 3.3
 Stable tag: 2.0.0
 
-Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as raw PHP code.
+Text widget with HTML and raw PHP support. Conditional visibility for all widgets or just this advanced text widget. Extensive conditional options with ability to edit and/or add custom conditions.
 
 == Description ==
-Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code and shortcodes. This widget is an extension of Daiko's Text Widget by Rune Fjellheim.
+Advanced Text Widget is a text widget that allows you to execute raw PHP code. It comes with 10 default visibility conditions that will allow you to choose where exactly on your site this widget should be displayed. You can edit and/or add your own visibility conditions. The BEST FEATURE - it allows you to apply visibility conditions to ALL widgets on the site.
 
-The plugin comes with a set of 9 conditions, you can edit them, as well as add your own.
+**IMPORTANT for VERSIONS PRIOR TO 2.0**
+If you're upgrading form version prior to 2.0, it is recommended to upgrade to version 2.0 first and then version 3.0. Otherwise your old visibility conditions will be reset.
 
-Thake a look at the [Inroduction Video](http://www.screenr.com/Owi "Advanced Text Widget 2.0 - Introductio Video")
+Thake a look at the [Inroduction Video](http://www.screenr.com/Auns "Advanced Text Widget 3.0 - Introductio Video")
 
 * Author: Max Chirkov
-* Author URI: [http://www.ibsteam.net](http://www.ibsteam.net "Real Estate Directory")
+* Author URI: [http://simplerealtytheme.com](http://SimpleRealtyTheme.com "Real Estate Themes for WordPress")
 * Copyright: Released under GNU GENERAL PUBLIC LICENSE
 
 
@@ -29,6 +30,8 @@ Thake a look at the [Inroduction Video](http://www.screenr.com/Owi "Advanced Tex
 2.	Activate the Advanced Text Widget on your plugin-page.
 
 3.	Drag the Advanced Text Widget to your sidebar and add your own content including php code if needed. Optionally specify whether to display only on home, pages, posts, posts in category (-ies) or category archives. Specify even more if you like with slug/ID/title.
+
+The plugins settings are located under Settings => ATW Plugin. From there you can edit/add visibility conditions as well as opt-out from applying conditions to all widgets.
 
 **Notes:**
 

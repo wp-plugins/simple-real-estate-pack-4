@@ -58,6 +58,10 @@ class atw_Admin extends Plugin_Admin_Class {
                 'code'  => 'is_search()',
                 ),
             ),
+            array(
+                'name'  => 'Child of Page ID',
+                'code'  => '(int)$arg == $post->post_parent',
+                ),
         );
 	
     //update from old widgets to new
@@ -144,6 +148,13 @@ class atw_Admin extends Plugin_Admin_Class {
 
 		$settings = array(
 			'Widget Visibility Conditions'       => $conditions,
+            'Misc. Settings'    => array(
+                array(
+                    'label'     => __('Apply visibility conditions only to Advanced Text Widget'),                    
+                    'id'        => array('misc', 'atw-only'),
+                    'type'      => 'checkbox',                                                    
+                ),
+            ),
 		);
 		
 		if($key){
@@ -158,8 +169,7 @@ class atw_Admin extends Plugin_Admin_Class {
         return $settings_array;
 	}
 
-    function validate_input($input){
-        print_r($input);
+    function validate_input($input){        
         foreach($input['condition'] as $k => $v){
             
                 if(empty($v['name']) && empty($v['code']))
@@ -170,8 +180,9 @@ class atw_Admin extends Plugin_Admin_Class {
     }	
 
 	function config_page(){   
-		$this->add_column(1, '70%');
+		$this->add_column(1, '69%');
 		$this->add_box('Widget Visibility Conditions', $this->settings('Widget Visibility Conditions'), 1);
+        $this->add_box('Misc. Settings', $this->settings('Misc. Settings'), 1);
 		//Generate Config Page
         $this->_config_page_template();
 	}
