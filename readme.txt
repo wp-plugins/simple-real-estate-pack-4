@@ -200,6 +200,7 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 == Changelog ==
 
 **Version 1.2.6**
+
 - Bug Fix: mortgage calculator widgets weren't working when Tabbed Presentation was turned off in the settings.
 - Map width now can be set in % - just include % symbol into the width field on the Neighborhoods settings page.
 - CSS fix for themes that have broken tabs or tabs with bullets.
