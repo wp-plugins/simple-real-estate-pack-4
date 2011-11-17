@@ -147,8 +147,14 @@ function srp_format_phone($phone){
 *
 */
 function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
-	   if($width){ $width = "width:{$width}px;"; }
-	   if($height){ $height = "height:{$height}px;"; }
+	   if($width){ 
+           //if metrics (% or px) is not indicated - fallback to px by default.
+           //this is not explainded in the settings, but rather instructed to provide numeric values, so everything defaults to px.
+           $width = ( !strstr($width, '%') && !stristr($width, 'px') ) ? "width:{$width}px;" : "width:{$width};"; 
+       }
+	   if($height){ 
+           $height = ( !strstr($height, '%') && !stristr($height, 'px') ) ? "height:{$height}px;" : "height:{$height};"; 
+       }
         $srp_gmap_options = get_option('srp_gmap');
 	$output = '<div id="map">
 	  <div id="map_area" style="' . $width . $height . '">

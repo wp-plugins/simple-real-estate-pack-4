@@ -326,6 +326,11 @@ span.srp_amnt {
 #yelp_select input {
 	width: auto;
 }
+#yelp_select label {
+  font-size: inherit;
+  line-height: inherit;
+  display: inline;
+}
 
 #srp_walkscore #ws-walkscore-tile {
     margin: 1em auto;
@@ -431,6 +436,7 @@ a.poweredbysrp span{
 
 #srp_extension {
     position: relative;
+    overflow: hidden;
 }
 
 #srp_listing_details .propdata, #srp_listing_details .page-blurb, #srp_listing_details .propdata h4 {

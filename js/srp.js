@@ -505,7 +505,7 @@ function srp_profile_tabs(x){
         function srp_output_gre(data){
             jQuery('#srp_extension').append(data);
             srp_check_prefilled();
-            if(typeof jQuery.ui.tabs == 'function'){
+            if(jQuery.ui && jQuery.ui.tabs){
               jQuery("#srp-tab-wrap").tabs("destroy");
               jQuery(".srp-tabs").tabs("destroy");
               srp_refresh_tabs("#srp-tab-wrap");
@@ -514,7 +514,7 @@ function srp_profile_tabs(x){
         }
 
 function srp_refresh_tabs(selector){
-  if(typeof jQuery.ui.tabs == 'function'){
+  if(jQuery.ui && jQuery.ui.tabs){
    jQuery(selector).tabs();
   }
 }

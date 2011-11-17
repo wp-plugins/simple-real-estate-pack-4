@@ -4,7 +4,7 @@ Donate link: https://www.cancer.org/aspx/Donation/DON_1_Donate_Online_Now.aspx
 Tags: mortgage, mortgage calculator, real estate, realty, widget, plugin, listing, AJAX, homes, neighborhood, schools, yelp, zillow, map, trulia, altos, charts, statistics, real estate market
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 
 Package of real estate tools and widgets designed specifically for real estate industry blogs and sites.
 
@@ -198,6 +198,13 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 **If something doesn't work, please try to troubleshoot the issue by checking is any JavaScript errors are reported. Also, try disabling other plugins and leave the SRP enabled just to make sure there are no conflicts.**
 
 == Changelog ==
+
+**Version 1.2.6**
+- Bug Fix: mortgage calculator widgets weren't working when Tabbed Presentation was turned off in the settings.
+- Map width now can be set in % - just include % symbol into the width field on the Neighborhoods settings page.
+- CSS fix for themes that have broken tabs or tabs with bullets.
+- CSS fix for themes that have unintentionally extended footer caused by hidden tabbed information overflow (schools, yelp data).
+- CSS fix for checkbox selectors on the map to display them in concise fashion.
 
 **Version 1.2.5**
 

@@ -17,10 +17,11 @@ function srp_Yelp_options_page(){
 					<div class="inside">	
 					  <table class="form-table">
 						<tr valign="bottom">
-						  <th scope="row"><div align="right">Yelp API Key: </div></th>
+						  <th scope="row"><div align="right">Yelp <strong>API v1.0</strong> Key: </div></th>
 						  <td><input name="srp_yelp_api_key" type="text" value="<?php echo get_option('srp_yelp_api_key');?>" size="30" />
 							<br /> 
-							To obtain your free API key <a href="http://www.yelp.com/developers/getting_started" target="_blank">register at Yelp.com</a>. (Scroll to the bottom and click "Sign Up for Yelp API".)</td>
+							To obtain your free API key <a href="https://www.yelp.com/login?return_url=%2Fdevelopers%2Fgetting_started%2Fapi_access" target="_blank">register at Yelp.com</a>.
+              <br><em>Yelp limits API calls to 100 a day. To increase your calls allowance see <a href="http://www.yelp.com/developers/getting_started" target="_blank">official instructions</a>.</td>
 						</tr>
 					  </table>
 						<p class="submit">
