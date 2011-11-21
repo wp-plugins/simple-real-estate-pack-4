@@ -1,22 +1,22 @@
 <?php
-if(!class_exists('Plugin_Admin_Class')){
-	require_once ATW_LIB . '/wp_plugin_admin.php';
+if(!class_exists('Plugin_Admin_Class_0_2')){
+    require_once ATW_LIB . '/wp_plugin_admin.php';
 }
 
-class atw_Admin extends Plugin_Admin_Class {
-    var $hook		= 'atw';
-    var $longname	= 'Advanced Text Widget Options';
-    var $shortname	= 'ATW Plugin';
-    var $filename	= 'advanced-text-widget/advancedtext.php';
-    var $optionname	= 'atw';
-    var $menu		= true;
-    var $prefix		= 'atw_';
+class atw_Admin extends Plugin_Admin_Class_0_2 {    
+    var $hook       = 'atw';
+    //var $longname = 'Advanced Text Widget Options';
+    //var $shortname    = 'ATW Plugin';
+    var $filename   = 'advanced-text-widget/advancedtext.php';
+    var $optionname = 'atw';
+    var $menu       = true;
+    var $prefix     = 'atw_';    
 
     var $credits = array(
                     'download_url'  => 'http://wordpress.org/extend/plugins/advanced-text-widget/', //plugin page on wp.org
-                    'official_url'  => 'http://www.ibsteam.net/blog/web-development/advanced-text-widget-wordpress', //plugin page on author's website
+                    'official_url'  => 'http://wordpress.org/extend/plugins/advanced-text-widget/', //plugin page on author's website
                     'author_url'    => 'http://wordpress.org/extend/plugins/profile/maxchirkov',
-                    'sponsored_by'  => '<a href="http://www.ibsteam.net">ibsTeam.net</a>',
+                    'sponsored_by'  => '<a href="http://simplerealtytheme.com">SimpleRealtyTheme.com</a>',
                     'forums_url'    => 'http://wordpress.org/tags/advanced-text-widget?forum_id=10',
                 );
     var $default_options = array(
@@ -62,8 +62,14 @@ class atw_Admin extends Plugin_Admin_Class {
                 'name'  => 'Child of Page ID',
                 'code'  => '(int)$arg == $post->post_parent',
                 ),
-        );
-	
+        );    
+
+    function localize(){
+        $this->set_longname(__('Advanced Text Widget Options', $this->hook));
+        $this->set_shortname(__('ATW Plugin', $this->hooks));
+        //$this->set_var( 'longname', __('Advanced Text Widget Options', $this->hook) );       
+    }
+    
     //update from old widgets to new
     function auto_update(){
         if($widgets = get_option('widget_advanced_text')){
@@ -96,24 +102,24 @@ class atw_Admin extends Plugin_Admin_Class {
         }
     }
 
-	function settings($key = null){
+    function settings($key = null){
         
         $add_button = array(
                     //'label'       => __('Add New Condition'),                    
                     'id'        => 'condition-add-new',
                     'type'      => 'input',
-                    'attr'      => array('type' => 'button', 'value' => 'Add New Condition', 'class' => 'button'),
+                    'attr'      => array('type' => 'button', 'value' => __('Add New Condition', $this->hook), 'class' => 'button'),
                 );
     
        $conditions = array(                
                 array(
-                    'label'     => __('Name 1'),                    
+                    'label'     => sprintf(__('Name %d', $this->hook), 1),                    
                     'id'        => array('condition', 0, 'name'),
                     'type'      => 'text',
                     'attr'      => array('size' => 30),                    
                 ),
                 array(
-                    'label'     => __('Code 1'),                    
+                    'label'     => sprintf(__('Code %d', $this->hook), 1),                    
                     'id'        => array('condition', 0, 'code'),
                     'type'      => 'text',
                     'attr'      => array('size' => 60),                
@@ -127,14 +133,14 @@ class atw_Admin extends Plugin_Admin_Class {
                foreach($options['condition'] as $k => $item){
                     $n = $k + 1;
                    $conditions[] = array(
-                        'label'     => __('Name ' . $n),                    
+                        'label'     => sprintf(__('Name %d', $this->hook), $n),                    
                         'id'        => array('condition', $k, 'name'),
                         'type'      => 'text',
                         'attr'      => array('size' => 30),
                         'default'   => $item['name'],                        
                     );
                     $conditions[] = array(
-                        'label'     => __('Code ' . $n),                    
+                        'label'     => sprintf(__('Code %d', $this->hook), $n),                    
                         'id'        => array('condition', $k, 'code'),
                         'type'      => 'text',
                         'attr'      => array('size' => 60),
@@ -146,18 +152,13 @@ class atw_Admin extends Plugin_Admin_Class {
            
        }
 
-		$settings = array(
-			'Widget Visibility Conditions'       => $conditions,
-            'Misc. Settings'    => array(
-                array(
-                    'label'     => __('Apply visibility conditions only to Advanced Text Widget'),                    
-                    'id'        => array('misc', 'atw-only'),
-                    'type'      => 'checkbox',                                                    
-                ),
-            ),
-		);
-		
-		if($key){
+        $settings = array(
+            'Widget Visibility Conditions'       => $conditions,            
+        );
+        
+        $settings = apply_filters('atw_settings_array', $settings);
+
+        if($key){
             return $settings[$key];
         }
         //settings have to return a regular array of fields - no section
@@ -167,7 +168,7 @@ class atw_Admin extends Plugin_Admin_Class {
             }
         }
         return $settings_array;
-	}
+    }
 
     function validate_input($input){        
         foreach($input['condition'] as $k => $v){
@@ -177,23 +178,24 @@ class atw_Admin extends Plugin_Admin_Class {
             
         }
         return $input;
-    }	
+    }   
 
-	function config_page(){   
-		$this->add_column(1, '69%');
-		$this->add_box('Widget Visibility Conditions', $this->settings('Widget Visibility Conditions'), 1);
-        $this->add_box('Misc. Settings', $this->settings('Misc. Settings'), 1);
-		//Generate Config Page
+    function config_page(){   
+        $this->add_column(1, '69%');
+        $this->add_box(__('Widget Visibility Conditions', $this->hook), $this->settings('Widget Visibility Conditions'), 1);
+        do_action('atw_add_boxes');
+        //$this->add_box('Misc. Settings', $this->settings('Misc. Settings'), 1);
+        //Generate Config Page
         $this->_config_page_template();
-	}
+    }
 
-    function plugin_donate(){
-        $content = '<p>If you like this plugin click the PayPal button to buy me a coffe ;)</p>';
-        $content .= '<div style="text-align: center">
-        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JRA6WSKH3MSPG" target="_blank"><img src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" alt="PayPal - The safer, easier way to pay online!" /><br/>
-        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"></a>
-        </div>';
-        return $this->postbox('Donate', $content, $this->hook.'donate');
+    function plugin_donate(){        
+        $content = '<div style="text-align: center">';
+        $content .= sprintf(__('Check out <a href="%s" target="_blank"><strong>Advanced Text Widget PRO!</strong></a> - it\'s inexpensive and comes with great features.', $this->hook), 'http://simplerealtytheme.com/plugins/atw-pro/');
+        $content .= '</div>';
+        $buy_pro = $this->postbox(__('Get Advanced Text Widget PRO!', $this->hook), $content, $this->hook.'donate');
+        $buy_pro = apply_filters('atw_get_pro_version', $buy_pro);
+        return $buy_pro;
     }
 
     function credits_column(){
@@ -214,6 +216,6 @@ class atw_Admin extends Plugin_Admin_Class {
         
         return $contextual_help;
     }     
-}	
+}   
 $atw = new atw_Admin();
 $atw->auto_update();
