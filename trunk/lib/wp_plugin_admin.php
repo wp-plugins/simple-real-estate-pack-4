@@ -1,7 +1,7 @@
 <?php
 /*
 *  WordPress Plugin Admin Class
-** Version 0.2.x
+** Version 0.3
 ** Author: Max Chirkov
 ** Based on work of: Joost de Valk (Yoast Plugin Admin), Ian Stewart (Thematic Theme Options)
 */
@@ -152,7 +152,8 @@ if(!class_exists('Plugin_Admin_Class_0_2')){
          * Config Page Scripts
          */     
         function config_page_styles() {
-            if (isset($_GET['page']) && ($_GET['page'] == $this->filename || $_GET['page'] == $this->hook)) {
+            $page = esc_attr($_GET['page']);
+            if ($page && ($page == $this->filename || $page == $this->hook)) {
                 wp_enqueue_style('dashboard');
                 wp_enqueue_style('thickbox');
                 wp_enqueue_style('global');
@@ -162,7 +163,8 @@ if(!class_exists('Plugin_Admin_Class_0_2')){
         }       
         
         function config_page_scripts() {
-            if (isset($_GET['page']) && ($_GET['page'] == $this->filename || $_GET['page'] == $this->hook)) {
+            $page = esc_attr($_GET['page']);
+            if ($page && ($page == $this->filename || $page == $this->hook)) {
                             wp_enqueue_script('jquery');
                             wp_enqueue_script('jquery-ui');
                             wp_enqueue_script('jquery-ui-core');
@@ -177,7 +179,8 @@ if(!class_exists('Plugin_Admin_Class_0_2')){
 
                 function admin_head(){
                     //this condition is important, otherwise, if loads on other pages - breaks collapsible sidebar navigation.
-                    if (isset($_GET['page']) && ($_GET['page'] == $this->filename || $_GET['page'] == $this->hook)) {
+                    $page = esc_attr($_GET['page']);
+                    if ($page && ($page == $this->filename || $page == $this->hook)) {
                         echo '<script type="text/javascript" src="../wp-includes/js/jquery/ui.sortable.js"></script>';
                         echo '<link type="text/css" href="http://jquery-ui.googlecode.com/svn/tags/latest/themes/base/jquery.ui.all.css" rel="stylesheet" />';
                         echo '
@@ -228,13 +231,14 @@ if(!class_exists('Plugin_Admin_Class_0_2')){
         }           
         
         function show_menu(){
-            $submenu_slugs = array_keys($this->submenu_pages);          
-            if($_GET['page'] && in_array($_GET['page'], $submenu_slugs)){           
+            $submenu_slugs = array_keys($this->submenu_pages);
+            $page = esc_attr($_GET['page']);        
+            if($page && in_array($page, $submenu_slugs)){           
                 //submenu slug contains prefix, but submenu files don't, so remove prefix
-                $submenu_file_name = str_replace($this->prefix, '', $_GET['page']) . '.php';                                
+                $submenu_file_name = str_replace($this->prefix, '', $page) . '.php';                                
                 $submenu_file_path = dirname (__FILE__) . '/' . $submenu_file_name;             
                 //options funtion should be $submenu_slug + _options_page()
-                $func = $_GET['page'] . '_options_page';
+                $func = $page . '_options_page';
                 if(function_exists($func)){
                     call_user_func($func);
                 }elseif(file_exists($submenu_file_path)){

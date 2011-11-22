@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: text, php, plugin, widget, sidebar, conditions
 Requires at least: 2.8
 Tested up to: 3.3
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 Text widget with HTML and raw PHP support. Conditional visibility for all widgets or just this advanced text widget. Extensive conditional options with ability to edit and/or add custom conditions.
 
@@ -39,6 +39,10 @@ The plugins settings are located under Settings => ATW Plugin. From there you ca
 
 
 == Changelog ==
+
+**Version 2.0.2**
+
+- Updated all get method operations with esc_attr() to improve security.
 
 **Version 2.0.1**
 

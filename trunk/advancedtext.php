@@ -4,7 +4,7 @@ Plugin Name: Advanced Text Widget
 Plugin URI: 
 Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code. Conditional visibility can be applied to other widgets of the site as well.
 Author: Max Chirkov
-Version: 2.1.1
+Version: 2.0.2
 Author URI: http://simplerealtytheme.com
 */
           
@@ -96,7 +96,8 @@ add_action('widgets_init', create_function('', 'return register_widget("advanced
 add_action('widgets_init', 'advanced_text_do_shortcode');
 
 function atw_admin_scripts(){
-    if (isset($_GET['page']) && $_GET['page'] == 'atw'){
+	$page = esc_attr($_GET['page']);	
+    if ( 'atw' == $page ){    	
 		wp_enqueue_script('postbox');
 		wp_enqueue_script('dashboard');
 		wp_enqueue_style('dashboard');
