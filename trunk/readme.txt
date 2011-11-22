@@ -11,10 +11,11 @@ Text widget with HTML and raw PHP support. Conditional visibility for all widget
 == Description ==
 Advanced Text Widget is a text widget that allows you to execute raw PHP code. It comes with 10 default visibility conditions that will allow you to choose where exactly on your site this widget should be displayed. You can edit and/or add your own visibility conditions. The BEST FEATURE - it allows you to apply visibility conditions to ALL widgets on the site.
 
-**IMPORTANT for VERSIONS PRIOR TO 2.0**
-If you're upgrading form version prior to 2.0, it is recommended to upgrade to version 2.0 first and then version 3.0. Otherwise your old visibility conditions will be reset.
+[**Premium version of the plgin is now available**](http://simplerealtytheme.com/plugins/atw-pro/ "Advanced Text Widget PRO")
 
-Thake a look at the [Inroduction Video](http://www.screenr.com/Auns "Advanced Text Widget 3.0 - Introductio Video")
+**IMPORTANT SECURITY UPDATE**
+version 2.0.2 contains important secruity updates, therefore it is highly recommended that you keep your plugin up to date.
+
 
 * Author: Max Chirkov
 * Author URI: [http://simplerealtytheme.com](http://SimpleRealtyTheme.com "Real Estate Themes for WordPress")
