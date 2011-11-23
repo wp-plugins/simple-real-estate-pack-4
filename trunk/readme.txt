@@ -6,12 +6,12 @@ Requires at least: 2.8
 Tested up to: 3.3
 Stable tag: 2.0.2
 
-Text widget with HTML and raw PHP support. Conditional visibility for all widgets or just this advanced text widget. Extensive conditional options with ability to edit and/or add custom conditions.
+Text widget with HTML and raw PHP support and conditional visibility settings. Extensive conditional options with ability to edit and/or add custom conditions.
 
 == Description ==
-Advanced Text Widget is a text widget that allows you to execute raw PHP code. It comes with 10 default visibility conditions that will allow you to choose where exactly on your site this widget should be displayed. You can edit and/or add your own visibility conditions. The BEST FEATURE - it allows you to apply visibility conditions to ALL widgets on the site.
+Advanced Text Widget is a text widget that allows you to execute raw PHP code. It comes with 10 default visibility conditions that will allow you to choose where exactly on your site this widget should be displayed. You can edit and/or add your own visibility conditions.
 
-[**Premium version of the plgin is now available**](http://simplerealtytheme.com/plugins/atw-pro/ "Advanced Text Widget PRO")
+[Premium version of the plgin is now available](http://simplerealtytheme.com/plugins/atw-pro/ "Advanced Text Widget PRO")
 
 **IMPORTANT SECURITY UPDATE**
 version 2.0.2 contains important secruity updates, therefore it is highly recommended that you keep your plugin up to date.
