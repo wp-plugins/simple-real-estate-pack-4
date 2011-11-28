@@ -41,6 +41,10 @@ The plugins settings are located under Settings => ATW Plugin. From there you ca
 
 == Changelog ==
 
+**Version 2.0.3**
+
+- Changed widget's content filter to atw_widget_content instead of the default widget_text.
+
 **Version 2.0.2**
 
 - Updated all get method operations with esc_attr() to improve security.

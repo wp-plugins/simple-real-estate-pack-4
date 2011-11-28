@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Advanced Text Widget
-Plugin URI: 
-Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code. Conditional visibility can be applied to other widgets of the site as well.
+Plugin URI: http://simplerealtytheme.com/plugins/atw-pro/
+Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code.
 Author: Max Chirkov
-Version: 2.0.2
+Version: 2.0.3
 Author URI: http://simplerealtytheme.com
 */
           
@@ -71,7 +71,7 @@ class advanced_text extends WP_Widget {
 		}
 
 		$title 	 = $instance['title'];			
-		$text = apply_filters( 'widget_text', $instance['text'], $instance );
+		$text = apply_filters( 'atw_widget_content', $instance['text'], $instance );
 				
 		echo $before_widget;
 		echo "<div class='AdvancedText'>"; 
