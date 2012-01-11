@@ -87,7 +87,7 @@ class advanced_text extends WP_Widget {
 function advanced_text_do_shortcode(){
 	if (!is_admin()){
 		add_filter('widget_text', 'do_shortcode', 12);
-		add_filter('widget_advanced_text', 'do_shortcode', 12);	
+		add_filter('atw_widget_content', 'do_shortcode', 12);	
 	}
 }
 	
