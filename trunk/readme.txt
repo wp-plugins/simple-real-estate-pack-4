@@ -4,17 +4,31 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: text, php, plugin, widget, sidebar, conditions
 Requires at least: 2.8
 Tested up to: 3.3
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 
 Text widget with HTML and raw PHP support and conditional visibility settings. Extensive conditional options with ability to edit and/or add custom conditions.
 
 == Description ==
 Advanced Text Widget is a text widget that allows you to execute raw PHP code. It comes with 10 default visibility conditions that will allow you to choose where exactly on your site this widget should be displayed. You can edit and/or add your own visibility conditions.
 
-[Upgrade to Pro Version](http://simplerealtytheme.com/plugins/atw-pro/ "Advanced Text Widget PRO")
+**Features:**
 
-**IMPORTANT SECURITY UPDATE**
-version 2.0.2 contains important secruity updates, therefore it is highly recommended that you keep your plugin up to date.
+* 10 Default widget visibility conditions with over 20 application possibilities.
+* Add unlimited custom conditions.
+* “Advanced Text” widget with raw PHP support and shortcodes execution.
+
+**PRO Version**
+
+* Apply visibility conditions to ANY widget.
+* Add custom css IDs/Classes to ANY widget.
+* Import/Export your visibility conditions to re-use on other sites.
+
+[Check out PRO Version](http://simplerealtytheme.com/plugins/atw-pro/ "Advanced Text Widget PRO")
+
+
+**Sequrity Update**
+
+Version 2.0.2 contains important secruity updates, therefore it is highly recommended that you keep your plugin up to date.
 
 
 * Author: Max Chirkov
