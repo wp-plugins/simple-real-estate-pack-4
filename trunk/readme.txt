@@ -20,7 +20,7 @@ Advanced Text Widget is a text widget that allows you to execute raw PHP code an
 **PRO Version:**
 
 * Apply visibility conditions to ANY widget.
-* Add custom css IDs/Classes to ANY widget.
+* Add custom CSS IDs/Classes to ANY widget.
 * Import/Export your visibility conditions to re-use on other sites.
 
 [Check out PRO Version](http://simplerealtytheme.com/plugins/atw-pro/ "Advanced Text Widget PRO")
