@@ -44,6 +44,7 @@ The plugins settings are located under Settings => ATW Plugin. From there you ca
 **Version 2.0.3**
 
 - Changed widget's content filter to atw_widget_content instead of the default widget_text.
+- Bug Fix: atw shortcode filter wasn't using the right handle.
 
 **Version 2.0.2**
 
