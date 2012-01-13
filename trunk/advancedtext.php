@@ -4,7 +4,7 @@ Plugin Name: Advanced Text Widget
 Plugin URI: http://simplerealtytheme.com/plugins/atw-pro/
 Description: Text widget that has extensive conditional options to display content on pages, posts, specific categories etc. It supports regular HTML as well as PHP code.
 Author: Max Chirkov
-Version: 2.0.3
+Version: 2.0.4
 Author URI: http://simplerealtytheme.com
 */
           
@@ -70,7 +70,7 @@ class advanced_text extends WP_Widget {
 				return;
 		}
 
-		$title 	 = $instance['title'];			
+		$title 	 = $instance['title'];
 		$text = apply_filters( 'atw_widget_content', $instance['text'], $instance );
 				
 		echo $before_widget;
@@ -175,7 +175,7 @@ function atw_add_condition_fields($widget, $instance = false){
 function atw_check_widget_visibility($instance, $widget_obj = null, $args = false){
 	global $atw, $post;
 		
-		if( false !== $widget_obj){
+		if( false !== $widget_obj && is_object($widget_obj) ){
 			//check if conditions should apply to ATW only
 			if( defined('ATW_PRO') && atw_only() ){
 				if( 'advanced_text' !== get_class($widget_obj) )
@@ -190,7 +190,7 @@ function atw_check_widget_visibility($instance, $widget_obj = null, $args = fals
 		if(isset($instance['action'])){
 			$action  = $instance['action'];
 		}else{
-			return true;
+			return $instance;
 		}
 
 		if( isset($instance['show']) )
@@ -325,4 +325,39 @@ function atw_back_compat($key, $item){
 
 	return $key;
 }
-?>
+
+add_action('admin_notices', 'atw_admin_notice', 1);
+function atw_admin_notice(){	
+
+	//show to non PRO users
+	if( defined('ATW_PRO') )
+		return;
+
+	//check if it's been dismissed
+	if ( get_option('atw-pro-notice') )
+    return;
+
+  $url = 'http://simplerealtytheme.com/plugins/atw-pro/?utm_source=wordpress&utm_medium=plugin&utm_content=admin_notice&utm_campaign=atw';
+
+  $text = <<<HTML
+  <h4><a href="%s" target="blank">Check out Advanced Text Widget PRO</a></h4>
+  <p><strong>PRO Features:</strong><br />
+  	- Visibility conditions on ALL widgets.<br />
+		- Define custom CSS IDs/Classes for ANY widget.<br />
+		- Import/Export your visibility conditions to re-use on other sites.
+  </p>
+HTML;
+
+	$content = sprintf( $text, $url );
+
+  printf( '<div class="updated" style="overflow: hidden;"><div class="alignleft">'. $content .'</div> <p class="alignright"><a href="%s">Dismiss</a></p></div>', add_query_arg( 'atw-dismiss-notice', 'true' ) );
+
+}
+
+add_action('admin_init', 'atw_dismiss_admin_notice');
+function atw_dismiss_admin_notice(){
+    if ( !isset($_REQUEST['atw-dismiss-notice']) || $_REQUEST['atw-dismiss-notice'] !== 'true' )
+        return;
+
+    update_option( 'atw-pro-notice', 1 );
+}
