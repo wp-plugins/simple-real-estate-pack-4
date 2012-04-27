@@ -222,6 +222,30 @@ function srp_profile($args = array()) {
   echo $content;
 }
 
+function srp_listing_values_js() {
+    global $srp_property_values;
+
+    //Load inline map JS since it's the same for AJAX and non-AJAX option
+    $ajax_js = '';
+    $nonajax_js = "\n" . '<script type="text/javascript">
+    var srp_listing_values = {' . "\n";
+    $i = 0;
+    $n = count($srp_property_values);
+    foreach ($srp_property_values as $k => $v) {
+        $i++;
+        if ($i == $n) {
+            $comma = '';
+        } else {
+            $comma = ',';
+        }
+        $nonajax_js .= "\t" . $k . ': \'' . $v . '\'' . $comma . "\n";
+    }
+    $nonajax_js .= "\t" . '};%ajax_js%
+    </script>' . "\n";
+
+    return $nonajax_js;
+}
+
 /* ---------------------------------------------*
  * * Substitute function the_listing_map_content()
  * * to be placed in listingpage.php template

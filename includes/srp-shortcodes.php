@@ -214,22 +214,10 @@ function srp_Yelp_shortcode($atts=array()) {
 }
 
 function srp_map_shortcode($atts=array(), $content = NULL) {
-  unset($atts['title']);
-  global $srp_property_values;
+   global $srp_property_values;
   $args = shortcode_atts(srp_merge_atts('srpmap'), $atts);
-  //removing <br /> at the beginning of the code which is automatically inserted by WP tinymce
-  $br = substr($content, 0, 6);
-  if (strstr($br, "<br />")) {
-    $content = substr($content, 6);
-  }
-  $content = ereg_replace("\n", " ", '<div class="infoWindow" style="max-width:300px; line-height: normal;">' . addslashes($content) . '</div>');
-
-  if ($args['extended']) {
-    $srp_property_values = $args;
-    return srp_profile();
-  }
-  //return srp_map($args['lat'], $args['lng'], $args['address'], $args['city'], $args['state'], $args['zip_code'], $args['html'] = $content, $args['width'], $args['height'], $args['extended']);
-  return srp_map($args['lat'], $args['lng'], $args['html'] = $content, $args['width'], $args['height']);
+  $atts['gmap'] = 1;
+  return srp_profile_shortcode($atts, $content);
 }
 
 function srp_walkscore_shortcode($atts=array()) {
@@ -239,18 +227,45 @@ function srp_walkscore_shortcode($atts=array()) {
 }
 
 function srp_profile_shortcode($atts=array(), $content = NULL) {
-  unset($atts['title']);
-  $args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);
-  $br = substr($content, 0, 6);
-  if (strstr($br, "<br />")) {
-    $content = substr($content, 6);
-  }
-  $content = ereg_replace("\n", "", '<div class="infoWindow" style="max-width:300px; line-height: normal;">' . addslashes($content) . '</div>');
-  if ($content)
-    $args['html'] = $content;
+  //removing empty attributes
+  $atts = array_filter($atts);
 
+  $args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);  
+
+  //add address instead of description if none provided  
+  if( isset($args['address']) || isset($args['city']) ){
+    $address = $args['address'] . ', ' . $args['city'] . ' ' . $args['state'] . ' ' . $args['zip_code'];
+  }
+  if( !$content ){
+    if( isset($address)){
+      $content = $address;
+    }else{
+      //if no content and we have default title "Address" - remove it
+    if( 'Address' == $args['title'] )
+      unset($args['title']);  
+    }
+  }
+
+  if( isset($args['title']) )
+    $title = sprintf( '<div class="srp-map-location-title" style="font-size: 1.2em;"><b>%s</b></div>', addslashes($args['title']) );
+
+  if( $content ){
+    // WP 3.3.1 - I'm so tired of WP adding dangling <p> tags into shortcodes
+    //remove them all  
+    $content = str_replace(array( '<p>', '</p>' ), ' ', addslashes($content) );
+    //add my own around the content
+    $content = '<p>' . $content . '</p>';  
+    $content = str_replace( array("\r\n", "\n", "\r"), "", '<div class="infoWindow" style="max-width:300px; line-height: normal;">' . $title . $content . '</div>' ); 
+  }  
+    $args['html'] = $content;
+  
   global $srp_property_values;
   $srp_property_values = $args;
+  //check if shortcode is for GMap
+  if( !$args['extended'] && isset($atts['gmap']) ){
+    return srp_map($args['lat'], $args['lng'], $args['html'], $args['width'], $args['height']) . str_replace('%ajax_js%', '', srp_listing_values_js() );
+  }
+
   $output = srp_buffer('srp_profile');
   return $output;
 }

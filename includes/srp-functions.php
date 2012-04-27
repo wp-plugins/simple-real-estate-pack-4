@@ -147,6 +147,8 @@ function srp_format_phone($phone){
 *
 */
 function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
+    global $srp_scripts;
+
 	   if($width){ 
            //if metrics (% or px) is not indicated - fallback to px by default.
            //this is not explainded in the settings, but rather instructed to provide numeric values, so everything defaults to px.
@@ -172,6 +174,10 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
         }
         $output .= '</div>
 	</div>';
+
+    //make sure our JavaScripts get loaded on the current page
+    $srp_scripts = true;
+    
 	return $output;
 }
 
@@ -200,7 +206,7 @@ function srp_admin_scripts(){
 
     wp_enqueue_script('jquery');
     $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
-    wp_enqueue_script( 'google', $googlepath, FALSE, false, false );
+    wp_enqueue_script( 'google-maps-api-v3', $googlepath, FALSE, false, false );
     $srp_gre_admin = SRP_URL.'/js/srp-gre-admin.js';
     wp_enqueue_script('srp-gre-admin', $srp_gre_admin, false, false, false);
 }
@@ -210,7 +216,7 @@ function srp_default_headScripts(){
 	wp_enqueue_script('jquery');
   add_thickbox();
   $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
-	wp_enqueue_script( 'google', $googlepath, FALSE, false, false );
+	wp_enqueue_script( 'google-maps-api-v3', $googlepath, FALSE, false, false );
     if(function_exists('greatrealestate_init')){
         remove_action( 'wp_enqueue_scripts', 'greatrealestate_add_javascript' );
     }
