@@ -505,16 +505,18 @@ function srp_profile_tabs(x){
         function srp_output_gre(data){
             jQuery('#srp_extension').append(data);
             srp_check_prefilled();
-            if(jQuery.ui && jQuery.ui.tabs){
-              jQuery("#srp-tab-wrap").tabs("destroy");
-              jQuery(".srp-tabs").tabs("destroy");
-              srp_refresh_tabs("#srp-tab-wrap");
-              srp_refresh_tabs(".srp-tabs");
-            }
+                if( jQuery("#srp-tab-wrap").data("ui-tabs") ){
+			//console.log("tab destroy: " + "#srp-tab-wrap");		
+			jQuery("#srp-tab-wrap").tabs("destroy");
+		}
+		/*if( jQuery(".srp-tabs").data("ui-tabs") ){
+			console.log("tab destroy: " + ".srp-tabs");		
+			jQuery(".srp-tabs").tabs("destroy");
+		}*/
+		srp_refresh_tabs("#srp-tab-wrap");
+		srp_refresh_tabs(".srp-tabs");
         }
 
 function srp_refresh_tabs(selector){
-  if(jQuery.ui && jQuery.ui.tabs){
-   jQuery(selector).tabs();
-  }
+	jQuery(selector).tabs();
 }
