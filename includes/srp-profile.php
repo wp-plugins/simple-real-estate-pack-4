@@ -54,12 +54,18 @@ $srp_ext_gre_tabs = $srp_ext_gre_options['tabs'];
 $srp_general_options = get_option('srp_general_options');
 
 function srp_get_radius($type, $echo = false) {
-  global $srp_ext_gre_options;
-  if (!$radius = $srp_ext_gre_options['radius'][$type])
-    $radius = 3;
+    global $srp_ext_gre_options;
+    if ( isset($srp_ext_gre_options['radius'][$type]) )
+    {
+        $radius = $srp_ext_gre_options['radius'][$type];
+    }
+    else
+    {
+        $radius = 3;
+    }
 
-  if (!$echo)
-    return $radius;
+    if (!$echo)
+        return $radius;
 
   echo $radius;
 }

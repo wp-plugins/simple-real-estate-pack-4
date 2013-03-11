@@ -168,9 +168,14 @@ function srp_groupSchoolsBy($args){
 
 function srp_tabs_byType($args = array(), $ajax = NULL){
 	if(empty($args)) { return; }
-        //To use param distance - lat/lng has to be set (API's requirement)
-        if($args['location']['latitude'] && $args['location']['longitude'])
-			$distance = $args['location']['distance'];
+
+    //don't display distance radius for city/zip code searches
+    if ( isset($args['location']['distance']) &&
+            ( isset($args['location']['latitude']) && isset($args['location']['longitude']) )
+        )
+    {
+		$distance = $args['location']['distance'];
+    }
 
 	if(!$types = srp_groupSchoolsBy($args)) {
             if($distance){
@@ -188,9 +193,9 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 	$coordinates = array();
 
 	$i = 0;
-  $list = false;
-  $table = false;
-  $tabs = false;
+    $list = false;
+    $table = false;
+    $tabs = false;
 	foreach($types as $type){
 		$groups[$i]	= $titles[$i];
 		$totals[$i]	= count($type);
@@ -200,9 +205,22 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 		$total = count($type);
 		$name = $titles[$i-1];
 		$$args['output'] .= '<div id="tabs-' . $i . '">' . "\n";
-		if(!$args['location']['location_title'] && !$args['location']['latitude'] && !$args['location']['longitude']){
-			$location = implode(', ', $args['location']);
-			$in = ' in ';
+        $location = false;
+        $in = false;
+
+        if( !isset($args['location']['location_title']) ){
+			if ( isset($args['location']['city']) )
+                $location .= $args['location']['city'];
+
+            if ( $location && isset($args['location']['state']) )
+                $location .= ', ' . $args['location']['state'];
+
+            if ( isset($args['location']['zip']) )
+                $location .= ' ' . $args['location']['zip'];
+
+            if ($location)
+                $in = ' in ';
+
 			$td_distance_header = false;
 		}elseif($args['location']['location_title']){
 			$location = $args['location']['location_title'];
@@ -218,7 +236,7 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
 		}else{
 			$$args['output'] .= "<p class='schools-found'>$total $name Schools found in the area.</p>\n";
 		}
-		$list .= "\t<ul>\n";
+        $list .= "\t<ul>\n";
 		$table .= '<table class="srp_table tableStyle SchoolsByType">
 					  <tr>
 						<th scope="col" style="width: 40%">School</th>
@@ -238,6 +256,7 @@ function srp_tabs_byType($args = array(), $ajax = NULL){
                         }
 			$list .= "\t\t<li>" . $school->schoolname . ' <br /> Phone: ' . $school->phonenumber . '<br />' . $school->address . ', ' . $school->city . ', ' . $school->state . $school->zip . "</li>\n";
 
+            $td_distance = false;
 			if($td_distance_header){
 				$td_distance = '<td class="school_field_center">'.round((float)$school->distance, 2).'</td>';
 			}

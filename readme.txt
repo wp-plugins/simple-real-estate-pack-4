@@ -199,6 +199,11 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 
 == Changelog ==
 
+**Version 1.2.9**
+
+- Bug Fix: Schools title wasn't displaying correctly.
+- Cleaned up PHP notices and updated deprecated functions.
+
 **Version 1.2.7**
 
 - Minor JS fixes for WP 3.5 compatibility.

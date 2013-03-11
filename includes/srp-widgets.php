@@ -26,7 +26,7 @@ class srp_MortgageCalc extends WP_Widget {
 
 		$title = apply_filters('srp_MortgageCalc', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
-		$interest_rate = srp_get_option('annual_interest_rate', $instance['interest_rate']);
+		$interest_rate = ( isset($interest_rate) ) ? $interest_rate : srp_get_option('annual_interest_rate', $instance['interest_rate']);
 		if($instance['width']){ $width = 'style="width:'.$instance['width'].'px"'; }
 
                 if(!$options = get_option('srp_mortgage_calc_options')){

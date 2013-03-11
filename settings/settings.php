@@ -17,14 +17,14 @@ function srp_options_init(){
 }
 
 function simpleRealEstatePack_menu(){
-	add_menu_page('Simple Real Estate Pack', 'SREP Settings', 8, __FILE__, 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Mortgage Calcs Options', 'Mortgage Calcs', 8, 'srp_mortgage_calc', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Mortgage Rates Options', 'Mortgage Rates', 8, 'srp_mortgage_rates', 'srp_show_menu');
-	//add_submenu_page(__FILE__, 'Education API Key Setup', 'Education', 8, 'srp_education', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Yelp', 'Yelp', 8, 'srp_yelp', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Walk Score<sup>&reg;</sup>', 'Walk Score<sup>&reg;</sup>', 8, 'srp_walkscore', 'srp_show_menu');
-	add_submenu_page(__FILE__, 'Google Maps', 'Google Maps', 8, 'srp_gmap', 'srp_show_menu');
-        add_submenu_page(__FILE__, 'Neighborhood', 'Neighborhood', 8, 'srp_profile', 'srp_show_menu');
+	add_menu_page('Simple Real Estate Pack', 'SREP Settings', 'manage_options', __FILE__, 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Mortgage Calcs Options', 'Mortgage Calcs', 'manage_options', 'srp_mortgage_calc', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Mortgage Rates Options', 'Mortgage Rates', 'manage_options', 'srp_mortgage_rates', 'srp_show_menu');
+	//add_submenu_page(__FILE__, 'Education API Key Setup', 'Education', 'manage_options', 'srp_education', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Yelp', 'Yelp', 'manage_options', 'srp_yelp', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Walk Score<sup>&reg;</sup>', 'Walk Score<sup>&reg;</sup>', 'manage_options', 'srp_walkscore', 'srp_show_menu');
+	add_submenu_page(__FILE__, 'Google Maps', 'Google Maps', 'manage_options', 'srp_gmap', 'srp_show_menu');
+        add_submenu_page(__FILE__, 'Neighborhood', 'Neighborhood', 'manage_options', 'srp_profile', 'srp_show_menu');
 }
 
 

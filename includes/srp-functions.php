@@ -149,13 +149,13 @@ function srp_format_phone($phone){
 function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
     global $srp_scripts;
 
-	   if($width){ 
+	   if($width){
            //if metrics (% or px) is not indicated - fallback to px by default.
            //this is not explainded in the settings, but rather instructed to provide numeric values, so everything defaults to px.
-           $width = ( !strstr($width, '%') && !stristr($width, 'px') ) ? "width:{$width}px;" : "width:{$width};"; 
+           $width = ( !strstr($width, '%') && !stristr($width, 'px') ) ? "width:{$width}px;" : "width:{$width};";
        }
-	   if($height){ 
-           $height = ( !strstr($height, '%') && !stristr($height, 'px') ) ? "height:{$height}px;" : "height:{$height};"; 
+	   if($height){
+           $height = ( !strstr($height, '%') && !stristr($height, 'px') ) ? "height:{$height}px;" : "height:{$height};";
        }
         $srp_gmap_options = get_option('srp_gmap');
 	$output = '<div id="map">
@@ -177,7 +177,7 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 
     //make sure our JavaScripts get loaded on the current page
     $srp_scripts = true;
-    
+
 	return $output;
 }
 
@@ -194,8 +194,10 @@ function srp_ajax_vars(){
   return $vars;
 }
 function srp_admin_scripts(){
+    if( !isset($_GET['page']) )
+        return;
 
-    if (isset($_GET['page']) && strstr($_GET['page'], 'simple-real-estate-pack') || strstr($_GET['page'], 'srp_')){
+    if (  strstr($_GET['page'], 'simple-real-estate-pack') || strstr($_GET['page'], 'srp_') ){
         wp_enqueue_script('postbox');
         wp_enqueue_script('dashboard');
         wp_enqueue_style('dashboard');
