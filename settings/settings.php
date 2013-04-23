@@ -119,7 +119,7 @@ function srp_get_option($option, $instance = null){
 }
 
 function srp_updated_message($updated = false){
-	if($_GET['updated'] == true || $updated == true){
+	if( (isset($_GET['updated']) && $_GET['updated'] == true) || $updated == true){
   		echo '<div class="updated"><p>Your settings have been saved.</p></div>';
   	}
 }

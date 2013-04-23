@@ -19,6 +19,10 @@ function _srp_get_query_url($args = array()){
 		if( !isset($args['latitude']) )
 			unset($args['distance']);
 
+        //distance is required if lat/lng is set
+        if( isset($args['latitude']) && isset($args['longitude']) )
+            $args['distance'] = isset($args['distance']) ? $args['distance'] : 3;
+
     $query = '';
 		foreach($args as $key => $value){
 			if(!$value){
@@ -128,6 +132,7 @@ function srp_run_apiFunction($function_name, $arguments=array()){
 
 		if(!empty($required) && !empty($optional)){
                     $url = EDU_API_URL . '?' . _srp_get_query_url($required) . '&' . _srp_get_query_url($optional);
+
                     if(!$xml = srp_wp_http_xml($url)){
                         return;
                     }

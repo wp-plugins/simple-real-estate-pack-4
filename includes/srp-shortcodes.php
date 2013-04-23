@@ -230,9 +230,9 @@ function srp_profile_shortcode($atts=array(), $content = NULL) {
   //removing empty attributes
   $atts = array_filter($atts);
 
-  $args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);  
+  $args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);
 
-  //add address instead of description if none provided  
+  //add address instead of description if none provided
   if( isset($args['address']) || isset($args['city']) ){
     $address = $args['address'] . ', ' . $args['city'] . ' ' . $args['state'] . ' ' . $args['zip_code'];
   }
@@ -242,7 +242,7 @@ function srp_profile_shortcode($atts=array(), $content = NULL) {
     }else{
       //if no content and we have default title "Address" - remove it
     if( 'Address' == $args['title'] )
-      unset($args['title']);  
+      unset($args['title']);
     }
   }
 
@@ -251,18 +251,18 @@ function srp_profile_shortcode($atts=array(), $content = NULL) {
 
   if( $content ){
     // WP 3.3.1 - I'm so tired of WP adding dangling <p> tags into shortcodes
-    //remove them all  
+    //remove them all
     $content = str_replace(array( '<p>', '</p>' ), ' ', addslashes($content) );
     //add my own around the content
-    $content = '<p>' . $content . '</p>';  
-    $content = str_replace( array("\r\n", "\n", "\r"), "", '<div class="infoWindow" style="max-width:300px; line-height: normal;">' . $title . $content . '</div>' ); 
-  }  
+    $content = '<p>' . $content . '</p>';
+    $content = str_replace( array("\r\n", "\n", "\r"), "", '<div class="infoWindow" style="max-width:300px; line-height: normal;">' . $title . $content . '</div>' );
+  }
     $args['html'] = $content;
-  
+
   global $srp_property_values;
   $srp_property_values = $args;
   //check if shortcode is for GMap
-  if( !$args['extended'] && isset($atts['gmap']) ){
+  if( !isset($args['extended']) && isset($atts['gmap']) ){
     return srp_map($args['lat'], $args['lng'], $args['html'], $args['width'], $args['height']) . str_replace('%ajax_js%', '', srp_listing_values_js() );
   }
 

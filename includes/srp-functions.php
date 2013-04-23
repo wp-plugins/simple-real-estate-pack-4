@@ -148,6 +148,7 @@ function srp_format_phone($phone){
 */
 function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
     global $srp_scripts;
+    wp_enqueue_script( 'google-maps-api-v3' );
 
 	   if($width){
            //if metrics (% or px) is not indicated - fallback to px by default.
@@ -218,7 +219,7 @@ function srp_default_headScripts(){
 	wp_enqueue_script('jquery');
   add_thickbox();
   $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
-	wp_enqueue_script( 'google-maps-api-v3', $googlepath, FALSE, false, false );
+	wp_register_script( 'google-maps-api-v3', $googlepath, FALSE, false, false );
     if(function_exists('greatrealestate_init')){
         remove_action( 'wp_enqueue_scripts', 'greatrealestate_add_javascript' );
     }
