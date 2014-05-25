@@ -108,7 +108,7 @@ function srp_general_options_page() {
 
           </form>
 
-          <div class="postbox closed">
+          <div class="postbox">
             <div class="handlediv" title="Click to toggle"><br /></div>
             <h3 class="hndle"><span>Available ShortCodes</span></h3>
             <div class="inside">

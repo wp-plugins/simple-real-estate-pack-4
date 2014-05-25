@@ -136,7 +136,7 @@ foreach($rollingaverage as $k => $v){
 					}
 				}
 				
-				graph +='&amp;service=chart" />';
+				graph +='&amp;service=chart&amp;pai=55179304" />';
 				
 				tagtext = graph;
 			}else{
@@ -146,11 +146,8 @@ foreach($rollingaverage as $k => $v){
 	
 		
 		if(window.tinyMCE) {
-			window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false,  tagtext);
-			//Peforms a clean up of the current editor HTML. 
-			//tinyMCEPopup.editor.execCommand('mceCleanup');
-			//Repaints the editor. Sometimes the browser has graphic glitches. 
-			tinyMCEPopup.editor.execCommand('mceRepaint');
+            window.parent.send_to_editor(tagtext);
+            tinyMCEPopup.editor.execCommand('mceRepaint');
 			tinyMCEPopup.close();
 		}
 		

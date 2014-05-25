@@ -91,6 +91,16 @@ function srp_MortgageCalc_calculate(num){
 	var mortgage_term	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-mortgage_term").asNumber();
 	var interest_rate	=	jQuery("input#widget-srp_mortgagecalc-" + num + "-interest_rate").asNumber();
 
+    if (down_payment == 100
+        || down_payment > 100)
+
+    {
+        alert('Down Payment can not be equal of larger than the price of home.');
+        jQuery("input#widget-srp_mortgagecalc-" + num + "-down_payment").val('');
+        srp_MortgageCalc_calculate(num);
+        return false;
+    }
+
 
 	jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").removeClass("highlight");
 	if(!price_of_home){ jQuery("input#widget-srp_mortgagecalc-" + num + "-price_of_home").addClass("highlight"); var error = true; }

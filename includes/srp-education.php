@@ -347,8 +347,14 @@ function srp_Education_attribution($city=false, $state=false){
 function srp_getSchools_ajax(){
 	$lat = $_POST['lat'];
 	$lng = $_POST['lng'];
-	$radius = 3; $_POST['radius'];
+
+    $radius = srp_get_radius('schools', false);
+	if ($radius == false)
+    {
+        $radius = 3;
+    }
 	$address = NULL; //$_POST['address'];
+
 	if($result = srp_schoolSearch_shortcode(array("lat"=>$lat,  "lng"=>$lng, "distance"=>$radius, "groupby"=>"gradelevel", "output"=>"table", "location_title"=>$address), $ajax = true)){
 		$result = unserialize($result);
 		$result = json_encode($result);

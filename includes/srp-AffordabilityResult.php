@@ -1,4 +1,6 @@
 <?php
+$output = false;
+
 if($_GET['type'] == 'affordability'){
 
 	// Get Posted Values
@@ -91,7 +93,8 @@ $deductions_ .= '</small></div>';
 
 	);
 
-	$i = 0;
+	$tr = '';
+    $i = 0;
 	foreach($table as $k => $row){
 		if(is_array($row)){
 			$tr .=  '<tr class="srp_subtitle">

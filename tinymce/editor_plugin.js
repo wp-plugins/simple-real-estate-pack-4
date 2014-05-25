@@ -19,7 +19,7 @@
 				ed.windowManager.open({
 					file : ajaxurl + '?action=srp_tinymce&plugin=window',
 					width : 360 + ed.getLang('srp_TruliaStats.delta_width', 0),
-					height : 300 + ed.getLang('srp_TruliaStats.delta_height', 0),
+					height : 350 + ed.getLang('srp_TruliaStats.delta_height', 0),
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL

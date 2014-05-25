@@ -385,8 +385,8 @@ class srp_MortgageRates extends WP_Widget {
 
 		$title = apply_filters('srp_MortgageRates', empty($instance['title']) ? '' : $instance['title']);
 		if ( !empty( $title ) ) { $title = $before_title . $title . $after_title; }
-		if($instance['width']){ $width = 'style="width:'.$instance['width'].'px"'; }
-		$output = $before_widget . $title . srp_get_zillow_mortgage_rates() . $after_widget;
+		if($instance['width']){ $width = $instance['width'] . 'px'; }
+		$output = $before_widget . $title . srp_get_zillow_mortgage_rates(false, $width) . $after_widget;
 		if($instance['return'] == true){
 			return $output;
 		}else{
@@ -410,8 +410,8 @@ class srp_MortgageRates extends WP_Widget {
 	}
 }
 
-function srp_get_zillow_mortgage_rates($return_rate = false){
-  $opt = get_option('srp_mortgage_rates');
+function srp_get_zillow_mortgage_rates($return_rate = false, $width = '100%'){
+    $opt = get_option('srp_mortgage_rates');
 	$ZWSID = $opt['getratesummary_api_key'];
 	$state = $opt['getratesummary_state'];
 
@@ -434,11 +434,10 @@ function srp_get_zillow_mortgage_rates($return_rate = false){
 			'5/1 ARM',
 		);
 		$srp_display_rates = $opt['display_rates'];
-		$width = 'width="100%"';
 
 		$output = '
-		<div class="simpleMortgageCalcwidget" ' . $width . '>
-		<table class="srp_table" ' . $width . '>';
+		<div class="simpleMortgageCalcwidget" style="width: ' . $width . '">
+		<table class="srp_table">';
 
 		if($srp_display_rates == 1){
 			$output .= '<tr>

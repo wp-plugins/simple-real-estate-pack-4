@@ -36,7 +36,8 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 			jQuery('table#mortgage').hide();
 			jQuery('table#afford').hide();
 			jQuery('table#closing').hide();
-		}		
+			jQuery('table#rates').hide();
+		}
 		hide_all();
 		
 		function show_calc(id){
@@ -64,7 +65,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 			var result = '';
 			for(var i in param){
 				//alert(m_param[i]+' = ' + jQuery('.'+m_param[i]).val());
-				var value = jQuery('.'+param[i]).val();
+				var value = jQuery('#mortgage .'+param[i]).val();
 				if(typeof(value) !== 'undefined' && value.length > 0){
 					result += ' ' + param[i] + '="' + value + '"';
 				}
@@ -77,36 +78,47 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 			var result = '';
 			for(var i in param){
 				//alert(m_param[i]+' = ' + jQuery('.'+m_param[i]).val());
-				var value = jQuery('.'+param[i]).val();
+				var value = jQuery('#afford .'+param[i]).val();
 				if(typeof(value) !== 'undefined' && value.length > 0){
 					result += ' ' + param[i] + '="' + value + '"';
 				}
 			}
 			tagtext = '[affordability' + result + ']';
 		}else
-		//Closing Cost Estimator
-		if(jQuery('select#calc_type').val() == 'closing'){
-			var param = ['loan_amount', 'title', 'before_title', 'after_title', 'width'];
-			var result = '';
-			for(var i in param){
-				//alert(m_param[i]+' = ' + jQuery('.'+m_param[i]).val());
-				var value = jQuery('.'+param[i]).val();
-				if(typeof(value) !== 'undefined' && value.length > 0){
-					result += ' ' + param[i] + '="' + value + '"';
-				}
-			}
-			tagtext = '[closingcosts' + result + ']';
-		}else{
+        //Closing Cost Estimator
+        if(jQuery('select#calc_type').val() == 'closing'){
+            var param = ['loan_amount', 'title', 'before_title', 'after_title', 'width'];
+            var result = '';
+            for(var i in param){
+                //alert(m_param[i]+' = ' + jQuery('.'+m_param[i]).val());
+                var value = jQuery('#closing .'+param[i]).val();
+                if(typeof(value) !== 'undefined' && value.length > 0){
+                    result += ' ' + param[i] + '="' + value + '"';
+                }
+            }
+            tagtext = '[closingcosts' + result + ']';
+        }else
+        //Rates
+        if(jQuery('select#calc_type').val() == 'rates'){
+            var param = ['title', 'before_title', 'after_title', 'width'];
+            var result = '';
+            for(var i in param){
+                //alert(m_param[i]+' = ' + jQuery('.'+m_param[i]).val());
+                var value = jQuery('#rates .'+param[i]).val();
+                if ((typeof value != 'undefined')
+                    && value.length > 0){
+                    result += ' ' + param[i] + '="' + value + '"';
+                }
+            }
+            tagtext = '[mortgage_rates' + result + ']';
+        }else{
 				tinyMCEPopup.close();
 			}
 		
 		if(window.tinyMCE) {
-			window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false,  tagtext);
-			//Peforms a clean up of the current editor HTML. 
-			//tinyMCEPopup.editor.execCommand('mceCleanup');
-			//Repaints the editor. Sometimes the browser has graphic glitches. 
-			tinyMCEPopup.editor.execCommand('mceRepaint');
-			tinyMCEPopup.close();
+            window.parent.send_to_editor(tagtext);
+            tinyMCEPopup.editor.execCommand('mceRepaint');
+            tinyMCEPopup.close();
 		}
 		
 		return;
@@ -123,7 +135,7 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 		</ul>
 	</div>
 	
-	<div id="simpleCalcs_options" class="panel_wrapper" style="height:280px">
+	<div id="simpleCalcs_options" class="panel_wrapper" style="height:320px">
 		<!-- simpleCalcs panel -->
 		<div id="simpleCalcs_panel" class="panel current">
 		<br />
@@ -135,6 +147,16 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
 					<option selected="selected" value="mortgage">Mortgage Calculator</option>
 					<option value="afford">Affordability Calculator</option>
 					<option value="closing">Closing Cost Estimator</option>
+                    <?php
+                    $opt = get_option('srp_mortgage_rates');
+
+                    if (isset($opt['getratesummary_api_key']) && !empty($opt['getratesummary_api_key']))
+                    {
+                        ?>
+                        <option value="rates">Mortgage Rates</option>
+                        <?php
+                    }
+                    ?>
 				</select>
 			</div></td>
 		  </tr>
@@ -246,7 +268,33 @@ if ( !is_user_logged_in() || !current_user_can('edit_posts') )
             <td><input name="textfield732" type="text" size="10" class="width">
               px</td>
           </tr>
-        </table>        
+        </table>
+
+            <table id="rates" width="320" border="0" cellpadding="4" cellspacing="0">
+                <tr>
+                    <td colspan="2"><div align="center"><strong>Mortgage Rates Widget</strong></div></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><div align="center" style="background: #FDDFB3;">All Parameters are Optional</div></td>
+                </tr>
+                <tr>
+                    <td width="130">Widget Title </td>
+                    <td width="190"><input type="text" name="textfield332" class="title"></td>
+                </tr>
+                <tr>
+                    <td>Before Title </td>
+                    <td><input type="text" class="before_title"></td>
+                </tr>
+                <tr>
+                    <td>After Title </td>
+                    <td><input type="text" class="after_title"></td>
+                </tr>
+                <tr>
+                    <td>Widget Width </td>
+                    <td><input type="text" size="10" class="width">
+                        px</td>
+                </tr>
+            </table>
 		
 		</div>
 		<!-- end simpleCalcs panel -->

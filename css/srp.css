@@ -29,6 +29,9 @@
 #srp_walkscore input, #srp_walkscore textarea, #srp_walkscore select {
 	width: auto;
 }
+input#ws-go {
+    width: auto;
+}
 
 .srp_attrib, .srp_attrib a, .srp_attrib img {
     font-size: 11px;

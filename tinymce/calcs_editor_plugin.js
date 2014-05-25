@@ -19,7 +19,7 @@
 				ed.windowManager.open({
 					file : ajaxurl + '?action=srp_tinymce&plugin=calcs_window',
 					width : 360 + ed.getLang('srp_Calcs.delta_width', 0),
-					height : 355 + ed.getLang('srp_Calcs.delta_height', 0),
+					height : 400 + ed.getLang('srp_Calcs.delta_height', 0),
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL

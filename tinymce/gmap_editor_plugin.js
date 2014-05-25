@@ -19,7 +19,7 @@
 				ed.windowManager.open({
 					file : ajaxurl + '?action=srp_tinymce&plugin=gmap_window',
 					width : 360 + ed.getLang('srp_GMap.delta_width', 0),
-					height : 340 + ed.getLang('srp_GMap.delta_height', 0),
+					height : 370 + ed.getLang('srp_GMap.delta_height', 0),
 					inline : 1
 				}, {
 					plugin_url : url // Plugin absolute URL

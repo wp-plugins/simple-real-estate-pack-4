@@ -233,7 +233,7 @@ function srp_profile_options_page() {
                 </tr>
                 <tr valign="bottom">
                   <th><div align="right">Map</div></th>
-                <td>Width <input type="text" name="srp_ext_gre_options[map-dimensions][width]" value="<?php echo $options['map-dimensions']['width']; ?>" size="5"/>px by Height <input type="text" name="srp_ext_gre_options[map-dimensions][height]" value="<?php echo $options['map-dimensions']['height']; ?>" size="5"/>px</td>
+                <td>Width <input type="text" name="srp_ext_gre_options[map-dimensions][width]" value="<?php echo $options['map-dimensions']['width']; ?>" size="5"/>%/px by Height <input type="text" name="srp_ext_gre_options[map-dimensions][height]" value="<?php echo $options['map-dimensions']['height']; ?>" size="5"/>px</td>
                 </tr>
               </table>
               <?php

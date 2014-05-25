@@ -232,12 +232,9 @@ jQuery(document).ready( function() {
 	}
 		
 		if(window.tinyMCE) {
-			window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false,  tagtext);
-			//Peforms a clean up of the current editor HTML. 
-			//tinyMCEPopup.editor.execCommand('mceCleanup');
-			//Repaints the editor. Sometimes the browser has graphic glitches. 
-			tinyMCEPopup.editor.execCommand('mceRepaint');
-			tinyMCEPopup.close();
+            window.parent.send_to_editor(tagtext);
+            tinyMCEPopup.editor.execCommand('mceRepaint');
+            tinyMCEPopup.close();
 		}
 		
 		return;
@@ -251,7 +248,6 @@ jQuery(document).ready( function() {
 		font-weight: bold;
 		color: #2B6FB6;
 		text-align: center;
-		height: 13px;
 		margin: 2px 0;
 		background: #A2C5E8 url(../images/plus-minus.gif) 5px -29px no-repeat;			
 	}

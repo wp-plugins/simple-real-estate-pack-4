@@ -151,12 +151,9 @@ $states .= "</select>\n";
 	
 		
 		if(window.tinyMCE) {
-			window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false,  tagtext);
-			//Peforms a clean up of the current editor HTML. 
-			//tinyMCEPopup.editor.execCommand('mceCleanup');
-			//Repaints the editor. Sometimes the browser has graphic glitches. 
-			tinyMCEPopup.editor.execCommand('mceRepaint');
-			tinyMCEPopup.close();
+            window.parent.send_to_editor(tagtext);
+            tinyMCEPopup.editor.execCommand('mceRepaint');
+            tinyMCEPopup.close();
 		}
 		
 		return;
@@ -173,7 +170,7 @@ $states .= "</select>\n";
 		</ul>
 	</div>
 	
-	<div id="simpleTrulia_options" class="panel_wrapper" style="height:215px">
+	<div id="simpleTrulia_options" class="panel_wrapper" style="height:265px">
 		<!-- simpleTrulia panel -->
 		<div id="simpleTrulia_panel" class="panel current">
 		<br />

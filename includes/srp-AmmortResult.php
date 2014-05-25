@@ -79,10 +79,10 @@
         // numbers - this will delete any dollars signs,
         // commas, spaces, and letters, without invalidating
         // the value of the number
-        $sale_price              = ereg_replace( "[^0-9.]", "", $sale_price);
-        $annual_interest_percent = eregi_replace("[^0-9.]", "", $annual_interest_percent);
-        $year_term               = eregi_replace("[^0-9.]", "", $year_term);
-        $down_percent            = eregi_replace("[^0-9.]", "", $down_percent);
+        $sale_price              = preg_replace( "[^0-9.]", "", $sale_price);
+        $annual_interest_percent = preg_replace("[^0-9.]", "", $annual_interest_percent);
+        $year_term               = preg_replace("[^0-9.]", "", $year_term);
+        $down_percent            = preg_replace("[^0-9.]", "", $down_percent);
         
         if (((float) $year_term <= 0) || ((float) $sale_price <= 0) || ((float) $annual_interest_percent <= 0)) {
             $error = "You must enter a <b>Sale Price of Home</b>, <b>Length of Motgage</b> <i>and</i> <b>Annual Interest Rate</b>";
@@ -115,7 +115,7 @@
                     $residential_yearly_tax  = ($assessed_price / 1000) * 14;
                     $residential_monthly_tax = $residential_yearly_tax / 12;
                     
-                    if ($pmi_per_month) {
+                    if (isset($pmi_per_month)) {
                         $pmi_text = "PMI and ";
                     }
 

@@ -216,22 +216,24 @@ function srp_Yelp_shortcode($atts=array()) {
 function srp_map_shortcode($atts=array(), $content = NULL) {
    global $srp_property_values;
   $args = shortcode_atts(srp_merge_atts('srpmap'), $atts);
-  $atts['gmap'] = 1;
-  return srp_profile_shortcode($atts, $content);
+  $args['gmap'] = 1;
+  return srp_profile_shortcode($args, $content);
 }
 
 function srp_walkscore_shortcode($atts=array()) {
-  unset($atts['title']);
   $args = shortcode_atts(srp_merge_atts('walkscore'), $atts);
-  return srp_walkscore($args['ws_wsid'], $args['ws_address'], $args['ws_width'], $args['ws_height'], $args['ws_layout']);
+
+    if (isset($args['ws_address']) && !empty($args['ws_address']))
+    {
+        return srp_walkscore($args['ws_wsid'], $args['ws_address'], $args['ws_width'], $args['ws_height'], $args['ws_layout']);
+    }
 }
 
 function srp_profile_shortcode($atts=array(), $content = NULL) {
   //removing empty attributes
   $atts = array_filter($atts);
 
-  $args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);
-
+    $args = shortcode_atts(srp_merge_atts('srp_profile'), $atts);
   //add address instead of description if none provided
   if( isset($args['address']) || isset($args['city']) ){
     $address = $args['address'] . ', ' . $args['city'] . ' ' . $args['state'] . ' ' . $args['zip_code'];
@@ -262,7 +264,7 @@ function srp_profile_shortcode($atts=array(), $content = NULL) {
   global $srp_property_values;
   $srp_property_values = $args;
   //check if shortcode is for GMap
-  if( !isset($args['extended']) && isset($atts['gmap']) ){
+  if( !isset($args['extended']) && isset($args['gmap']) ){
     return srp_map($args['lat'], $args['lng'], $args['html'], $args['width'], $args['height']) . str_replace('%ajax_js%', '', srp_listing_values_js() );
   }
 
@@ -278,6 +280,5 @@ add_shortcode('rentmeter', 'srp_RentMeter_shortcode');
 add_shortcode('schoolsearch', 'srp_schoolSearch_shortcode');
 add_shortcode('yelp', 'srp_Yelp_shortcode');
 add_shortcode('srpmap', 'srp_map_shortcode');
-add_shortcode('walkscore', 'srp_walkscore_shortcode');
 add_shortcode('srp_profile', 'srp_profile_shortcode');
-?>
+add_shortcode('walkscore', 'srp_walkscore_shortcode');

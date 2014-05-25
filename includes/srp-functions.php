@@ -610,4 +610,3 @@ function srp_ajax_tinymce(){
     die();
 }
 add_action( 'wp_ajax_srp_tinymce', 'srp_ajax_tinymce' );
-?>

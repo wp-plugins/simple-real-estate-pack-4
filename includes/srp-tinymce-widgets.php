@@ -77,7 +77,7 @@ function srp_get_altos_stats($atts=array()){
 	), $atts);
 	$args = array_filter($args);
 
-	$url = 'http://charts.altosresearch.com/altos/app?s='.$args['type'].':l,&ra=c&st='.$args['state'].'&c='.$args['city'].'&z='.$args['zipcode'].'&sz=l&service=chart';
+	$url = 'http://charts.altosresearch.com/altos/app?s='.$args['type'].':l,&ra=c&st='.$args['state'].'&c='.$args['city'].'&z='.$args['zipcode'].'&sz=l&service=chart&pai=55179304';
 	//if (!@fclose(@fopen($url, "r"))) {
         //if(function_exists('GetImageSize') && !$size = @GetImageSize($url)){
         if(!srp_is_ImgExists($url)){
@@ -103,4 +103,3 @@ if(get_option('greatrealestate_googleAPIkey')){
 }elseif(get_option('srp_gmap_api_key')){
 	define("GMAP_API", get_option('srp_gmap_api_key'));
 }
-?>
