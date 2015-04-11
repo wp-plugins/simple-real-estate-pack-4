@@ -1,7 +1,8 @@
 <?php
-Class srpWidgets{
 
-    static $widgets = array();
+class srpWidgets
+{
+    public $widgets = array();
 
     function __construct(){}
 
@@ -22,7 +23,7 @@ Class srpWidgets{
       extract( $merged_atts, EXTR_REFS );
 
       //$name is required
-      if( NULL == $name )
+      if ( NULL == $name )
         return;
 
       $this->widgets[$name] = new srpWidget($name, $title, $tab_name, $content, $callback_function, $init_function, $ajax, $save_to_buffer);
@@ -89,7 +90,7 @@ Class srpWidgets{
     function get_all_ajax($ajax){
         global $srp_ext_gre_content, $srp_ext_gre_tabs;
 
-        if(count($this->widgets) < 1)
+        if(count($this->widgets) < 1 || empty($srp_ext_gre_content))
                 return;
         foreach($this->widgets as $widget){
             if(in_array($widget->name, $srp_ext_gre_content)){
@@ -173,7 +174,7 @@ Class srpWidgets{
     function get_tabs(){
         global $srp_ext_gre_content, $srp_ext_gre_tabs;
 
-        if(count($this->widgets) < 1)
+        if(count($this->widgets) < 1 || empty($srp_ext_gre_content))
                 return;
 
         $tabs = false;

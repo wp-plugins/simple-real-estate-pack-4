@@ -171,7 +171,7 @@ function srp_map($lat, $lng, $html=null, $width = NULL, $height = NULL) {
 	   </div>
 	   <div class="srp_gre_legend">';
         if( isset($srp_gmap_options['mainmarker']) ){
-            $output .= '<span><img src="http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - ' . $srp_gmap_options['mainmarker_label'] . '</span>';
+            $output .= '<span><img src="//www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png" /> - ' . $srp_gmap_options['mainmarker_label'] . '</span>';
         }
         $output .= '</div>
 	</div>';
@@ -208,7 +208,7 @@ function srp_admin_scripts(){
     }
 
     wp_enqueue_script('jquery');
-    $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
+    $googlepath = "//maps.google.com/maps/api/js?sensor=true";
     wp_enqueue_script( 'google-maps-api-v3', $googlepath, FALSE, false, false );
     $srp_gre_admin = SRP_URL.'/js/srp-gre-admin.js';
     wp_enqueue_script('srp-gre-admin', $srp_gre_admin, false, false, false);
@@ -218,16 +218,16 @@ function srp_default_headScripts(){
 
 	wp_enqueue_script('jquery');
   add_thickbox();
-  $googlepath = "http://maps.google.com/maps/api/js?sensor=true";
+  $googlepath = "//maps.google.com/maps/api/js?sensor=true";
 	wp_register_script( 'google-maps-api-v3', $googlepath, FALSE, false, false );
     if(function_exists('greatrealestate_init')){
         remove_action( 'wp_enqueue_scripts', 'greatrealestate_add_javascript' );
     }
 
     wp_register_script('srp-jsmin', SRP_URL . '/js/jsmin.js', array('jquery'), '1.0', true);
-    wp_register_script('srp', SRP_URL . '/js/srp.js', array('jquery'), '1.0', true);
-    wp_register_script('srp-calcs', SRP_URL . '/js/srp-MortgageCalc.js', array('jquery', 'srp', 'srp-currency'), '1.0', true);
-    wp_register_script('srp-currency', SRP_URL . '/js/jquery.formatCurrency-1.0.0.js', array('jquery'), '1.0', true);
+    wp_register_script('srp', SRP_URL . '/js/srp.min.js', array('jquery'), '1.0', true);
+    wp_register_script('srp-calcs', SRP_URL . '/js/srp-MortgageCalc.min.js', array('jquery', 'srp', 'srp-currency'), '1.0', true);
+    wp_register_script('srp-currency', SRP_URL . '/js/jquery.formatCurrency-1.0.0.min.js', array('jquery'), '1.0', true);
     //Pass JS vars so they can be used in a global scope
     wp_localize_script( 'srp', 'srp', srp_ajax_vars() );
 }
@@ -238,7 +238,7 @@ function srp_register_header_styles(){
   $myStyleUrl		= SRP_URL . '/css/srp.css';
   $myStyleFile	= SRP_DIR . '/css/srp.css';
   if ( file_exists($myStyleFile) ) {
-      wp_register_style('srp', $myStyleUrl, array(), false, 'screen');
+      wp_register_style('srp', $myStyleUrl, array(), null, 'screen');
       wp_enqueue_style('srp');
   }
 
@@ -246,8 +246,8 @@ function srp_register_header_styles(){
 	$uitabsFile		= SRP_DIR . '/css/ui.tabs.css';
 	$srp_general_options = get_option('srp_general_options');
 	$srp_ext_gre_options = get_option('srp_ext_gre_options');
-	if($srp_general_options['content']['srp_gre_css'] || $srp_ext_gre_options['content']['srp_gre_css']  && file_exists($uitabsFile)){
-            wp_register_style('srp_uitabs', $uitabsStyle, array(), false, 'screen');
+	if(isset($srp_general_options['content']['srp_gre_css']) || isset($srp_ext_gre_options['content']['srp_gre_css'])  && file_exists($uitabsFile)){
+            wp_register_style('srp_uitabs', $uitabsStyle, array(), null, 'screen');
             wp_enqueue_style('srp_uitabs');
 	}
 
@@ -270,9 +270,9 @@ function srp_footer_scripts(){
         return;
 
     $srp_general_options = get_option('srp_general_options');
-    if($srp_general_options['content']['srp_profile_tabs']){
-      wp_print_scripts('jquery-ui');
-      wp_print_scripts('jquery-ui-tabs');
+    if(isset($srp_general_options['content']['srp_profile_tabs'])){
+        wp_enqueue_script('jquery-ui');
+        wp_enqueue_script('jquery-ui-tabs');
     }
     wp_print_scripts('srp-jsmin');
     wp_print_scripts('srp');
@@ -310,7 +310,7 @@ add_action('wp_ajax_srp_function_exists', 'srp_function_exists');
 add_action('wp_ajax_nopriv_srp_function_exists', 'srp_function_exists');
 
 function srp_walkscore($ws_wsid, $ws_address, $ws_width=500, $ws_height=286, $ws_layout = 'horizontal') {
-	$output .= "
+	$output = "
 	<script type='text/javascript'>
 	var ws_wsid = '{$ws_wsid}';
 	var ws_address = '{$ws_address}';var ws_width = '{$ws_width}';var ws_height = '{$ws_height}';var ws_layout = '{$ws_layout}';</script><style type='text/css'>#ws-walkscore-tile{position:relative;text-align:left}#ws-walkscore-tile *{float:none;}#ws-footer a,#ws-footer a:link{font:11px Verdana,Arial,Helvetica,sans-serif;margin-right:6px;white-space:nowrap;padding:0;color:#000;font-weight:bold;text-decoration:none}#ws-footer a:hover{color:#777;text-decoration:none}#ws-footer a:active{color:#b14900}</style><div id='ws-walkscore-tile'><div id='ws-footer' style='position:absolute;top:268px;left:8px;width:488px'><form id='ws-form'><a id='ws-a' href='http://www.walkscore.com/' target='_blank'>Find out your home's Walk Score:</a><input type='text' id='ws-street' style='position:absolute;top:0px;left:225px;width:231px' /><input type='image' id='ws-go' src='http://www2.walkscore.com/images/tile/go-button.gif' height='15' width='22' border='0' alt='get my Walk Score' style='position:absolute;top:0px;right:0px' /></form></div></div><script type='text/javascript' src='http://www.walkscore.com/tile/show-walkscore-tile.php'></script>";
