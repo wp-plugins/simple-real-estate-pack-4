@@ -49,7 +49,12 @@ function _check_required_values() {
 if (!$srp_ext_gre_options = get_option('srp_ext_gre_options'))
   return;
 
+
+
+
 $srp_ext_gre_content = array_keys($srp_ext_gre_options['content']);
+
+
 $srp_ext_gre_tabs = $srp_ext_gre_options['tabs'];
 $srp_general_options = get_option('srp_general_options');
 
@@ -136,6 +141,8 @@ if (function_exists('greatrealestate_init')) {
 function srp_profile($args = array()) {
   global $srp_general_options, $srp_widgets, $srp_property_values, $srp_ext_gre_content, $srp_scripts;
 
+    wp_enqueue_script( 'google-maps-api-v3' );
+
   if (count($srp_property_values) < 6)
     return;
 
@@ -153,7 +160,7 @@ function srp_profile($args = array()) {
   srp_prepare_widgets_object();
 //var_dump($srp_widgets);
   $js_func = 'srp_profile';
-  $content = '<div id="srp-tab-wrap">';
+  $content = '<div id="srp-tab-wrap" class="srp-tabs">';
 
   //Load Tabs
   if ( isset($args['tabs']) ) {
@@ -187,7 +194,7 @@ function srp_profile($args = array()) {
   } elseif ( isset($args['ajax']) ) {
 
     $widgets = $srp_widgets->widgets;
-    if( is_array($widgets) && !empty($widgets) ){
+    if( is_array($widgets) && !empty($widgets) && !empty($srp_ext_gre_content)){
       foreach ($widgets as $widget) {
         if ($widget->ajax == true) {
           if (in_array($widget->name, $srp_ext_gre_content)) {
@@ -197,7 +204,7 @@ function srp_profile($args = array()) {
       }
     }
 
-    if (is_array($callbacks)) {
+    if (isset($callbacks)) {
 
       //check if any functions exist that use 3rd party APIs and require desclamers in the footer
       /*
