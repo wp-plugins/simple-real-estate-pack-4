@@ -195,6 +195,23 @@ add_filter('srp_prepare_widgets_object', 'my_custom_srp_widget_content_init');
 
 == Frequently Asked Questions ==
 
+= Yelp Places do not get rendered on the map =
+
+Simple Real Estate Pack loads Google Maps API. Sometimes a theme or another plugin can load a copy of the same API on their own, which can create a conflict.
+If there's a JavaScript error in your browser's console similar to this: "You have included the Google Maps API multiple times on this page. This may cause unexpected errors."
+You can unload SREP's Google Maps API by pasting the following code into your theme's functions.php file:
+
+`<?php
+add_action('wp_print_scripts', 'remove_SREP_googleMapsAPI', 100);
+
+function remove_SREP_googleMapsAPI()
+{
+	wp_dequeue_script( 'google-maps-api-v3' );
+}
+?>`
+
+Clear your browser cache and reload the page.
+
 **If something doesn't work, please try to troubleshoot the issue by checking is any JavaScript errors are reported. Also, try disabling other plugins and leave the SRP enabled just to make sure there are no conflicts.**
 
 == Changelog ==
